@@ -1,7 +1,8 @@
 import React from "react";
+import DesktopNav from "@/components/DesktopNav/DesktopNav";
 
 const PortalLayout = ({children}: {children: React.ReactNode}) => {
-    return <div className="w-1/4 bg-blue-950 h-full">{children}</div>
+    return <div className="flex flex-row h-full w-full"><DesktopNav />{children}</div>
 }
 
 export default PortalLayout;

@@ -1,0 +1,7 @@
+.item {
+  cursor: pointer;
+
+  :hover {
+    background-color: $--color-secondary;
+  }
+}
