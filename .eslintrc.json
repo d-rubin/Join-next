@@ -1,3 +1,54 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended",
+    "next/core-web-vitals"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "globals": {
+    "React": "writable"
+  },
+  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "rules": {
+    "no-plusplus": "off",
+    "radix": ["error", "as-needed"],
+    "quotes": "off",
+    "@typescript-eslint/quotes": ["error", "double", { "avoidEscape": true, "allowTemplateLiterals": true }],
+    "no-unused-expressions": "off",
+    "@typescript-eslint/no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
+    "react/jsx-no-constructed-context-values": ["warn"],
+    "func-names": ["error", "never"],
+    "import/prefer-default-export": ["off"],
+    "prefer-promise-reject-errors": ["off"],
+    "react/button-has-type": ["off"],
+    "react/react-in-jsx-scope": ["off"],
+    "react/jsx-uses-react": ["off"],
+    "react/jsx-props-no-spreading": ["off"],
+    "react/no-unescaped-entities": ["off"],
+    "react/require-default-props": ["off"],
+    "react/function-component-definition": [
+      "error",
+      {
+        "namedComponents": ["function-declaration", "arrow-function"],
+        "unnamedComponents": ["arrow-function", "function-expression"]
+      }
+    ],
+    "jsx-a11y/click-events-have-key-events": ["off"],
+    "jsx-a11y/no-static-element-interactions": ["off"]
+  }
 }
+
