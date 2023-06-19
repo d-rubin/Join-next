@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useEffect } from "react";
 import logoLight from "../../app/img/logo-light.svg";
 import summaryIcon from "../../app/img/SummaryIcon.svg";
 import boardIcon from "../../app/img/boardIcon.svg";
