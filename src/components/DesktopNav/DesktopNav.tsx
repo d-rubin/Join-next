@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
-import DesktopNavStyles from "./DesktopNav.module.scss";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { useEffect } from "react";
 import logoLight from "../../app/img/logo-light.svg";
 import summaryIcon from "../../app/img/SummaryIcon.svg";
 import boardIcon from "../../app/img/boardIcon.svg";
@@ -8,49 +12,56 @@ import contactsIcon from "../../app/img/contactsIcon.svg";
 import legalNoticeIcon from "../../app/img/legalNoticeIcon.svg";
 
 const DesktopNav = () => {
-  const color = "--color-primary";
+  const pathname = usePathname();
 
   return (
-    <div className="bg-primary w-2/12 min-w-[200px] max-w-[450px] h-full flex flex-col items-center justify-between text-white py-[5vh]">
-      <Image alt="Logo" src={logoLight} width={100} />
+    <div className="bg-[--color-primary] w-2/12 min-w-[200px] max-w-[450px] h-full flex flex-col items-center justify-between text-white py-[5vh]">
+      <Link href="/summary">
+        <Image alt="Logo" src={logoLight} width={100} className="cursor-pointer" />
+      </Link>
       <div className="flex flex-col items-center justify-between w-full h-full pt-24">
         <div className="flex w-full flex-col gap-4">
-          <div
-            className="flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-[--color-secondary]"
-            style={{ backgroundColor: color }}
+          <Link
+            href="/summary"
+            className="hoverAnimation flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-[--color-secondary]"
+            style={{ backgroundColor: pathname === "/summary" ? "var(--color-secondary)" : "var(--color-primary)" }}
           >
             <Image src={summaryIcon} alt="Summary Icon" />
             <p>Summary</p>
-          </div>
-          <div
-            className="flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-[--color-secondary]"
-            style={{ backgroundColor: color }}
+          </Link>
+          <Link
+            href="/board"
+            className="hoverAnimation flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-[--color-secondary]"
+            style={{ backgroundColor: pathname === "/board" ? "var(--color-secondary)" : "var(--color-primary)" }}
           >
             <Image src={boardIcon} alt="Summary Icon" />
             <p>Board</p>
-          </div>
-          <div
-            className="flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-[--color-secondary]"
-            style={{ backgroundColor: color }}
+          </Link>
+          <Link
+            href="/add-task"
+            className="hoverAnimation flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-[--color-secondary]"
+            style={{ backgroundColor: pathname === "/add-task" ? "var(--color-secondary)" : "var(--color-primary)" }}
           >
             <Image src={addTaskIcon} alt="Summary Icon" />
             <p>Add Task</p>
-          </div>
-          <div
-            className="flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-[--color-secondary]"
-            style={{ backgroundColor: color }}
+          </Link>
+          <Link
+            href="/contacts"
+            className="hoverAnimation flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-[--color-secondary]"
+            style={{ backgroundColor: pathname === "/contacts" ? "var(--color-secondary)" : "var(--color-primary)" }}
           >
             <Image src={contactsIcon} alt="Summary Icon" />
             <p>Contacts</p>
-          </div>
+          </Link>
         </div>
-        <div
-          className="flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-[--color-secondary]"
-          style={{ backgroundColor: color }}
+        <Link
+          href="/legal-notice"
+          className="hoverAnimation flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-[--color-secondary]"
+          style={{ backgroundColor: pathname === "/legal-notice" ? "var(--color-secondary)" : "var(--color-primary)" }}
         >
           <Image src={legalNoticeIcon} alt="Legal Notice Icon" />
           <p>Legal Notice</p>
-        </div>
+        </Link>
       </div>
     </div>
   );
