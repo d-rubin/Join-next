@@ -1,11 +1,14 @@
 import React from "react";
-import DesktopNav from "../../components/DesktopNav/DesktopNav";
+import DesktopNav from "../../components/DesktopNav";
+import MobileNav from "../../components/MobileNav";
+import Header from "../../components/Header";
 
 const PortalLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex flex-row h-full w-full">
+    <div className="md:flex-row flex-col flex h-full w-full">
       <DesktopNav />
-      {children}
+      <Header>{children}</Header>
+      <MobileNav />
     </div>
   );
 };

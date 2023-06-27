@@ -9,6 +9,8 @@
   --color-underline: #29ABE2;
   --color-orange: #FFA800;
   --color-green: #7AE229;
+
+  --breakpoint-sm: 750px;
 }
 
 html, body {

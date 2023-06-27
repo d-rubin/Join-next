@@ -3,18 +3,18 @@
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import logoLight from "../../app/img/logo-light.svg";
-import summaryIcon from "../../app/img/SummaryIcon.svg";
-import boardIcon from "../../app/img/boardIcon.svg";
-import addTaskIcon from "../../app/img/addTaskIcon.svg";
-import contactsIcon from "../../app/img/contactsIcon.svg";
-import legalNoticeIcon from "../../app/img/legalNoticeIcon.svg";
+import logoLight from "../../img/logo-light.svg";
+import summaryIcon from "../../img/SummaryIcon.svg";
+import boardIcon from "../../img/boardIcon.svg";
+import addTaskIcon from "../../img/addTaskIcon.svg";
+import contactsIcon from "../../img/contactsIcon.svg";
+import legalNoticeIcon from "../../img/legalNoticeIcon.svg";
 
 const DesktopNav = () => {
   const pathname = usePathname();
 
   return (
-    <div className="bg-[--color-primary] w-2/12 min-w-[200px] max-w-[450px] h-full flex flex-col items-center justify-between text-white py-[5vh]">
+    <div className="md:flex hidden bg-[--color-primary] w-2/12 min-w-[200px] max-w-[450px] h-full flex flex-col items-center justify-between text-white py-[5vh]">
       <Link href="/summary">
         <Image alt="Logo" src={logoLight} width={100} className="cursor-pointer" />
       </Link>
