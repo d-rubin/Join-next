@@ -1,10 +1,25 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import HelpImage from "../../img/help.svg";
+import LogoDark from "../../img/logo-dark.svg";
 
 const Header = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex flex-col w-full">
-      <div className="w-full h-20 bg-white shadow-xl flex align-middle">
-        <h3 className="text-xl items-center flex">Kanban Project Management Tool</h3>
+      <div className="w-full h-20 bg-white shadow-xl flex items-center md:px-16 px-8 justify-between">
+        <Link className="flex items-center md:hidden" href="/summary">
+          <Image className="w-10 object-contain" src={LogoDark} alt="Logo" />
+        </Link>
+        <h3 className="md:flex hidden text-xl">Kanban Project Management Tool</h3>
+        <div className="flex items-center gap-4">
+          <Link href="/help">
+            <Image className="md:block hidden" src={HelpImage} alt="Help" />
+          </Link>
+          <div className="h-12 aspect-square bg-[--color-primary] rounded-full text-white text-2xl flex items-center justify-center">
+            DR
+          </div>
+        </div>
       </div>
       <div className="md:p-16 p-8">{children}</div>
     </div>
