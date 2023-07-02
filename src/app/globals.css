@@ -9,6 +9,7 @@
   --color-underline: #29ABE2;
   --color-orange: #FFA800;
   --color-green: #7AE229;
+  --color-outline: #D1D1D1;
 
   --breakpoint-sm: 750px;
 }
@@ -18,8 +19,38 @@ html, body {
   min-height: 100%;
   width: 100%;
   height: 100%;
+  background-color: #F6F7F8;;
 }
 
 .hoverAnimation {
   transition: background-color 225ms ease-in-out;
+}
+
+.FadingBgAnimation {
+  animation: fadeOut 2000ms linear;
+}
+
+.LogoAnimation {
+  animation: slideOut 2000ms linear;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slideOut {
+  100% {
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+  }
 }
