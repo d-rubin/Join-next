@@ -26,31 +26,21 @@ html, body {
   transition: background-color 225ms ease-in-out;
 }
 
-.FadingBgAnimation {
+.FadingAnimation {;
   animation: fadeOut 2000ms linear;
-}
-
-.LogoAnimation {
-  animation: slideOut 2000ms linear;
 }
 
 @keyframes fadeOut {
   0% {
+    display: block;
     opacity: 1;
   }
   30% {
+    display: block;
     opacity: 1;
   }
   100% {
+    display: none;
     opacity: 0;
-  }
-}
-
-@keyframes slideOut {
-  100% {
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
   }
 }
