@@ -1,35 +1,41 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, FormEventHandler, RefObject, useRef, useState } from "react";
-import * as process from "process";
+import { FormEvent, RefObject, useRef, useState } from "react";
 import UserIcon from "../img/userIcon.svg";
 import EmailIcon from "../img/emailIcon.svg";
 import LockIcon from "../img/lockIcon.svg";
 import fetchApi from "../helper/fetchApi";
+import Cookies from "universal-cookie";
 
 const SignInForm = () => {
+  const cookieStore = new Cookies();
   const passwordRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
-  // const [response, setResponse] = useState<Response>();
+  const [errror, setError] = useState<boolean>();
 
-  // const handleSubmit = () => {
-  //   const json = {
-  //     name: usernameRef.current?.value,
-  //     password: emailRef.current?.value,
-  //     email: emailRef.current?.value,
-  //   };
-  //
-  //   fetchApi("/auth/register/", { body: JSON.stringify(json) }).then((res) => setResponse(res));
-  // };
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const json = {
+      name: usernameRef.current?.value,
+      password: emailRef.current?.value,
+      email: emailRef.current?.value,
+    };
+
+    fetchApi("/auth/register/", { body: JSON.stringify(json), method: "POST" }).then((res) => {
+      if (res.status === 200) {
+        cookieStore.set("authToken", res.token);
+      }
+    });
+  };
 
   const handleFocus = (ref: RefObject<HTMLInputElement>) => {
     ref.current?.focus();
   };
 
   return (
-    <form action={`${process.env.API_URL}/auth/register/`} method="post" className="flex flex-col gap-8 items-center">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-8 items-center">
       <div
         onClick={() => handleFocus(usernameRef)}
         className="h-8 w-60 border-[--color-outline] border-2 rounded-lg text-[--color-outline] px-2 flex items-center"
