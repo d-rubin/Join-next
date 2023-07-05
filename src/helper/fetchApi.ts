@@ -4,16 +4,24 @@ interface TokenResponse {
   token?: string;
 }
 
-const fetchApi = (url: string, options?: RequestInit): Promise<Response> => {
-  return fetch(`${process.env.API_URL}${url}`, options);
+const fetchApi = (url: string, options?: RequestInit) => {
+  return fetch(`${process.env.API_URL}${url}`, {
+    ...options,
+    headers: {
+      ...options?.headers,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    mode: "no-cors",
+  });
 };
 
-const register = (): Promise<TokenResponse> => {
-  return fetchApi("/auth/register/", { method: "POST" });
+const register = (body: string): Promise<TokenResponse> => {
+  return fetchApi("/auth/register/", { method: "POST", body }).then((res) => res as TokenResponse);
 };
 
-const login = () => {
-  return fetchApi("/auth/login", { method: "POST" });
+const login = (): Promise<TokenResponse> => {
+  return fetchApi("/auth/login", { method: "POST" }).then((res) => res as TokenResponse);
 };
 
-export default fetchApi;
+export { fetchApi, register, login };

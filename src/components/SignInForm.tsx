@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { FormEvent, RefObject, useRef, useState } from "react";
+import Cookies from "universal-cookie";
 import UserIcon from "../img/userIcon.svg";
 import EmailIcon from "../img/emailIcon.svg";
 import LockIcon from "../img/lockIcon.svg";
-import fetchApi from "../helper/fetchApi";
-import Cookies from "universal-cookie";
+import { register } from "../helper/fetchApi";
 
 const SignInForm = () => {
   const cookieStore = new Cookies();
@@ -23,8 +23,9 @@ const SignInForm = () => {
       email: emailRef.current?.value,
     };
 
-    fetchApi("/auth/register/", { body: JSON.stringify(json), method: "POST" }).then((res) => {
+    register(JSON.stringify(json)).then((res) => {
       if (res.status === 200) {
+        console.log(res);
         cookieStore.set("authToken", res.token);
       }
     });
