@@ -12,7 +12,7 @@ const MobileNav = () => {
   const pathname = usePathname();
 
   return (
-    <div className="md:hidden w-full h-24 bg-[--color-primary] flex flex-row justify-around absolute bottom-0 text-white">
+    <div className="md:hidden w-full h-24 bg-[--color-primary] flex flex-row justify-around bottom-0 text-white fixed">
       <Link
         href="/summary"
         className="hoverAnimation flex flex-col items-center justify-center h-full gap-2 px-4 cursor-pointer hover:bg-[--color-secondary]"

@@ -7,7 +7,11 @@ import * as process from "process";
 //   "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
 // };
 
-export interface TokenResponse {
+export interface CustomResponse {
+  status: number;
+}
+
+export interface TokenResponse extends CustomResponse {
   token?: string;
 }
 
@@ -17,7 +21,7 @@ const fetchApi = (url: string, options?: RequestInit) => {
     headers: {
       "Content-Type": "application/json",
     },
-  });
+  }).then((res) => res.json());
 };
 
 const register = (body: Object): Promise<TokenResponse> => {
@@ -26,8 +30,10 @@ const register = (body: Object): Promise<TokenResponse> => {
   );
 };
 
-const login = (): Promise<TokenResponse> => {
-  return fetchApi("/auth/login", { method: "POST" }).then((res) => res as TokenResponse);
+const login = (body: Object, options?: RequestInit): Promise<TokenResponse> => {
+  return fetchApi("/auth/login/", { method: "POST", body: JSON.stringify(body), ...options }).then(
+    (res) => res as TokenResponse,
+  );
 };
 
 export { fetchApi, register, login };

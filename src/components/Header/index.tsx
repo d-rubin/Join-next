@@ -22,7 +22,7 @@ const Header = ({ children }: { children: ReactNode }) => {
           </div>
         </div>
       </div>
-      <div className="md:p-16 p-8">{children}</div>
+      <div className="md:p-16 p-8 mb-24 sm:mb-0">{children}</div>
     </div>
   );
 };
