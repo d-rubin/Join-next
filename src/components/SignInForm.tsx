@@ -1,85 +1,73 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, RefObject, useRef, useState } from "react";
+import { useState } from "react";
 import Cookies from "universal-cookie";
+import { FieldValues, useForm } from "react-hook-form";
 import UserIcon from "../img/userIcon.svg";
 import EmailIcon from "../img/emailIcon.svg";
 import LockIcon from "../img/lockIcon.svg";
-import { register } from "../helper/fetchApi";
+import { fetchApi, TokenResponse } from "../helper/fetchApi";
 
 const SignInForm = () => {
   const cookieStore = new Cookies();
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const [errror, setError] = useState<boolean>();
+  const { handleSubmit, setFocus, register } = useForm();
+  const [response, setResponse] = useState<TokenResponse | Response>();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const json = {
-      name: usernameRef.current?.value,
-      password: emailRef.current?.value,
-      email: emailRef.current?.value,
-    };
-
-    register(JSON.stringify(json)).then((res) => {
-      if (res.status === 200) {
+  const onSubmit = (values: FieldValues) => {
+    fetchApi("/auth/register", { body: JSON.stringify(values), method: "POST" }).then((res) => {
+      const resp = res as TokenResponse;
+      if (resp.token) {
         console.log(res);
-        cookieStore.set("authToken", res.token);
+        cookieStore.set("authToken", resp.token);
       }
     });
   };
 
-  const handleFocus = (ref: RefObject<HTMLInputElement>) => {
-    ref.current?.focus();
-  };
-
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-8 items-center">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8 items-center">
       <div
-        onClick={() => handleFocus(usernameRef)}
+        onClick={() => setFocus("name")}
         className="h-8 w-60 border-[--color-outline] border-2 rounded-lg text-[--color-outline] px-2 flex items-center"
       >
         <input
-          name="name"
-          ref={usernameRef}
+          {...register("name", { required: true })}
+          // ref={usernameRef}
           type="text"
           placeholder="Username"
           className="w-11/12 placeholder:opacity-50 outline-0 text-black"
-          required
         />
         <Image src={UserIcon} alt="User Icon" className="w-1/12 h-4" />
       </div>
       <div
-        onClick={() => handleFocus(emailRef)}
+        onClick={() => setFocus("email")}
         className="h-8 w-60 border-[--color-outline] border-2 rounded-lg text-[--color-outline] px-2 flex items-center"
       >
         <input
-          name="email"
-          ref={emailRef}
+          {...register("email", { required: true })}
+          // ref={emailRef}
           type="email"
           placeholder="Email"
           className="w-11/12 placeholder:opacity-50 outline-0 text-black"
-          required
         />
         <Image src={EmailIcon} alt="Email Icon" className="w-1/12 h-4" />
       </div>
       <div
-        onClick={() => handleFocus(passwordRef)}
+        onClick={() => setFocus("password")}
         className="h-8 w-60 border-[--color-outline] border-2 rounded-lg text-[--color-outline] px-2 flex items-center"
       >
         <input
-          name="password"
-          ref={passwordRef}
+          {...register("password", { required: true })}
+          // ref={passwordRef}
           type="password"
           placeholder="Password"
           className="w-11/12 placeholder:opacity-50 outline-0 text-black"
-          required
         />
         <Image src={LockIcon} alt="Password Icon" className="w-1/12 h-4" />
       </div>
-      <button className="w-40 h-10 px-4 bg-[--color-primary] rounded-lg text-white text-xl">Sign Up</button>
+      <button type="submit" className="w-40 h-10 px-4 bg-[--color-primary] rounded-lg text-white text-xl">
+        Sign in
+      </button>
     </form>
   );
 };

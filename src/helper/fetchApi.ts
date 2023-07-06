@@ -1,6 +1,6 @@
 import * as process from "process";
 
-interface TokenResponse {
+export interface TokenResponse {
   token?: string;
 }
 
@@ -8,9 +8,7 @@ const fetchApi = (url: string, options?: RequestInit) => {
   return fetch(`${process.env.API_URL}${url}`, {
     ...options,
     headers: {
-      ...options?.headers,
       "Content-Type": "application/json",
-      Accept: "application/json",
     },
     mode: "no-cors",
   });
