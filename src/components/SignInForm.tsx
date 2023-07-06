@@ -2,25 +2,21 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import Cookies from "universal-cookie";
 import { FieldValues, useForm } from "react-hook-form";
 import UserIcon from "../img/userIcon.svg";
 import EmailIcon from "../img/emailIcon.svg";
 import LockIcon from "../img/lockIcon.svg";
-import { fetchApi, TokenResponse } from "../helper/fetchApi";
+import { register as registerFetch, TokenResponse } from "../helper/fetchApi";
 
 const SignInForm = () => {
-  const cookieStore = new Cookies();
   const { handleSubmit, setFocus, register } = useForm();
-  const [response, setResponse] = useState<TokenResponse | Response>();
+  const [error, setError] = useState<string>();
 
   const onSubmit = (values: FieldValues) => {
-    fetchApi("/auth/register", { body: JSON.stringify(values), method: "POST" }).then((res) => {
+    // registerFetch(values).then((res) => {
+    registerFetch(values).then((res) => {
       const resp = res as TokenResponse;
-      if (resp.token) {
-        console.log(res);
-        cookieStore.set("authToken", resp.token);
-      }
+      console.log("Token", resp.token || "Resp", resp);
     });
   };
 

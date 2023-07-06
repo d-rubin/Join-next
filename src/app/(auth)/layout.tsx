@@ -9,7 +9,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
       <Link href="/login">
         <Image className="absolute w-14 top-8 left-8" src={LogoDark} alt="Logo" />
       </Link>
-      <div className="w-full h-full p-8 pt-32 flex flex-col items-center">{children}</div>
+      <div className="w-full h-full p-8 pt-40 flex flex-col items-center">{children}</div>
     </>
   );
 };
