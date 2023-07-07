@@ -4,6 +4,8 @@ import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import checkImage from "../img/check.svg";
 import highImage from "../img/high.svg";
+import mediumImage from "../img/medium.svg";
+import lowImage from "../img/low.svg";
 
 const AddTasksForm = () => {
   const { register, handleSubmit } = useForm();
@@ -29,14 +31,32 @@ const AddTasksForm = () => {
           className="border-2 border-[--color-outline] h-32 rounded-lg px-2"
         />
       </label>
-      <label>
+      <div>
         Prio
-        <div>
-          <input type="button" value="high"></input>
-          <input type="button" value="medium" />
-          <input type="button" value="low" />
+        <div className="flex gap-4">
+          <button
+            type="button"
+            className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-[--color-outline] border-2 items-center"
+          >
+            <span>Urgent</span>
+            <Image src={highImage} alt="Urgent" />
+          </button>
+          <button
+            type="button"
+            className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-[--color-outline] border-2 items-center"
+          >
+            <span>Medium</span>
+            <Image src={mediumImage} alt="Medium" />
+          </button>
+          <button
+            type="button"
+            className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-[--color-outline] border-2 items-center"
+          >
+            <span>Low</span>
+            <Image src={lowImage} alt="Low" />
+          </button>
         </div>
-      </label>
+      </div>
       <button className="w-fit h-12 px-4 bg-[--color-primary] rounded-lg text-white text-xl flex items-center gap-2 absolute top-4 right-8 z-10">
         <span>Create</span>
         <Image src={checkImage} alt="Create" />
