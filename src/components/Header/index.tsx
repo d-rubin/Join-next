@@ -17,9 +17,9 @@ const Header = ({ children }: { children: ReactNode }) => {
             <Image className="md:block hidden" src={HelpImage} alt="Help" />
           </Link>
           {/* Todo: Implement Initials from logged in user here */}
-          <div className="h-12 aspect-square bg-[--color-primary] rounded-full text-white text-2xl flex items-center justify-center">
-            DR
-          </div>
+          {/*<div className="h-12 aspect-square bg-[--color-primary] rounded-full text-white text-2xl flex items-center justify-center">*/}
+          {/*  DR*/}
+          {/*</div>*/}
         </div>
       </div>
       <div className="md:p-16 p-8 mb-24 sm:mb-0">{children}</div>

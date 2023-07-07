@@ -1,4 +1,5 @@
 import * as process from "process";
+import { Task } from "../interface";
 
 // const corsHeaders = {
 //   "Access-Control-Allow-Origin": "*",
@@ -30,10 +31,18 @@ const register = (body: Object): Promise<TokenResponse> => {
   );
 };
 
-const login = (body: Object, options?: RequestInit): Promise<TokenResponse> => {
-  return fetchApi("/auth/login/", { method: "POST", body: JSON.stringify(body), ...options }).then(
-    (res) => res as TokenResponse,
+const login = (body: Object): Promise<TokenResponse> => {
+  return fetchApi("/auth/login/", { method: "POST", body: JSON.stringify(body) }).then((res) => res as TokenResponse);
+};
+
+const getTasks = () => {
+  return fetchApi("/tasks/", { method: "GET" }).then((res) => res as Task[]);
+};
+
+const getUser = (token: string) => {
+  return fetchApi("/contacts/user/", { method: "GET", headers: { Authorization: `Token ${token}` } }).then(
+    (res) => res,
   );
 };
 
-export { fetchApi, register, login };
+export { fetchApi, register, login, getTasks, getUser };

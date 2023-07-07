@@ -57,9 +57,7 @@ const LoginForm = () => {
         />
         <Image src={LockIcon} alt="Password Icon" className="w-1/12 h-4" />
       </div>
-      <button type="submit" className="w-40 h-10 px-4 bg-[--color-primary] rounded-lg text-white text-xl">
-        Log in
-      </button>
+      <button className="w-40 h-10 px-4 bg-[--color-primary] rounded-lg text-white text-xl">Log in</button>
     </form>
   );
 };

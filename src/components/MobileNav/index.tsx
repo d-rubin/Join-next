@@ -15,7 +15,7 @@ const MobileNav = () => {
     <div className="md:hidden w-full h-24 bg-[--color-primary] flex flex-row justify-around bottom-0 text-white fixed">
       <Link
         href="/summary"
-        className="hoverAnimation flex flex-col items-center justify-center h-full gap-2 px-4 cursor-pointer hover:bg-[--color-secondary]"
+        className="hoverAnimation flex flex-col items-center justify-center h-full gap-2 px-4 cursor-pointer hover:bg-[--color-secondary] text-middle"
         style={{ backgroundColor: pathname === "/summary" ? "var(--color-secondary)" : "var(--color-primary)" }}
       >
         <Image src={SummaryIcon} alt="Summary" />
@@ -23,7 +23,7 @@ const MobileNav = () => {
       </Link>
       <Link
         href="/board"
-        className="hoverAnimation flex flex-col items-center justify-center h-full gap-2 px-4 cursor-pointer hover:bg-[--color-secondary]"
+        className="hoverAnimation flex flex-col items-center justify-center h-full gap-2 px-4 cursor-pointer hover:bg-[--color-secondary] text-middle"
         style={{ backgroundColor: pathname === "/board" ? "var(--color-secondary)" : "var(--color-primary)" }}
       >
         <Image src={BoardIcon} alt="Board" />
@@ -31,7 +31,7 @@ const MobileNav = () => {
       </Link>
       <Link
         href="/add-task"
-        className="hoverAnimation flex flex-col items-center justify-center h-full gap-2 px-4 cursor-pointer hover:bg-[--color-secondary]"
+        className="hoverAnimation flex flex-col items-center justify-center h-full gap-2 px-4 cursor-pointer hover:bg-[--color-secondary] text-middle"
         style={{ backgroundColor: pathname === "/add-task" ? "var(--color-secondary)" : "var(--color-primary)" }}
       >
         <Image src={AddTaskIcon} alt="Add Task" />
@@ -39,7 +39,7 @@ const MobileNav = () => {
       </Link>
       <Link
         href="/contacts"
-        className="flex flex-col items-center justify-center h-full gap-2 px-4 cursor-pointer hover:bg-[--color-secondary]"
+        className="flex flex-col items-center justify-center h-full gap-2 px-4 cursor-pointer hover:bg-[--color-secondary] text-middle"
         style={{ backgroundColor: pathname === "/contacts" ? "var(--color-secondary)" : "var(--color-primary)" }}
       >
         <Image src={ContactsIcon} alt="Contacts" />
