@@ -91,11 +91,11 @@ const SummaryPage = () => {
     counts && (
       <>
         <div className="flex flex-col gap-8">
-          <div className="gap-4 flex flex-col sm:flex-row sm:items-center sm:relative sm:justify-between sm:w-[27rem]">
-            <p className="sm:hidden">Kanban Project Management Tool</p>
+          <div className="gap-4 flex flex-col md:flex-row md:items-center md:relative md:justify-between md:w-[27rem]">
+            <p className="md:hidden">Kanban Project Management Tool</p>
             <h2 className="text-4xl font-bold">Summary</h2>
             <p className="text-xl">Everything in a nutshell!</p>
-            <div className="border-[--color-underline] border-2 w-28 sm:w-12 sm:rotate-90 sm:absolute sm:left-40" />
+            <div className="border-[--color-underline] border-2 w-28 md:w-12 md:rotate-90 md:absolute md:left-40" />
           </div>
           <div className="flex gap-8 flex-col text-center max-w-[40rem]">
             <div className="flex gap-4">
