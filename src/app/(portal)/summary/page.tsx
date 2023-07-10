@@ -3,7 +3,7 @@
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { getTasks, getUser } from "../../../helper/fetchApi";
+import { getTasks } from "../../../helper/fetchApi";
 import { Task } from "../../../interface";
 
 interface Counts {

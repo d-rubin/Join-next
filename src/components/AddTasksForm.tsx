@@ -10,6 +10,7 @@ import lowImage from "../img/low.svg";
 
 const AddTasksForm = () => {
   const { register, handleSubmit } = useForm();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [prio, setPrio] = useState<"high" | "medium" | "low">("low");
   const submitHandler = (data: FieldValues) => {
     console.log(data);
