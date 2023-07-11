@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 import Image from "next/image";
 import { useEffect } from "react";
-import { login } from "../helper/fetchApi";
-import UserIcon from "../img/userIcon.svg";
-import LockIcon from "../img/lockIcon.svg";
+import { login } from "../../helper/fetchApi";
+import UserIcon from "../../img/userIcon.svg";
+import LockIcon from "../../img/lockIcon.svg";
 
 const LoginForm = () => {
   const cookieStore = new Cookies();
@@ -32,11 +32,11 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8 items-center">
       <div
-        onClick={() => setFocus("name")}
+        onClick={() => setFocus("username")}
         className="h-8 w-60 border-[--color-outline] border-2 rounded-lg text-[--color-outline] px-2 flex items-center"
       >
         <input
-          {...register("name", { required: true })}
+          {...register("username", { required: true })}
           // ref={usernameRef}
           type="text"
           placeholder="Username"
