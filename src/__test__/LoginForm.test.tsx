@@ -1,15 +1,11 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import LoginForm from "./LoginForm";
-
-// Mock für die Login-Funktion
-const mockLogin = jest.fn();
-
-jest.mock("../../helper/fetchApi", () => ({
-  login: mockLogin,
-}));
+import LoginForm from "../components/LoginForm/LoginForm";
 
 describe("LoginForm", () => {
   test("submits the form with correct values", () => {
+    // Moch-Funktion für onSubmit
+    const mockOnSubmit = jest.fn();
+
     render(<LoginForm />);
 
     // Simuliere Benutzereingaben
@@ -24,7 +20,7 @@ describe("LoginForm", () => {
     fireEvent.click(submitButton);
 
     // Überprüfe, ob die FieldValues an die onSubmit-Funktion übergeben wurden
-    expect(mockLogin).toHaveBeenCalledWith({
+    expect(mockOnSubmit).toHaveBeenCalledWith({
       username: "testuser",
       password: "password1234",
     });
