@@ -3,27 +3,23 @@
 import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import checkImage from "../img/check.svg";
 import highImage from "../img/high.svg";
 import mediumImage from "../img/medium.svg";
 import lowImage from "../img/low.svg";
+import { Task, User } from "../interface";
+import { createTask } from "../helper/fetchApi";
 
-const AddTasksForm = () => {
+const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
   const { register, handleSubmit } = useForm();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const router = useRouter();
   const [prio, setPrio] = useState<"high" | "medium" | "low">("low");
+
   const submitHandler = (data: FieldValues) => {
-    console.log(data);
-    //       {
-    //     "id": 1,
-    //     "title": "First Task",
-    //     "description": "The first task of the new database",
-    //     "due_date": "2023-06-30",
-    //     "category": "marketing",
-    //     "priority": "low",
-    //     "status": "toDo",
-    //     "assignee": 1
-    // }
+    createTask({ ...(data as Task), ...{ priority: prio } }).then(() => {
+      router.push("/board");
+    });
   };
 
   return (
@@ -74,17 +70,17 @@ const AddTasksForm = () => {
           </button>
         </div>
       </div>
-      <label htmlFor="dueDate" className="flex flex-col gap-2">
+      <label htmlFor="due_date" className="flex flex-col gap-2">
         <p>Due date</p>
         <input
           type="date"
-          {...register("dueDate", { required: true })}
+          {...register("due_date", { required: true })}
           className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2"
         />
       </label>
       <div className="flex flex-col gap-2">
         <p>Category</p>
-        <select className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2">
+        <select {...register("category")} className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2">
           <option value="backoffice">Backoffice</option>
           <option value="design">Design</option>
           <option value="marketing">Marketing</option>
@@ -92,7 +88,31 @@ const AddTasksForm = () => {
           <option value="media">Media</option>
         </select>
       </div>
-      <button className="w-fit h-12 px-4 bg-[--color-primary] rounded-lg text-white text-xl flex items-center gap-2 absolute top-4 right-8 z-10">
+      <div className="flex flex-col gap-2">
+        <p>Assignee</p>
+        <select {...register("assignee")} className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2">
+          {contacts.map((contact) => {
+            return (
+              <option value={contact.id} key={contact.email}>
+                {contact.username}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <div className="flex flex-col gap-2">
+        <p>Status</p>
+        <select {...register("status")} className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2">
+          <option value="inProgress">In Progress</option>
+          <option value="toDo">To do</option>
+          <option value="awaitingFeedback">Awaiting feedback</option>
+          <option value="done">Done</option>
+        </select>
+      </div>
+      <button
+        type="submit"
+        className="w-fit h-12 px-4 bg-[--color-primary] rounded-lg text-white text-xl flex items-center gap-2 absolute top-4 right-8 z-10"
+      >
         <span>Create</span>
         <Image src={checkImage} alt="Create" />
       </button>

@@ -1,12 +1,5 @@
 import * as process from "process";
-import { Task } from "../interface";
-
-// const corsHeaders = {
-//   "Access-Control-Allow-Origin": "*",
-//   "Access-Control-Allow-Credentials": "true",
-//   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
-//   "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
-// };
+import { Task, User } from "../interface";
 
 export interface CustomResponse {
   status: number;
@@ -40,9 +33,15 @@ const getTasks = () => {
 };
 
 const getUser = (token: string) => {
-  return fetchApi("/contacts/user/", { method: "GET", headers: { Authorization: `Token ${token}` } }).then(
-    (res) => res,
-  );
+  return fetchApi("/contacts/user/", { method: "GET", headers: { Authorization: `Token ${token}` } });
 };
 
-export { fetchApi, register, login, getTasks, getUser };
+const getContacts = (): Promise<User[]> => {
+  return fetchApi("/contacts/", { method: "GET" }).then((res) => res);
+};
+
+const createTask = (task: Task) => {
+  return fetchApi("/tasks/", { method: "POST", body: JSON.stringify(task) });
+};
+
+export { fetchApi, register, login, getTasks, getUser, getContacts, createTask };
