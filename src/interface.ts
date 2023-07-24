@@ -1,4 +1,4 @@
-export interface Task {
+export type Task = {
   id?: number;
   title: string;
   description: string;
@@ -7,7 +7,7 @@ export interface Task {
   priority: "high" | "medium" | "low";
   status: string;
   assignee: number;
-}
+};
 
 export type User = {
   id: number;

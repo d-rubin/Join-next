@@ -10,12 +10,14 @@ export interface TokenResponse extends CustomResponse {
 }
 
 const fetchApi = (url: string, options?: RequestInit) => {
-  return fetch(`${process.env.API_URL}${url}`, {
+  const result = fetch(`${process.env.API_URL}${url}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",
     },
   }).then((res) => res.json());
+
+  return result;
 };
 
 const register = (body: Object): Promise<TokenResponse> => {
@@ -44,4 +46,8 @@ const createTask = (task: Task) => {
   return fetchApi("/tasks/", { method: "POST", body: JSON.stringify(task) });
 };
 
-export { fetchApi, register, login, getTasks, getUser, getContacts, createTask };
+const updateTask = (task: Task) => {
+  return fetchApi(`/tasks/${task.id}`, { method: "PATCH", body: JSON.stringify(task) });
+};
+
+export { fetchApi, register, login, getTasks, getUser, getContacts, createTask, updateTask };

@@ -1,4 +1,4 @@
-@tailwind base;
+         @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -10,6 +10,12 @@
   --color-orange: #FFA800;
   --color-green: #7AE229;
   --color-outline: #D1D1D1;
+
+  --color-design: #FF7A00;
+  --color-sales: #FC71FF;
+  --color-backoffice: #1FD7C1;
+  --color-marketing: #0038FF;
+  --color-media: #FFC701;
 
   --breakpoint-sm: 750px;
 }
