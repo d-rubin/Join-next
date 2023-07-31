@@ -1,9 +1,10 @@
 import * as process from "process";
 import { Task, User } from "../interface";
 
-export interface CustomResponse {
+export type CustomResponse = {
   status: number;
-}
+  data: Object;
+};
 
 export interface TokenResponse extends CustomResponse {
   token?: string;

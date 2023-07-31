@@ -4,12 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import plusIcon from "../../../img/plus.svg";
-import { getContacts, getTasks } from "../../../helper/fetchApi";
+import { getContacts, getTasks, updateTask } from "../../../helper/fetchApi";
 import { Task, User } from "../../../interface";
 import { generalHelper } from "../../../helper/generalHelper";
 
 const BoardPage = () => {
-  const [droppedTask, setDroppedTask] = useState<Task>();
+  const [draggedTask, setDraggedTask] = useState<Task>();
   const [tasks, setTasks] = useState<Task[]>();
   const [contacts, setContacts] = useState<User[]>();
 
@@ -38,7 +38,6 @@ const BoardPage = () => {
 
   const getAssignee = (assignee: number) => {
     const assignedPerson = contacts?.find((user) => user.id === assignee);
-
     return assignedPerson?.username;
   };
 
@@ -49,7 +48,7 @@ const BoardPage = () => {
           <article
             className="p-4 bg-white rounded-3xl flex flex-col gap-2"
             draggable
-            onDragStart={() => setDroppedTask(task)}
+            onDragStart={() => setDraggedTask(task)}
             key={task.id}
           >
             <p
@@ -68,8 +67,12 @@ const BoardPage = () => {
     });
   };
 
-  const updateStatus = () => {
-    console.log(droppedTask);
+  const updateStatus = (status: string) => {
+    updateTask({ ...draggedTask!, ...{ status } }).then((res) => {
+      if (res.status === 200) {
+        setTasks({ tasks, ...res.data });
+      }
+    });
   };
 
   return (
@@ -86,25 +89,41 @@ const BoardPage = () => {
         </div>
         <div className="flex flex-col gap-2">
           <p className="font-bold text-xl">To do</p>
-          <span onDragEnd={() => updateStatus()} className="flex w-full max-w-full h-40 overflow-x-scroll gap-4">
+          <span
+            onDrop={() => updateStatus("doDo")}
+            onDragOver={(event) => event.preventDefault()}
+            className="flex w-full max-w-full h-52 overflow-x-scroll gap-4"
+          >
             {getTasksByStatus("doDo")}
           </span>
         </div>
         <div className="flex flex-col gap-2">
           <p className="font-bold text-xl">In Progress</p>
-          <span onDrop={() => updateStatus()} className="flex w-full max-w-full h-40 overflow-x-scroll gap-4">
+          <span
+            onDrop={() => updateStatus("inProgress")}
+            onDragOver={(event) => event.preventDefault()}
+            className="flex w-full max-w-full h-52 overflow-x-scroll gap-4"
+          >
             {getTasksByStatus("inProgress")}
           </span>
         </div>
         <div className="flex flex-col gap-2">
           <p className="font-bold text-xl">Awaiting feedback</p>
-          <span onDrop={() => updateStatus()} className="flex w-full max-w-full h-40 overflow-x-scroll gap-4">
+          <span
+            onDrop={() => updateStatus("awaitingFeedback")}
+            onDragOver={(event) => event.preventDefault()}
+            className="flex w-full max-w-full h-52 overflow-x-scroll gap-4"
+          >
             {getTasksByStatus("awaitingFeedback")}
           </span>
         </div>
         <div className="flex flex-col gap-2">
           <p className="font-bold text-xl">Done</p>
-          <span onDrop={() => updateStatus()} className="flex w-full max-w-full h-40 overflow-x-scroll gap-4">
+          <span
+            onDrop={() => updateStatus("done")}
+            onDragOver={(event) => event.preventDefault()}
+            className="flex w-full max-w-full h-52 overflow-x-scroll gap-4"
+          >
             {getTasksByStatus("done")}
           </span>
         </div>
