@@ -13,7 +13,6 @@ const BoardPage = () => {
   const [tasks, setTasks] = useState<Task[]>();
   const [contacts, setContacts] = useState<User[]>();
 
-  // eslint-disable-next-line prefer-const
   useEffect(() => {
     Promise.all([getTasks(), getContacts()]).then(([tasksResponse, contactsResponse]) => {
       setTasks(tasksResponse);
@@ -42,11 +41,12 @@ const BoardPage = () => {
   };
 
   const getTasksByStatus = (status: string) => {
+    console.log(tasks);
     return tasks?.map((task) => {
       if (task.status === status) {
         return (
           <article
-            className="p-4 bg-white rounded-3xl flex flex-col gap-2"
+            className="p-4 bg-white rounded-3xl flex flex-col gap-2 h-fit"
             draggable
             onDragStart={() => setDraggedTask(task)}
             key={task.id}
@@ -70,7 +70,8 @@ const BoardPage = () => {
   const updateStatus = (status: string) => {
     updateTask({ ...draggedTask!, ...{ status } }).then((res) => {
       if (res.status === 200) {
-        setTasks({ tasks, ...res.data });
+        console.log(res);
+        setTasks(res.data);
       }
     });
   };
@@ -90,11 +91,11 @@ const BoardPage = () => {
         <div className="flex flex-col gap-2">
           <p className="font-bold text-xl">To do</p>
           <span
-            onDrop={() => updateStatus("doDo")}
+            onDrop={() => updateStatus("toDo")}
             onDragOver={(event) => event.preventDefault()}
-            className="flex w-full max-w-full h-52 overflow-x-scroll gap-4"
+            className="flex w-full max-w-full min-h-fit h-52 overflow-x-scroll gap-4"
           >
-            {getTasksByStatus("doDo")}
+            {getTasksByStatus("toDo")}
           </span>
         </div>
         <div className="flex flex-col gap-2">
@@ -102,7 +103,7 @@ const BoardPage = () => {
           <span
             onDrop={() => updateStatus("inProgress")}
             onDragOver={(event) => event.preventDefault()}
-            className="flex w-full max-w-full h-52 overflow-x-scroll gap-4"
+            className="flex w-full max-w-full min-h-fit h-52 overflow-x-scroll gap-4"
           >
             {getTasksByStatus("inProgress")}
           </span>
@@ -112,7 +113,7 @@ const BoardPage = () => {
           <span
             onDrop={() => updateStatus("awaitingFeedback")}
             onDragOver={(event) => event.preventDefault()}
-            className="flex w-full max-w-full h-52 overflow-x-scroll gap-4"
+            className="flex w-full max-w-full min-h-fit h-52 overflow-x-scroll gap-4"
           >
             {getTasksByStatus("awaitingFeedback")}
           </span>
@@ -122,7 +123,7 @@ const BoardPage = () => {
           <span
             onDrop={() => updateStatus("done")}
             onDragOver={(event) => event.preventDefault()}
-            className="flex w-full max-w-full h-52 overflow-x-scroll gap-4"
+            className="flex w-full max-w-full min-h-fit h-52 overflow-x-scroll gap-4"
           >
             {getTasksByStatus("done")}
           </span>

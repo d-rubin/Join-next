@@ -46,7 +46,7 @@ const createTask = async (task: Task) => {
 };
 
 const updateTask = async (task: Task) => {
-  return fetchApi(`/tasks/${task.id}`, { method: "PATCH", body: JSON.stringify(task) });
+  return fetchApi(`/tasks/${task.id}/`, { method: "PATCH", body: JSON.stringify(task) });
 };
 
 export { fetchApi, register, login, getTasks, getUser, getContacts, createTask, updateTask };
