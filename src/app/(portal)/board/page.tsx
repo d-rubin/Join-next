@@ -41,9 +41,8 @@ const BoardPage = () => {
   };
 
   const getTasksByStatus = (status: string) => {
-    console.log(tasks);
     return tasks?.map((task) => {
-      if (task.status === status) {
+      if (task?.status === status) {
         return (
           <article
             className="p-4 bg-white rounded-3xl flex flex-col gap-2 h-fit"
@@ -68,11 +67,9 @@ const BoardPage = () => {
   };
 
   const updateStatus = (status: string) => {
-    updateTask({ ...draggedTask!, ...{ status } }).then((res) => {
-      if (res.status === 200) {
-        console.log(res);
-        setTasks(res.data);
-      }
+    const updatedTask: Task = { ...draggedTask!, ...{ status } };
+    updateTask(updatedTask).then(async () => {
+      setTasks(await getTasks());
     });
   };
 
@@ -88,45 +85,47 @@ const BoardPage = () => {
             </button>
           </Link>
         </div>
-        <div className="flex flex-col gap-2">
-          <p className="font-bold text-xl">To do</p>
-          <span
-            onDrop={() => updateStatus("toDo")}
-            onDragOver={(event) => event.preventDefault()}
-            className="flex w-full max-w-full min-h-fit h-52 overflow-x-scroll gap-4"
-          >
-            {getTasksByStatus("toDo")}
-          </span>
-        </div>
-        <div className="flex flex-col gap-2">
-          <p className="font-bold text-xl">In Progress</p>
-          <span
-            onDrop={() => updateStatus("inProgress")}
-            onDragOver={(event) => event.preventDefault()}
-            className="flex w-full max-w-full min-h-fit h-52 overflow-x-scroll gap-4"
-          >
-            {getTasksByStatus("inProgress")}
-          </span>
-        </div>
-        <div className="flex flex-col gap-2">
-          <p className="font-bold text-xl">Awaiting feedback</p>
-          <span
-            onDrop={() => updateStatus("awaitingFeedback")}
-            onDragOver={(event) => event.preventDefault()}
-            className="flex w-full max-w-full min-h-fit h-52 overflow-x-scroll gap-4"
-          >
-            {getTasksByStatus("awaitingFeedback")}
-          </span>
-        </div>
-        <div className="flex flex-col gap-2">
-          <p className="font-bold text-xl">Done</p>
-          <span
-            onDrop={() => updateStatus("done")}
-            onDragOver={(event) => event.preventDefault()}
-            className="flex w-full max-w-full min-h-fit h-52 overflow-x-scroll gap-4"
-          >
-            {getTasksByStatus("done")}
-          </span>
+        <div className="flex flex-col gap-4 lg:flex-row lg:overflow-y-auto max-h-[43rem]">
+          <div className="flex flex-col gap-2">
+            <p className="font-bold text-xl">To do</p>
+            <span
+              onDrop={() => updateStatus("toDo")}
+              onDragOver={(event) => event.preventDefault()}
+              className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
+            >
+              {getTasksByStatus("toDo")}
+            </span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <p className="font-bold text-xl">In Progress</p>
+            <span
+              onDrop={() => updateStatus("inProgress")}
+              onDragOver={(event) => event.preventDefault()}
+              className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
+            >
+              {getTasksByStatus("inProgress")}
+            </span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <p className="font-bold text-xl">Awaiting feedback</p>
+            <span
+              onDrop={() => updateStatus("awaitingFeedback")}
+              onDragOver={(event) => event.preventDefault()}
+              className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
+            >
+              {getTasksByStatus("awaitingFeedback")}
+            </span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <p className="font-bold text-xl">Done</p>
+            <span
+              onDrop={() => updateStatus("done")}
+              onDragOver={(event) => event.preventDefault()}
+              className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
+            >
+              {getTasksByStatus("done")}
+            </span>
+          </div>
         </div>
       </div>
     )
