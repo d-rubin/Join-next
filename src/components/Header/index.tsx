@@ -6,7 +6,7 @@ import LogoDark from "../../img/logo-dark.svg";
 
 const Header = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-10/12 right-0 fixed mb-20">
       <div className="w-full h-20 bg-white shadow-xl flex items-center md:px-16 px-8 justify-between">
         <Link className="flex items-center md:hidden" href="/summary">
           <Image className="w-10 object-contain" src={LogoDark} alt="Logo" />
