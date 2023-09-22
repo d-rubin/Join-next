@@ -14,7 +14,7 @@ const DesktopNav = () => {
   const pathname = usePathname();
 
   return (
-    <div className="md:flex hidden bg-[--color-primary] w-2/12 min-w-[200px] max-w-[450px] h-screen flex flex-col items-center justify-between text-white py-[5vh] fixed">
+    <div className="md:flex hidden bg-[--color-primary] w-2/12 max-w-[450px] h-screen flex flex-col items-center justify-between text-white py-[5vh] fixed">
       <Link href="/summary">
         <Image alt="Logo" src={logoLight} width={100} className="cursor-pointer" />
       </Link>
