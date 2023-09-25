@@ -2,17 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import plusIcon from "../../../img/plus.svg";
 import { getContacts, getTasks, updateTask } from "../../../helper/fetchApi";
 import { Task, User } from "../../../interface";
-import { generalHelper } from "../../../helper/generalHelper";
+import { generalHelper, getAssignee, getBackgroundForCategory } from "../../../helper/generalHelper";
+import ShowTaskTemplate from "../../../components/showTaskTemplate";
 
 const BoardPage = () => {
   const [draggedTask, setDraggedTask] = useState<Task>();
   const [tasks, setTasks] = useState<Task[]>();
   const [contacts, setContacts] = useState<User[]>();
   const [openTask, setOpenTask] = useState<Task>();
+  const [editTask, setEditTask] = useState<boolean>(false);
+  const dialogRef = useRef<HTMLDialogElement | null>();
 
   useEffect(() => {
     Promise.all([getTasks(), getContacts()]).then(([tasksResponse, contactsResponse]) => {
@@ -21,33 +24,12 @@ const BoardPage = () => {
     });
   }, []);
 
-  const getBackgroundForCategory = (category: string) => {
-    switch (category) {
-      case "media":
-        return "var(--color-media)";
-      case "marketing":
-        return "var(--color-marketing)";
-      case "backoffice":
-        return "var(--color-backoffice)";
-      case "sales":
-        return "var(--color-sales)";
-      default:
-        return "var(--color-design)";
-    }
-  };
-
-  const getAssignee = (assignee: number) => {
-    const assignedPerson = contacts?.find((user) => user.id === assignee);
-    return assignedPerson?.username;
-  };
-
   const handleTaskClick = (task: Task) => {
     setOpenTask(task);
-    const dialog = document.getElementById("dialog") as HTMLDialogElement | null;
-    dialog?.showModal();
+    dialogRef.current?.showModal();
   };
 
-  const getTasksByStatus = (status: string) => {
+  const getTasksByStatus = (status: string, contactArray: User[]) => {
     return tasks?.map((task: Task) => {
       if (task?.status === status) {
         return (
@@ -68,7 +50,7 @@ const BoardPage = () => {
             </p>
             <p className="text-lg font-bold">{task.title}</p>
             <p>{task.description}</p>
-            <p>Assigned to: {getAssignee(task.assignee)}</p>
+            <p>Assigned to: {getAssignee(task.assignee, contactArray)}</p>
           </article>
         );
       }
@@ -84,35 +66,22 @@ const BoardPage = () => {
   };
 
   const closeDialog = () => {
-    const dialog = document.getElementById("dialog") as HTMLDialogElement | null;
-    dialog?.close();
-    console.log(dialog);
+    dialogRef.current?.close();
   };
-
-  const editTask = () => {};
 
   return (
     <>
       {openTask && (
-        <dialog className="outline-0 rounded-2xl shadow-2xl" id="dialog">
-          <div className="flex flex-col gap-2">
-            <p
-              className="text-white px-4 py-1 w-fit rounded-lg"
-              style={{ backgroundColor: getBackgroundForCategory(openTask.category) }}
-            >
-              {generalHelper(openTask.category)}
-            </p>
-            <p className="text-lg font-bold">{openTask.title}</p>
-            <p>{openTask.description}</p>
-            <p>Priority: {openTask.priority}</p>
-            <p>Due Date: {openTask.due_date}</p>
-            <p>Status: {openTask.status}</p>
-            <p>Assigned to: {getAssignee(openTask.assignee)}</p>
-            <div className="flex flex-row justify-end gap-2">
-              <button onClick={closeDialog}>Close</button>
-              <button onClick={editTask}>Edit</button>
-            </div>
-          </div>
+        <dialog className="outline-0 rounded-2xl shadow-2xl relative" id="dialog">
+          {!editTask && (
+            // @ts-ignore
+            <ShowTaskTemplate
+              openTask={openTask}
+              contacts={contacts}
+              closeDialog={closeDialog}
+              setEditTask={setEditTask}
+            />
+          )}
         </dialog>
       )}
       {tasks && contacts && (
@@ -133,7 +102,7 @@ const BoardPage = () => {
                 onDragOver={(event) => event.preventDefault()}
                 className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
               >
-                {getTasksByStatus("toDo")}
+                {getTasksByStatus("toDo", contacts)}
               </span>
             </div>
             <div className="flex flex-col gap-2">
@@ -143,7 +112,7 @@ const BoardPage = () => {
                 onDragOver={(event) => event.preventDefault()}
                 className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
               >
-                {getTasksByStatus("inProgress")}
+                {getTasksByStatus("inProgress", contacts)}
               </span>
             </div>
             <div className="flex flex-col gap-2">
@@ -153,7 +122,7 @@ const BoardPage = () => {
                 onDragOver={(event) => event.preventDefault()}
                 className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
               >
-                {getTasksByStatus("awaitingFeedback")}
+                {getTasksByStatus("awaitingFeedback", contacts)}
               </span>
             </div>
             <div className="flex flex-col gap-2">
@@ -163,7 +132,7 @@ const BoardPage = () => {
                 onDragOver={(event) => event.preventDefault()}
                 className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
               >
-                {getTasksByStatus("done")}
+                {getTasksByStatus("done", contacts)}
               </span>
             </div>
           </div>

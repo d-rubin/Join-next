@@ -6,7 +6,7 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --fix -force",
     "test": "jest --watch",
     "coverage": "jest --coverage"
   },
