@@ -2,20 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import plusIcon from "../../../img/plus.svg";
 import { getContacts, getTasks, updateTask } from "../../../helper/fetchApi";
 import { Task, User } from "../../../interface";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../../../helper/generalHelper";
-import ShowTaskTemplate from "../../../components/showTaskTemplate";
+import TaskDialog from "../../../components/TaskDialog/TaskDialog";
 
 const BoardPage = () => {
   const [draggedTask, setDraggedTask] = useState<Task>();
   const [tasks, setTasks] = useState<Task[]>();
+  const [openedTask, setOpenedTask] = useState<Task>();
   const [contacts, setContacts] = useState<User[]>();
-  const [openTask, setOpenTask] = useState<Task>();
-  const [editTask, setEditTask] = useState<boolean>(false);
-  const dialogRef = useRef<HTMLDialogElement | null>();
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   useEffect(() => {
     Promise.all([getTasks(), getContacts()]).then(([tasksResponse, contactsResponse]) => {
@@ -25,7 +24,7 @@ const BoardPage = () => {
   }, []);
 
   const handleTaskClick = (task: Task) => {
-    setOpenTask(task);
+    setOpenedTask(task);
     dialogRef.current?.showModal();
   };
 
@@ -54,6 +53,7 @@ const BoardPage = () => {
           </article>
         );
       }
+
       return null;
     });
   };
@@ -65,25 +65,14 @@ const BoardPage = () => {
     });
   };
 
-  const closeDialog = () => {
+  const closeDialog = useCallback(() => {
     dialogRef.current?.close();
-  };
+    console.log("close triggered");
+  }, [dialogRef]);
 
   return (
     <>
-      {openTask && (
-        <dialog className="outline-0 rounded-2xl shadow-2xl relative" id="dialog">
-          {!editTask && (
-            // @ts-ignore
-            <ShowTaskTemplate
-              openTask={openTask}
-              contacts={contacts}
-              closeDialog={closeDialog}
-              setEditTask={setEditTask}
-            />
-          )}
-        </dialog>
-      )}
+      {openedTask && <TaskDialog task={openedTask} closeDialog={closeDialog} contacts={contacts} />}
       {tasks && contacts && (
         <div className="flex flex-col gap-4 max-w-screen-lg">
           <div className="flex justify-between w-full">
