@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import plusIcon from "../../../img/plus.svg";
 import { getContacts, getTasks, updateTask } from "../../../helper/fetchApi";
 import { Task, User } from "../../../interface";
@@ -14,7 +14,7 @@ const BoardPage = () => {
   const [tasks, setTasks] = useState<Task[]>();
   const [openedTask, setOpenedTask] = useState<Task>();
   const [contacts, setContacts] = useState<User[]>();
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     Promise.all([getTasks(), getContacts()]).then(([tasksResponse, contactsResponse]) => {
@@ -65,14 +65,15 @@ const BoardPage = () => {
     });
   };
 
-  const closeDialog = useCallback(() => {
+  const closeDialog = () => {
     dialogRef.current?.close();
-    console.log("close triggered");
-  }, [dialogRef]);
+  };
 
   return (
     <>
-      {openedTask && <TaskDialog task={openedTask} closeDialog={closeDialog} contacts={contacts} />}
+      {openedTask && contacts && (
+        <TaskDialog task={openedTask} contacts={contacts} closeDialog={closeDialog} ref={dialogRef} />
+      )}
       {tasks && contacts && (
         <div className="flex flex-col gap-4 max-w-screen-lg">
           <div className="flex justify-between w-full">
