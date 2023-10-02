@@ -10,7 +10,7 @@ const RegisterPage = () => {
         <Image src={backImage} alt="Back" />
       </Link>
       <h2 className="text-5xl font-semibold">Sign in</h2>
-      <div className="border-[--color-underline] border-2 w-1/3" />
+      <div className="border-underline border-2 w-1/3" />
       <SignInForm />
     </div>
   );

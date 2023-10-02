@@ -49,10 +49,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
         {!editTask ? (
           // @ts-ignore
           <div className="flex flex-col gap-2">
-            <p
-              className="text-white px-4 py-1 w-fit rounded-lg"
-              style={{ backgroundColor: getBackgroundForCategory(category) }}
-            >
+            <p className={`text-white px-4 py-1 w-fit rounded-lg ${getBackgroundForCategory(category)}`}>
               {generalHelper(category)}
             </p>
             <p className="text-lg font-bold">{title}</p>
@@ -74,7 +71,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
                 type="text"
                 {...register("title", { required: true, maxLength: 30, value: title })}
                 placeholder="Enter a title"
-                className="border-2 border-[--color-outline] h-8 rounded-lg px-2"
+                className="border-2 border-outline h-8 rounded-lg px-2"
               />
             </label>
             <label htmlFor="description" className="flex flex-col gap-2">
@@ -82,7 +79,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
               <textarea
                 {...register("description", { required: true, maxLength: 100, value: description })}
                 placeholder="Enter a description"
-                className="border-2 border-[--color-outline] h-32 rounded-lg px-2"
+                className="border-2 border-outline h-32 rounded-lg px-2"
               />
             </label>
             <div className="flex flex-col gap-2">
@@ -91,7 +88,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
                 <button
                   onClick={() => setPrio("high")}
                   type="button"
-                  className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-[--color-outline] border-2 items-center"
+                  className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-outline border-2 items-center"
                 >
                   <span>Urgent</span>
                   <Image src={highImage} alt="Urgent" />
@@ -99,7 +96,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
                 <button
                   onClick={() => setPrio("medium")}
                   type="button"
-                  className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-[--color-outline] border-2 items-center"
+                  className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-outline border-2 items-center"
                 >
                   <span>Medium</span>
                   <Image src={mediumImage} alt="Medium" />
@@ -107,7 +104,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
                 <button
                   onClick={() => setPrio("low")}
                   type="button"
-                  className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-[--color-outline] border-2 items-center"
+                  className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-outline border-2 items-center"
                 >
                   <span>Low</span>
                   <Image src={lowImage} alt="Low" />
@@ -119,14 +116,14 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
               <input
                 type="date"
                 {...register("due_date", { required: true, value: due_date })}
-                className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2"
+                className="border-2 border-outline h-8 w-full rounded-lg px-2"
               />
             </label>
             <div className="flex flex-col gap-2">
               <p>Category</p>
               <select
                 {...register("category", { value: category })}
-                className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2"
+                className="border-2 border-outline h-8 w-full rounded-lg px-2"
               >
                 <option value="backoffice">Backoffice</option>
                 <option value="design">Design</option>
@@ -139,7 +136,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
               <p>Assignee</p>
               <select
                 {...register("assignee", { value: assignee })}
-                className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2"
+                className="border-2 border-outline h-8 w-full rounded-lg px-2"
               >
                 {contacts.map((contact) => {
                   return (
@@ -154,7 +151,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
               <p>Status</p>
               <select
                 {...register("status", { value: status })}
-                className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2"
+                className="border-2 border-outline h-8 w-full rounded-lg px-2"
               >
                 <option value="inProgress">In Progress</option>
                 <option value="toDo">To do</option>
@@ -165,7 +162,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
             <div className="w-full flex justify-end">
               <button
                 type="submit"
-                className="w-fit h-12 px-4 bg-[--color-primary] rounded-lg text-white text-xl flex items-center gap-2"
+                className="w-fit h-12 px-4 bg-primary rounded-lg text-white text-xl flex items-center gap-2"
               >
                 <Image src={checkImage} alt="Create" />
               </button>

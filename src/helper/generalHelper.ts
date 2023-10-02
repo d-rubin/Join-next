@@ -8,15 +8,15 @@ export const generalHelper = (string: string) => {
 export const getBackgroundForCategory = (category: string) => {
   switch (category) {
     case "media":
-      return "var(--color-media)";
+      return "bg-media";
     case "marketing":
-      return "var(--color-marketing)";
+      return "bg-marketing";
     case "backoffice":
-      return "var(--color-backoffice)";
+      return "bg-backoffice";
     case "sales":
-      return "var(--color-sales)";
+      return "bg-sales";
     default:
-      return "var(--color-design)";
+      return "bg-design";
   }
 };
 

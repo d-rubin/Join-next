@@ -15,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="de">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} min-w-full min-h-full bg-defaultColor`}>{children}</body>
     </html>
   );
 }

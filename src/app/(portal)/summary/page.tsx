@@ -95,7 +95,7 @@ const SummaryPage = () => {
             <p className="md:hidden">Kanban Project Management Tool</p>
             <h2 className="text-4xl font-bold">Summary</h2>
             <p className="text-xl">Everything in a nutshell!</p>
-            <div className="border-[--color-underline] border-2 w-28 md:w-12 md:rotate-90 md:absolute md:left-40" />
+            <div className="border-underline border-2 w-28 md:w-12 md:rotate-90 md:absolute md:left-40" />
           </div>
           <div className="flex gap-8 flex-col text-center max-w-[40rem]">
             <div className="flex gap-4">
@@ -117,7 +117,7 @@ const SummaryPage = () => {
                 <p className="text-5xl font-bold">{counts.urgent}</p>
                 <p>Urgent</p>
               </div>
-              <div className="border-[--color-outline] border-2 h-28 w-0" />
+              <div className="border-outline border-2 h-28 w-0" />
               <div className="flex flex-col items-center justify-center">
                 <p className="text-lg font-bold">{getNextDeadline()}</p>
                 <p>Upcoming Deadline</p>
@@ -137,7 +137,7 @@ const SummaryPage = () => {
         </div>
         <div className="absolute left-3/4 top-1/2 -translate-y-1/2 hidden xl:block">
           <h4 className="text-2xl">Good morning,</h4>
-          <h3 className="text-3xl text-[--color-underline] font-semibold">User</h3>
+          <h3 className="text-3xl text-underline font-semibold">User</h3>
         </div>
       </>
     )

@@ -41,10 +41,7 @@ const BoardPage = () => {
             onDragStart={() => setDraggedTask(task)}
             key={task.id}
           >
-            <p
-              className="text-white px-4 py-1 w-fit rounded-lg"
-              style={{ backgroundColor: getBackgroundForCategory(task.category) }}
-            >
+            <p className={`text-white px-4 py-1 w-fit rounded-lg ${getBackgroundForCategory(task.category)}`}>
               {generalHelper(task.category)}
             </p>
             <p className="text-lg font-bold">{task.title}</p>
@@ -79,7 +76,7 @@ const BoardPage = () => {
           <div className="flex justify-between w-full">
             <h2 className="text-4xl font-bold cursor-default">Board</h2>
             <Link href="/add-task">
-              <button className="w-fit h-10 px-4 bg-[--color-primary] rounded-lg text-white text-xl">
+              <button className="w-fit h-10 px-4 bg-primary rounded-lg text-white text-xl">
                 <Image width={18} height={18} src={plusIcon} alt="Add Task" />
               </button>
             </Link>
