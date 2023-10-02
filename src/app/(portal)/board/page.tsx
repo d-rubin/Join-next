@@ -24,35 +24,38 @@ const BoardPage = () => {
   }, []);
 
   const handleTaskClick = (task: Task) => {
-    setOpenedTask(task);
     dialogRef.current?.showModal();
+    setOpenedTask(task);
   };
 
-  const getTasksByStatus = (status: string, contactArray: User[]) => {
-    return tasks?.map((task: Task) => {
-      if (task?.status === status) {
-        return (
-          // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-          <article
-            className="p-4 bg-white rounded-3xl flex flex-col gap-2 h-fit cursor-pointer"
-            draggable
-            // @ts-ignore
-            onClick={() => handleTaskClick(task)}
-            onDragStart={() => setDraggedTask(task)}
-            key={task.id}
-          >
-            <p className={`text-white px-4 py-1 w-fit rounded-lg ${getBackgroundForCategory(task.category)}`}>
-              {generalHelper(task.category)}
-            </p>
-            <p className="text-lg font-bold">{task.title}</p>
-            <p>{task.description}</p>
-            <p>Assigned to: {getAssignee(task.assignee, contactArray)}</p>
-          </article>
-        );
-      }
+  const getTasksByStatus = (status: string) => {
+    return (
+      contacts &&
+      tasks?.map((task: Task) => {
+        if (task?.status === status) {
+          return (
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+            <article
+              className="p-4 bg-white rounded-3xl flex flex-col gap-2 h-fit cursor-pointer"
+              draggable
+              // @ts-ignore
+              onClick={() => handleTaskClick(task)}
+              onDragStart={() => setDraggedTask(task)}
+              key={task.id}
+            >
+              <p className={`text-white px-4 py-1 w-fit rounded-lg  ${getBackgroundForCategory(task.category)}`}>
+                {generalHelper(task.category)}
+              </p>
+              <p className="text-lg font-bold">{task.title}</p>
+              <p>{task.description}</p>
+              <p>Assigned to: {getAssignee(task.assignee, contacts)}</p>
+            </article>
+          );
+        }
 
-      return null;
-    });
+        return null;
+      })
+    );
   };
 
   const updateStatus = (status: string) => {
@@ -89,7 +92,7 @@ const BoardPage = () => {
                 onDragOver={(event) => event.preventDefault()}
                 className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
               >
-                {getTasksByStatus("toDo", contacts)}
+                {getTasksByStatus("toDo")}
               </span>
             </div>
             <div className="flex flex-col gap-2">
@@ -99,7 +102,7 @@ const BoardPage = () => {
                 onDragOver={(event) => event.preventDefault()}
                 className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
               >
-                {getTasksByStatus("inProgress", contacts)}
+                {getTasksByStatus("inProgress")}
               </span>
             </div>
             <div className="flex flex-col gap-2">
@@ -109,7 +112,7 @@ const BoardPage = () => {
                 onDragOver={(event) => event.preventDefault()}
                 className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
               >
-                {getTasksByStatus("awaitingFeedback", contacts)}
+                {getTasksByStatus("awaitingFeedback")}
               </span>
             </div>
             <div className="flex flex-col gap-2">
@@ -119,7 +122,7 @@ const BoardPage = () => {
                 onDragOver={(event) => event.preventDefault()}
                 className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
               >
-                {getTasksByStatus("done", contacts)}
+                {getTasksByStatus("done")}
               </span>
             </div>
           </div>

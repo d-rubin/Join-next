@@ -4,7 +4,7 @@
 
 const RootPage = () => {
   // useRouter().replace("login");
-  return <div className="w-full h-full flex items-center justify-center text-9xl font-bold">404</div>;
+  return <div className="m-auto h-screen flex items-center justify-center text-9xl font-bold self-center">404</div>;
 };
 
 export default RootPage;

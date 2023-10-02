@@ -9,7 +9,7 @@ const Header = ({ children }: { children: ReactNode }) => {
     <div className="flex flex-col w-full md:w-10/12 right-0 absolute h-full overflow-y-hidden mb-20">
       <div className="w-full h-20 bg-white shadow-xl flex items-center md:px-16 px-8 justify-between">
         <Link className="flex items-center md:hidden" href="/summary">
-          <Image className="w-10 object-contain" src={LogoDark} alt="Logo" />
+          <Image className="h-16 w-fit py-2 object-contain" src={LogoDark} alt="Logo" />
         </Link>
         <h3 className="md:flex hidden text-xl">Kanban Project Management Tool</h3>
         <div className="flex items-center gap-4">
