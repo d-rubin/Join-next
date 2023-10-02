@@ -7,15 +7,14 @@ import plusIcon from "../../../img/plus.svg";
 import { getContacts, getTasks, updateTask } from "../../../helper/fetchApi";
 import { Task, User } from "../../../interface";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../../../helper/generalHelper";
-import ShowTaskTemplate from "../../../components/showTaskTemplate";
+import TaskDialog from "../../../components/TaskDialog/TaskDialog";
 
 const BoardPage = () => {
   const [draggedTask, setDraggedTask] = useState<Task>();
   const [tasks, setTasks] = useState<Task[]>();
+  const [openedTask, setOpenedTask] = useState<Task>();
   const [contacts, setContacts] = useState<User[]>();
-  const [openTask, setOpenTask] = useState<Task>();
-  const [editTask, setEditTask] = useState<boolean>(false);
-  const dialogRef = useRef<HTMLDialogElement | null>();
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     Promise.all([getTasks(), getContacts()]).then(([tasksResponse, contactsResponse]) => {
@@ -25,7 +24,7 @@ const BoardPage = () => {
   }, []);
 
   const handleTaskClick = (task: Task) => {
-    setOpenTask(task);
+    setOpenedTask(task);
     dialogRef.current?.showModal();
   };
 
@@ -42,10 +41,7 @@ const BoardPage = () => {
             onDragStart={() => setDraggedTask(task)}
             key={task.id}
           >
-            <p
-              className="text-white px-4 py-1 w-fit rounded-lg"
-              style={{ backgroundColor: getBackgroundForCategory(task.category) }}
-            >
+            <p className={`text-white px-4 py-1 w-fit rounded-lg ${getBackgroundForCategory(task.category)}`}>
               {generalHelper(task.category)}
             </p>
             <p className="text-lg font-bold">{task.title}</p>
@@ -54,6 +50,7 @@ const BoardPage = () => {
           </article>
         );
       }
+
       return null;
     });
   };
@@ -71,25 +68,15 @@ const BoardPage = () => {
 
   return (
     <>
-      {openTask && (
-        <dialog className="outline-0 rounded-2xl shadow-2xl relative" id="dialog">
-          {!editTask && (
-            // @ts-ignore
-            <ShowTaskTemplate
-              openTask={openTask}
-              contacts={contacts}
-              closeDialog={closeDialog}
-              setEditTask={setEditTask}
-            />
-          )}
-        </dialog>
+      {openedTask && contacts && (
+        <TaskDialog task={openedTask} contacts={contacts} closeDialog={closeDialog} ref={dialogRef} />
       )}
       {tasks && contacts && (
         <div className="flex flex-col gap-4 max-w-screen-lg">
           <div className="flex justify-between w-full">
             <h2 className="text-4xl font-bold cursor-default">Board</h2>
             <Link href="/add-task">
-              <button className="w-fit h-10 px-4 bg-[--color-primary] rounded-lg text-white text-xl">
+              <button className="w-fit h-10 px-4 bg-primary rounded-lg text-white text-xl">
                 <Image width={18} height={18} src={plusIcon} alt="Add Task" />
               </button>
             </Link>

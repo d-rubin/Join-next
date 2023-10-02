@@ -33,7 +33,7 @@ const LoginForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8 items-center">
       <div
         onClick={() => setFocus("username")}
-        className="h-8 w-60 border-[--color-outline] border-2 rounded-lg text-[--color-outline] px-2 flex items-center"
+        className="h-8 w-60 border-outline border-2 rounded-lg text-color-outline px-2 flex items-center"
       >
         <input
           {...register("username", { required: true })}
@@ -46,7 +46,7 @@ const LoginForm = () => {
       </div>
       <div
         onClick={() => setFocus("password")}
-        className="h-8 w-60 border-[--color-outline] border-2 rounded-lg text-[--color-outline] px-2 flex items-center"
+        className="h-8 w-60 border-outline border-2 rounded-lg text-outline px-2 flex items-center"
       >
         <input
           {...register("password", { required: true })}
@@ -57,7 +57,7 @@ const LoginForm = () => {
         />
         <Image src={LockIcon} alt="Password Icon" className="w-1/12 h-4" />
       </div>
-      <button className="w-40 h-10 px-4 bg-[--color-primary] rounded-lg text-white text-xl">Log in</button>
+      <button className="w-40 h-10 px-4 bg-primary rounded-lg text-white text-xl">Log in</button>
     </form>
   );
 };

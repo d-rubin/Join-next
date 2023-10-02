@@ -18,7 +18,7 @@ const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
 
   const submitHandler = (data: FieldValues) => {
     createTask({ ...(data as Task), ...{ priority: prio } }).then(() => {
-      router.push("/board");
+      router.push("board");
     });
   };
 
@@ -30,7 +30,7 @@ const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
           type="text"
           {...register("title", { required: true, maxLength: 30 })}
           placeholder="Enter a title"
-          className="border-2 border-[--color-outline] h-8 rounded-lg px-2"
+          className="border-2 border-outline h-8 rounded-lg px-2"
         />
       </label>
       <label htmlFor="description" className="flex flex-col gap-2">
@@ -38,7 +38,7 @@ const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
         <textarea
           {...register("description", { required: true, maxLength: 100 })}
           placeholder="Enter a description"
-          className="border-2 border-[--color-outline] h-32 rounded-lg px-2"
+          className="border-2 border-outline h-32 rounded-lg px-2"
         />
       </label>
       <div className="flex flex-col gap-2">
@@ -47,7 +47,7 @@ const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
           <button
             onClick={() => setPrio("high")}
             type="button"
-            className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-[--color-outline] border-2 items-center"
+            className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-outline border-2 items-center"
           >
             <span>Urgent</span>
             <Image src={highImage} alt="Urgent" />
@@ -55,7 +55,7 @@ const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
           <button
             onClick={() => setPrio("medium")}
             type="button"
-            className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-[--color-outline] border-2 items-center"
+            className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-outline border-2 items-center"
           >
             <span>Medium</span>
             <Image src={mediumImage} alt="Medium" />
@@ -63,7 +63,7 @@ const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
           <button
             onClick={() => setPrio("low")}
             type="button"
-            className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-[--color-outline] border-2 items-center"
+            className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-outline border-2 items-center"
           >
             <span>Low</span>
             <Image src={lowImage} alt="Low" />
@@ -75,12 +75,12 @@ const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
         <input
           type="date"
           {...register("due_date", { required: true })}
-          className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2"
+          className="border-2 border-outline h-8 w-full rounded-lg px-2"
         />
       </label>
       <div className="flex flex-col gap-2">
         <p>Category</p>
-        <select {...register("category")} className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2">
+        <select {...register("category")} className="border-2 border-outline h-8 w-full rounded-lg px-2">
           <option value="backoffice">Backoffice</option>
           <option value="design">Design</option>
           <option value="marketing">Marketing</option>
@@ -90,7 +90,7 @@ const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
       </div>
       <div className="flex flex-col gap-2">
         <p>Assignee</p>
-        <select {...register("assignee")} className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2">
+        <select {...register("assignee")} className="border-2 border-outline h-8 w-full rounded-lg px-2">
           {contacts.map((contact) => {
             return (
               <option value={contact.id} key={contact.email}>
@@ -102,7 +102,7 @@ const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
       </div>
       <div className="flex flex-col gap-2">
         <p>Status</p>
-        <select {...register("status")} className="border-2 border-[--color-outline] h-8 w-full rounded-lg px-2">
+        <select {...register("status")} className="border-2 border-outline h-8 w-full rounded-lg px-2">
           <option value="inProgress">In Progress</option>
           <option value="toDo">To do</option>
           <option value="awaitingFeedback">Awaiting feedback</option>
@@ -111,7 +111,7 @@ const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
       </div>
       <button
         type="submit"
-        className="w-fit h-12 px-4 bg-[--color-primary] rounded-lg text-white text-xl flex items-center gap-2 absolute top-4 right-8 z-10"
+        className="w-fit h-12 px-4 bg-primary rounded-lg text-white text-xl flex items-center gap-2 absolute top-4 right-8 z-10"
       >
         <span>Create</span>
         <Image src={checkImage} alt="Create" />
