@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-design: #FF7A00;
+  --color-sales: #FC71FF;
+  --color-backoffice: #1FD7C1;
+  --color-marketing: #0038FF;
+  --color-media: #FFC701;
+}
+
 .hoverAnimation {
   transition: background-color 225ms ease-in-out;
 }

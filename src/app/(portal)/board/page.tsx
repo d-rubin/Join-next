@@ -43,7 +43,10 @@ const BoardPage = () => {
               onDragStart={() => setDraggedTask(task)}
               key={task.id}
             >
-              <p className={`text-white px-4 py-1 w-fit rounded-lg  ${getBackgroundForCategory(task.category)}`}>
+              <p
+                className="text-white px-4 py-1 w-fit rounded-lg"
+                style={{ backgroundColor: getBackgroundForCategory(task.category) }}
+              >
                 {generalHelper(task.category)}
               </p>
               <p className="text-lg font-bold">{task.title}</p>

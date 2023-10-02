@@ -49,9 +49,13 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
         {!editTask ? (
           // @ts-ignore
           <div className="flex flex-col gap-2">
-            <p className={`text-white px-4 py-1 w-fit rounded-lg ${getBackgroundForCategory(category)}`}>
+            <p
+              className="text-white px-4 py-1 w-fit rounded-lg"
+              style={{ backgroundColor: getBackgroundForCategory(category) }}
+            >
               {generalHelper(category)}
             </p>
+
             <p className="text-lg font-bold">{title}</p>
             <p>{description}</p>
             <p>Priority: {priority}</p>
