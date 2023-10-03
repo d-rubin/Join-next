@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SummaryIcon from "../../iconlib/SummaryIcon.svg";
-import BoardIcon from "../../iconlib/boardIcon.svg";
+// import BoardIcon from "../../iconlib/boardIcon.svg";
 import ContactsIcon from "../../iconlib/contactsIcon.svg";
-import AddTaskIcon from "../../iconlib/addTaskIcon.svg";
+// import AddTaskIcon from "../../iconlib/addTaskIcon.svg";
 
 const MobileNav = () => {
   const pathname = usePathname();
@@ -28,7 +28,7 @@ const MobileNav = () => {
           pathname === "/board" ? "bg-secondary" : "bg-primary"
         }`}
       >
-        <Image src={BoardIcon} alt="Board" />
+        {/* <Image src={BoardIcon} alt="Board" /> */}
         <p>Board</p>
       </Link>
       <Link
@@ -37,7 +37,7 @@ const MobileNav = () => {
           pathname === "/add-task" ? "bg-secondary" : "bg-primary"
         }`}
       >
-        <Image src={AddTaskIcon} alt="Add Task" />
+        {/* <Image src={AddTaskIcon} alt="Add Task" /> */}
         <p>Add Task</p>
       </Link>
       <Link

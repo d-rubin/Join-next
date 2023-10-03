@@ -5,8 +5,6 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import logoLight from "../../iconlib/logo-light.svg";
 import summaryIcon from "../../iconlib/SummaryIcon.svg";
-import boardIcon from "../../iconlib/boardIcon.svg";
-import addTaskIcon from "../../iconlib/addTaskIcon.svg";
 import contactsIcon from "../../iconlib/contactsIcon.svg";
 import legalNoticeIcon from "../../iconlib/legalNoticeIcon.svg";
 
@@ -35,7 +33,7 @@ const DesktopNav = () => {
               pathname === "/board" ? "bg-secondary" : "bg-primary"
             }`}
           >
-            <Image src={boardIcon} alt="Summary Icon" />
+            {/* <Image src={boardIcon} alt="Summary Icon" /> */}
             <p>Board</p>
           </Link>
           <Link
@@ -44,7 +42,7 @@ const DesktopNav = () => {
               pathname === "/add-task" ? "bg-secondary" : "bg-primary"
             }`}
           >
-            <Image src={addTaskIcon} alt="Summary Icon" />
+            {/* <Image src={addTaskIcon} alt="Summary Icon" /> */}
             <p>Add Task</p>
           </Link>
           <Link

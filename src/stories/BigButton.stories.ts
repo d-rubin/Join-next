@@ -13,7 +13,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     text: "Button",
-    icon: "check",
+    icon: "board",
     bold: true,
   },
 };
