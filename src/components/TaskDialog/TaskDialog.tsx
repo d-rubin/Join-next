@@ -4,16 +4,15 @@ import { ForwardedRef, forwardRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import Image from "next/image";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../../helper/generalHelper";
-import { Task, User } from "../../interface";
+import { Task, Contact } from "../../types";
 import { updateTask } from "../../helper/fetchApi";
-import highImage from "../../img/high.svg";
-import mediumImage from "../../img/medium.svg";
-import lowImage from "../../img/low.svg";
-import checkImage from "../../img/check.svg";
+import highImage from "../../iconlib/high.svg";
+import mediumImage from "../../iconlib/medium.svg";
+import lowImage from "../../iconlib/low.svg";
 
 type TaskDialogProps = {
   task: Task;
-  contacts: User[];
+  contacts: Contact[];
   closeDialog: () => void;
 };
 
@@ -168,7 +167,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
                 type="submit"
                 className="w-fit h-12 px-4 bg-primary rounded-lg text-white text-xl flex items-center gap-2"
               >
-                <Image src={checkImage} alt="Create" />
+                {/* <Image src={checkImage} alt="Create" /> */}
               </button>
             </div>
           </form>

@@ -1,4 +1,4 @@
-import { User } from "../interface";
+import { Contact } from "../types";
 
 export const generalHelper = (string: string) => {
   if (!string) return "";
@@ -20,7 +20,7 @@ export const getBackgroundForCategory = (category: string) => {
   }
 };
 
-export const getAssignee = (assignee: number, contacts: User[]) => {
+export const getAssignee = (assignee: number, contacts: Contact[]) => {
   const assignedPerson = contacts?.find((user) => user.id === assignee);
   return assignedPerson?.username;
 };

@@ -4,14 +4,13 @@ import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import checkImage from "../img/check.svg";
-import highImage from "../img/high.svg";
-import mediumImage from "../img/medium.svg";
-import lowImage from "../img/low.svg";
-import { Task, User } from "../interface";
+import highImage from "../iconlib/high.svg";
+import mediumImage from "../iconlib/medium.svg";
+import lowImage from "../iconlib/low.svg";
+import { Task, Contact } from "../types";
 import { createTask } from "../helper/fetchApi";
 
-const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
+const AddTasksForm = ({ contacts }: { contacts: Contact[] }) => {
   const { register, handleSubmit } = useForm();
   const router = useRouter();
   const [prio, setPrio] = useState<"high" | "medium" | "low">("low");
@@ -114,7 +113,7 @@ const AddTasksForm = ({ contacts }: { contacts: User[] }) => {
         className="w-fit h-12 px-4 bg-primary rounded-lg text-white text-xl flex items-center gap-2 absolute top-4 right-8 z-10"
       >
         <span>Create</span>
-        <Image src={checkImage} alt="Create" />
+        {/* <Image src={checkImage} alt="Create" /> */}
       </button>
     </form>
   );

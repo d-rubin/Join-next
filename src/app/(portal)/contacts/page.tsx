@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getContacts } from "../../../helper/fetchApi";
-import { User } from "../../../interface";
+import { Contact } from "../../../types";
 
 const SummaryPage = () => {
-  const [contacts, setContacts] = useState<User[]>();
+  const [contacts, setContacts] = useState<Contact[]>();
   // const [showDetails, setShowDetails] = useState<boolean>();
   // const [contactDetails, setContactDetails] = useState<User>();
   const dialogRef = useRef<HTMLDialogElement>(null);
