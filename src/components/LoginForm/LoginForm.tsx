@@ -22,9 +22,11 @@ const LoginForm = () => {
 
   const onSubmit = (values: FieldValues) => {
     login(values).then((res) => {
-      if (res.status === 200) {
+      if (res.status === 201) {
         cookieStore.set("authToken", res.token);
         router.push("/summary");
+      } else {
+        router.push("/");
       }
     });
   };
