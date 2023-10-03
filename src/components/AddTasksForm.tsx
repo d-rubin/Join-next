@@ -4,7 +4,6 @@ import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import checkImage from "../iconlib/check.svg";
 import highImage from "../iconlib/high.svg";
 import mediumImage from "../iconlib/medium.svg";
 import lowImage from "../iconlib/low.svg";
@@ -114,7 +113,7 @@ const AddTasksForm = ({ contacts }: { contacts: Contact[] }) => {
         className="w-fit h-12 px-4 bg-primary rounded-lg text-white text-xl flex items-center gap-2 absolute top-4 right-8 z-10"
       >
         <span>Create</span>
-        <Image src={checkImage} alt="Create" />
+        {/* <Image src={checkImage} alt="Create" /> */}
       </button>
     </form>
   );

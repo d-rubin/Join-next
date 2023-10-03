@@ -9,7 +9,6 @@ import { updateTask } from "../../helper/fetchApi";
 import highImage from "../../iconlib/high.svg";
 import mediumImage from "../../iconlib/medium.svg";
 import lowImage from "../../iconlib/low.svg";
-import checkImage from "../../iconlib/check.svg";
 
 type TaskDialogProps = {
   task: Task;
@@ -168,7 +167,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
                 type="submit"
                 className="w-fit h-12 px-4 bg-primary rounded-lg text-white text-xl flex items-center gap-2"
               >
-                <Image src={checkImage} alt="Create" />
+                {/* <Image src={checkImage} alt="Create" /> */}
               </button>
             </div>
           </form>
