@@ -60,7 +60,7 @@ const DesktopNav = () => {
         <Link
           href="/legal-notice"
           className={`hoverAnimation flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-secondary ${
-            pathname === "/contacts" ? "bg-secondary" : "bg-primary"
+            pathname === "/legal-notice" ? "bg-secondary" : "bg-primary"
           }`}
         >
           <Image src={legalNoticeIcon} alt="Legal Notice Icon" />
