@@ -6,8 +6,8 @@ import { FieldValues, useForm } from "react-hook-form";
 import Image from "next/image";
 import { useEffect } from "react";
 import { login } from "../../helper/fetchApi";
-import UserIcon from "../../img/userIcon.svg";
-import LockIcon from "../../img/lockIcon.svg";
+import UserIcon from "../../iconlib/userIcon.svg";
+import LockIcon from "../../iconlib/lockIcon.svg";
 
 const LoginForm = () => {
   const cookieStore = new Cookies();

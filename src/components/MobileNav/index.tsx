@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import SummaryIcon from "../../img/SummaryIcon.svg";
-import BoardIcon from "../../img/boardIcon.svg";
-import ContactsIcon from "../../img/contactsIcon.svg";
-import AddTaskIcon from "../../img/addTaskIcon.svg";
+import SummaryIcon from "../../iconlib/SummaryIcon.svg";
+import BoardIcon from "../../iconlib/boardIcon.svg";
+import ContactsIcon from "../../iconlib/contactsIcon.svg";
+import AddTaskIcon from "../../iconlib/addTaskIcon.svg";
 
 const MobileNav = () => {
   const pathname = usePathname();

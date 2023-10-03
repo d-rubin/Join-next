@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import HelpImage from "../../img/help.svg";
-import LogoDark from "../../img/logo-dark.svg";
+import HelpImage from "../../iconlib/help.svg";
+import LogoDark from "../../iconlib/logo-dark.svg";
 
 const Header = ({ children }: { children: ReactNode }) => {
   return (

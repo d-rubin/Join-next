@@ -1,5 +1,5 @@
 import * as process from "process";
-import { Task, User } from "../interface";
+import { Task, Contact } from "../types";
 
 export type CustomResponse = {
   status: number;
@@ -37,7 +37,7 @@ const getUser = async (token: string) => {
   return fetchApi("/contacts/user/", { method: "GET", headers: { Authorization: `Token ${token}` } });
 };
 
-const getContacts = async (): Promise<User[]> => {
+const getContacts = async (): Promise<Contact[]> => {
   return fetchApi("/contacts/", { method: "GET" }).then((res) => res);
 };
 

@@ -4,7 +4,7 @@ import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getTasks } from "../../../helper/fetchApi";
-import { Task } from "../../../interface";
+import { Task } from "../../../types";
 
 interface Counts {
   toDo: number;

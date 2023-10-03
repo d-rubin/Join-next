@@ -4,16 +4,16 @@ import { ForwardedRef, forwardRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import Image from "next/image";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../../helper/generalHelper";
-import { Task, User } from "../../interface";
+import { Task, Contact } from "../../types";
 import { updateTask } from "../../helper/fetchApi";
-import highImage from "../../img/high.svg";
-import mediumImage from "../../img/medium.svg";
-import lowImage from "../../img/low.svg";
-import checkImage from "../../img/check.svg";
+import highImage from "../../iconlib/high.svg";
+import mediumImage from "../../iconlib/medium.svg";
+import lowImage from "../../iconlib/low.svg";
+import checkImage from "../../iconlib/check.svg";
 
 type TaskDialogProps = {
   task: Task;
-  contacts: User[];
+  contacts: Contact[];
   closeDialog: () => void;
 };
 

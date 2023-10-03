@@ -4,9 +4,9 @@ import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
-import UserIcon from "../img/userIcon.svg";
-import EmailIcon from "../img/emailIcon.svg";
-import LockIcon from "../img/lockIcon.svg";
+import UserIcon from "../iconlib/userIcon.svg";
+import EmailIcon from "../iconlib/emailIcon.svg";
+import LockIcon from "../iconlib/lockIcon.svg";
 import { register as registerFetch } from "../helper/fetchApi";
 
 const SignInForm = () => {

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import LogoDark from "../../img/logo-dark.svg";
+import LogoDark from "../../iconlib/logo-dark.svg";
 
 const AuthLayout = ({ children }: { children: ReactNode }) => {
   return (

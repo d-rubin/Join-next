@@ -3,9 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import plusIcon from "../../../img/plus.svg";
+import plusIcon from "../../../iconlib/plus.svg";
 import { getContacts, getTasks, updateTask } from "../../../helper/fetchApi";
-import { Task, User } from "../../../interface";
+import { Task, Contact } from "../../../types";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../../../helper/generalHelper";
 import TaskDialog from "../../../components/TaskDialog/TaskDialog";
 
@@ -13,7 +13,7 @@ const BoardPage = () => {
   const [draggedTask, setDraggedTask] = useState<Task>();
   const [tasks, setTasks] = useState<Task[]>();
   const [openedTask, setOpenedTask] = useState<Task>();
-  const [contacts, setContacts] = useState<User[]>();
+  const [contacts, setContacts] = useState<Contact[]>();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
