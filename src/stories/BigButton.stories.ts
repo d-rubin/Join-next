@@ -17,3 +17,12 @@ export const Default: Story = {
     bold: true,
   },
 };
+
+export const FullWidth: Story = {
+  args: {
+    text: "Button",
+    icon: "check",
+    bold: true,
+    block: true,
+  },
+};

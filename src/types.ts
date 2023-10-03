@@ -23,8 +23,6 @@ export type DefaultButtonProps = {
   loading?: boolean;
   onClick?: () => void;
   icon?: string;
-};
-
-export type BigButtonProps = DefaultButtonProps & {
   bold?: boolean;
+  iconSize?: string;
 };

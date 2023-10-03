@@ -2,7 +2,7 @@ import { iconLib } from "../../iconlib/iconLib";
 import { DefaultButtonProps } from "../../types";
 
 const DefaultButton = (props: DefaultButtonProps) => {
-  const { className, text, outlined, block, loading, onClick, icon } = props;
+  const { className, text, outlined, block, loading, onClick, icon, iconSize, bold } = props;
   const defaultButtonStyling: string = " text-white bg-primary hover:bg-underline focus:bg-secondary";
   const defaultIconStyling: string = "stroke-white";
   const outlinedButtonStyling: string =
@@ -12,19 +12,21 @@ const DefaultButton = (props: DefaultButtonProps) => {
   if (loading)
     return (
       <button
-        className={`animate-pulse rounded-xl py-0.5 px-7 text-2xl bg-gray-500 text-gray-500 ${
+        className={`animate-pulse rounded-xl py-0.5 px-7 text-2xl bg-gray-500 text-gray-500 flex flex-row items-center justify-center${
           block ? "w-full" : "w-fit"
         } ${className}`}
       >
         {text}
-        {icon && (
+        {icon && icon in iconLib && (
           <svg
-            width={iconLib[icon].viewBoxWidth || 0}
-            height={iconLib[icon].viewBoxHeight || 0}
-            stroke="red"
-            className="h-min"
+            viewBox={`0 0 ${iconLib[icon].viewBoxWidth || "0"} ${iconLib[icon].viewBoxHeight || "0"}`}
+            className={`ml-2 transition-all animate-pulse fill-none ${!iconSize && "h-8 w-8"}`}
+            width={iconSize || undefined}
+            height={iconSize || undefined}
           >
-            <path>{iconLib[icon].path || ""}</path>
+            {iconLib[icon].path.map((path) => {
+              return <path key={path} d={path} />;
+            })}
           </svg>
         )}
       </button>
@@ -35,18 +37,22 @@ const DefaultButton = (props: DefaultButtonProps) => {
       onClick={onClick}
       className={`${
         outlined ? outlinedButtonStyling : defaultButtonStyling
-      } rounded-xl py-0.5 px-7 transition-all text-2xl flex flex-row items-center group ${
-        block ? "w-full" : "w-fit"
-      } ${className}`}
+      } rounded-xl py-0.5 px-7 transition-all text-2xl flex flex-row items-center justify-center group ${
+        bold && "font-semibold"
+      } ${block ? "w-full" : "w-fit"} ${className}`}
     >
       {text}
       {icon && icon in iconLib && (
         <svg
           viewBox={`0 0 ${iconLib[icon].viewBoxWidth || "0"} ${iconLib[icon].viewBoxHeight || "0"}`}
-          className={`ml-2 h-8 w-8 transition-all fill-none ${outlined ? outlinedIconStyling : defaultIconStyling}`}
+          className={`ml-2 transition-all fill-none ${!iconSize && "h-8 w-8"} ${
+            outlined ? outlinedIconStyling : defaultIconStyling
+          }`}
+          width={iconSize || undefined}
+          height={iconSize || undefined}
         >
           {iconLib[icon].path.map((path) => {
-            return <path key={path} d={path} />;
+            return <path key={path} d={path} className="stroke-2" />;
           })}
         </svg>
       )}
