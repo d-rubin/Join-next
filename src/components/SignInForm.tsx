@@ -19,7 +19,7 @@ const SignInForm = () => {
       if (res.status === 201) {
         cookieStore.set("authToken", res.token);
       }
-      router.push("/login");
+      router.push("/");
     });
   };
 

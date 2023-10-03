@@ -83,7 +83,7 @@ const SummaryPage = () => {
       // Todo: getUser
       // getUser(authToken).then((res) => setUser(res));
     } else {
-      router.push("/login");
+      router.push("/");
     }
   }, []);
 
