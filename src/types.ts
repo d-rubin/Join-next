@@ -35,6 +35,7 @@ export type DefaultInputProps = {
   block?: boolean;
   required?: boolean;
   errorText?: string;
+  maxLength?: number;
   icon?: string;
   placeholder?: string;
   label?: string;

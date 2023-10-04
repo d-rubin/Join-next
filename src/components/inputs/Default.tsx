@@ -1,17 +1,20 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { DefaultInputProps } from "../../types";
 import Icon from "../Icon";
 
 const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>((props, ref) => {
-  const { type, name, icon, placeholder, label, onChange, block, required, errorText } = props;
+  const { type, name, icon, placeholder, label, onChange, block, required = false, errorText, maxLength = 30 } = props;
+  const { register, getFieldState, formState } = useForm();
 
   return (
-    <div className={`flex flex-col justify-start ${block ? "w-full" : ""}`}>
+    <div className={`flex flex-col justify-start gap-1 ${block ? "w-full" : ""}`}>
       {label && <label htmlFor={name}>{label}</label>}
       <div className="flex flex-row flex-nowrap bg-white rounded-lg py-1.5 px-4 border-2 border-grey focus-within:border-underline">
         <input
+          {...register(name, { required, maxLength })}
           required={required}
           tabIndex={-1}
           ref={(node) => {
@@ -27,7 +30,7 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>((props, ref
         />
         {icon && <Icon icon={icon} className="fill-grey stroke-1 h-6 w-6" />}
       </div>
-      {errorText && <p className="w-full hidden text-xs text-red peer-invalid:block">{errorText}</p>}
+      <p className="text-xs text-red">{errorText}</p>
     </div>
   );
 });
