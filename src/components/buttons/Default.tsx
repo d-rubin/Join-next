@@ -1,5 +1,6 @@
 import { iconLib } from "../../iconlib/iconLib";
 import { DefaultButtonProps } from "../../types";
+import Icon from "../Icon";
 
 const DefaultButton = (props: DefaultButtonProps) => {
   const { className, text, outlined, block, loading, onClick, icon, iconSize, bold } = props;
@@ -17,18 +18,7 @@ const DefaultButton = (props: DefaultButtonProps) => {
         } ${className}`}
       >
         {text}
-        {icon && icon in iconLib && (
-          <svg
-            viewBox={`0 0 ${iconLib[icon].viewBoxWidth || "0"} ${iconLib[icon].viewBoxHeight || "0"}`}
-            className={`ml-2 transition-all animate-pulse fill-none ${!iconSize && "h-8 w-8"}`}
-            width={iconSize || undefined}
-            height={iconSize || undefined}
-          >
-            {iconLib[icon].path.map((path) => {
-              return <path key={path} d={path} />;
-            })}
-          </svg>
-        )}
+        {icon && <Icon icon={icon} iconSize={iconSize} />}
       </button>
     );
 
@@ -42,20 +32,7 @@ const DefaultButton = (props: DefaultButtonProps) => {
       } ${block ? "w-full" : "w-fit"} ${className}`}
     >
       {text}
-      {icon && icon in iconLib && (
-        <svg
-          viewBox={`0 0 ${iconLib[icon].viewBoxWidth || "0"} ${iconLib[icon].viewBoxHeight || "0"}`}
-          className={`ml-2 transition-all fill-none ${!iconSize && "h-8 w-8"} ${
-            outlined ? outlinedIconStyling : defaultIconStyling
-          }`}
-          width={iconSize || undefined}
-          height={iconSize || undefined}
-        >
-          {iconLib[icon].path.map((path) => {
-            return <path key={path} d={path} className="stroke-2" />;
-          })}
-        </svg>
-      )}
+      {icon && <Icon icon={icon} iconSize={iconSize} className={outlined ? outlinedIconStyling : defaultIconStyling} />}
     </button>
   );
 };

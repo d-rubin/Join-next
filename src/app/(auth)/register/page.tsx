@@ -6,7 +6,7 @@ import SignInForm from "../../../components/SignInForm";
 const RegisterPage = () => {
   return (
     <div className="w-fit h-fit bg-white relative p-8 items-center flex flex-col gap-4 rounded-[30px] shadow-xl">
-      <Link href="/login" className="absolute top-8 left-8">
+      <Link href="/" className="absolute top-8 left-8">
         {/* <Image src={backImage} alt="Back" /> */}
       </Link>
       <h2 className="text-5xl font-semibold">Sign in</h2>
