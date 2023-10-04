@@ -55,7 +55,7 @@ const LoginForm = () => {
           placeholder="Password"
           className="w-11/12 placeholder:opacity-50 outline-0 text-black"
         />
-        <Icon icon="lock" />{" "}
+        <Icon icon="lock" />
       </div>
       <button className="w-40 h-10 px-4 bg-primary rounded-lg text-white text-xl">Log in</button>
     </form>

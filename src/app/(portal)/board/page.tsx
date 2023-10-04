@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { getContacts, getTasks, updateTask } from "../../../helper/fetchApi";
 import { Task, Contact } from "../../../types";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../../../helper/generalHelper";
-import TaskDialog from "../../../components/TaskDialog/TaskDialog";
+import TaskDialog from "../../../components/TaskDialog";
 import Icon from "../../../components/Icon";
 
 const BoardPage = () => {

@@ -1,6 +1,6 @@
 import React from "react";
-import DesktopNav from "../../components/DesktopNav";
-import MobileNav from "../../components/MobileNav";
+import DesktopNav from "../../components/NavBars/DesktopNav";
+import MobileNav from "../../components/NavBars/MobileNav";
 import Header from "../../components/Header";
 
 const PortalLayout = ({ children }: { children: React.ReactNode }) => {

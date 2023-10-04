@@ -1,3 +1,5 @@
+import { ChangeEvent } from "react";
+
 export type Task = {
   id?: number;
   title: string;
@@ -25,4 +27,16 @@ export type DefaultButtonProps = {
   icon?: string;
   bold?: boolean;
   iconSize?: string;
+};
+
+export type DefaultInputProps = {
+  type: string;
+  name: string;
+  block?: boolean;
+  required?: boolean;
+  errorText?: string;
+  icon?: string;
+  placeholder?: string;
+  label?: string;
+  onChange?: (value: ChangeEvent<HTMLInputElement>) => void;
 };

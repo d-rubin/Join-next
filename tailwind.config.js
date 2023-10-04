@@ -28,6 +28,7 @@ module.exports = {
         marketing: "#0038FF",
         media: "#FFC701",
         defaultColor: "#F6F7F8",
+        grey: "#D1D1D1",
       },
     },
   },

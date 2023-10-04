@@ -2,10 +2,10 @@
 
 import { ForwardedRef, forwardRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
-import { generalHelper, getAssignee, getBackgroundForCategory } from "../../helper/generalHelper";
-import { Task, Contact } from "../../types";
-import { updateTask } from "../../helper/fetchApi";
-import Icon from "../Icon";
+import { generalHelper, getAssignee, getBackgroundForCategory } from "../helper/generalHelper";
+import { Task, Contact } from "../types";
+import { updateTask } from "../helper/fetchApi";
+import Icon from "./Icon";
 
 type TaskDialogProps = {
   task: Task;
