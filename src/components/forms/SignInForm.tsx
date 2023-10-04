@@ -1,13 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
-import UserIcon from "../iconlib/userIcon.svg";
-import EmailIcon from "../iconlib/emailIcon.svg";
-import LockIcon from "../iconlib/lockIcon.svg";
 import { register as registerFetch } from "../../helper/fetchApi";
+import Icon from "../Icon";
 
 const SignInForm = () => {
   const cookieStore = new Cookies();
@@ -36,7 +33,7 @@ const SignInForm = () => {
           placeholder="Username"
           className="w-11/12 placeholder:opacity-50 outline-0 text-black"
         />
-        <Image src={UserIcon} alt="User Icon" className="w-1/12 h-4" />
+        <Icon icon="person" />
       </div>
       <div
         onClick={() => setFocus("email")}
@@ -49,7 +46,7 @@ const SignInForm = () => {
           placeholder="Email"
           className="w-11/12 placeholder:opacity-50 outline-0 text-black"
         />
-        <Image src={EmailIcon} alt="Email Icon" className="w-1/12 h-4" />
+        <Icon icon="email" />
       </div>
       <div
         onClick={() => setFocus("password")}
@@ -62,7 +59,7 @@ const SignInForm = () => {
           placeholder="Password"
           className="w-11/12 placeholder:opacity-50 outline-0 text-black"
         />
-        <Image src={LockIcon} alt="Password Icon" className="w-1/12 h-4" />
+        <Icon icon="lock" />
       </div>
       <button type="submit" className="w-40 h-10 px-4 bg-primary rounded-lg text-white text-xl">
         Sign in

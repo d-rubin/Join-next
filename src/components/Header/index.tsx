@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import HelpImage from "../../iconlib/help.svg";
 import LogoDark from "../../iconlib/logo-dark.svg";
+import Icon from "../Icon";
 
 const Header = ({ children }: { children: ReactNode }) => {
   return (
@@ -14,7 +14,7 @@ const Header = ({ children }: { children: ReactNode }) => {
         <h3 className="md:flex hidden text-xl">Kanban Project Management Tool</h3>
         <div className="flex items-center gap-4">
           <Link href="/help">
-            <Image className="md:block hidden" src={HelpImage} alt="Help" />
+            <Icon icon="help" />
           </Link>
           {/* Todo: Implement Initials from logged in user here */}
           {/* <div className="h-12 aspect-square bg-primary rounded-full text-white text-2xl flex items-center justify-center"> */}

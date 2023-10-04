@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import plusIcon from "../../../iconlib/plus.svg";
 import { getContacts, getTasks, updateTask } from "../../../helper/fetchApi";
 import { Task, Contact } from "../../../types";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../../../helper/generalHelper";
 import TaskDialog from "../../../components/TaskDialog/TaskDialog";
+import Icon from "../../../components/Icon";
 
 const BoardPage = () => {
   const [draggedTask, setDraggedTask] = useState<Task>();
@@ -83,7 +82,7 @@ const BoardPage = () => {
             <h2 className="text-4xl font-bold cursor-default">Board</h2>
             <Link href="/add-task">
               <button className="w-fit h-10 px-4 bg-primary rounded-lg text-white text-xl">
-                <Image width={18} height={18} src={plusIcon} alt="Add Task" />
+                <Icon icon="plus" />
               </button>
             </Link>
           </div>

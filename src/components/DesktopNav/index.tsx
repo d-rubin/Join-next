@@ -4,9 +4,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import logoLight from "../../iconlib/logo-light.svg";
-import summaryIcon from "../../iconlib/SummaryIcon.svg";
-import contactsIcon from "../../iconlib/contactsIcon.svg";
-import legalNoticeIcon from "../../iconlib/legalNoticeIcon.svg";
+import Icon from "../Icon";
 
 const DesktopNav = () => {
   const pathname = usePathname();
@@ -24,7 +22,7 @@ const DesktopNav = () => {
               pathname === "/summary" ? "bg-secondary" : "bg-primary"
             }`}
           >
-            <Image src={summaryIcon} alt="Summary Icon" />
+            <Icon icon="summary" />
             <p>Summary</p>
           </Link>
           <Link
@@ -51,7 +49,7 @@ const DesktopNav = () => {
               pathname === "/contacts" ? "bg-secondary" : "bg-primary"
             }`}
           >
-            <Image src={contactsIcon} alt="Summary Icon" />
+            <Icon icon="contacts" />
             <p>Contacts</p>
           </Link>
         </div>
@@ -61,7 +59,6 @@ const DesktopNav = () => {
             pathname === "/legal-notice" ? "bg-secondary" : "bg-primary"
           }`}
         >
-          <Image src={legalNoticeIcon} alt="Legal Notice Icon" />
           <p>Legal Notice</p>
         </Link>
       </div>

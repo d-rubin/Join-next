@@ -3,11 +3,9 @@
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
-import Image from "next/image";
 import { useEffect } from "react";
 import { login } from "../../helper/fetchApi";
-import UserIcon from "../../iconlib/userIcon.svg";
-import LockIcon from "../../iconlib/lockIcon.svg";
+import Icon from "../Icon";
 
 const LoginForm = () => {
   const cookieStore = new Cookies();
@@ -44,7 +42,7 @@ const LoginForm = () => {
           placeholder="Username"
           className="w-11/12 placeholder:opacity-50 outline-0 text-black"
         />
-        <Image src={UserIcon} alt="User Icon" className="w-1/12 h-4" />
+        <Icon icon="person" />
       </div>
       <div
         onClick={() => setFocus("password")}
@@ -57,7 +55,7 @@ const LoginForm = () => {
           placeholder="Password"
           className="w-11/12 placeholder:opacity-50 outline-0 text-black"
         />
-        <Image src={LockIcon} alt="Password Icon" className="w-1/12 h-4" />
+        <Icon icon="lock" />{" "}
       </div>
       <button className="w-40 h-10 px-4 bg-primary rounded-lg text-white text-xl">Log in</button>
     </form>

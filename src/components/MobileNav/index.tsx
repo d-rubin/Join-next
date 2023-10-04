@@ -1,12 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import SummaryIcon from "../../iconlib/SummaryIcon.svg";
-// import BoardIcon from "../../iconlib/boardIcon.svg";
-import ContactsIcon from "../../iconlib/contactsIcon.svg";
-// import AddTaskIcon from "../../iconlib/addTaskIcon.svg";
+import Icon from "../Icon";
 
 const MobileNav = () => {
   const pathname = usePathname();
@@ -19,8 +15,7 @@ const MobileNav = () => {
           pathname === "/summary" ? "bg-secondary" : "bg-primary"
         }`}
       >
-        <Image src={SummaryIcon} alt="Summary" />
-        <p>Summary</p>
+        <Icon icon="summary" /> <p>Summary</p>
       </Link>
       <Link
         href="/board"
@@ -46,8 +41,7 @@ const MobileNav = () => {
           pathname === "/contacts" ? "bg-secondary" : "bg-primary"
         }`}
       >
-        <Image src={ContactsIcon} alt="Contacts" />
-        <p>Contacts</p>
+        <Icon icon="contacts" /> <p>Contacts</p>
       </Link>
     </div>
   );

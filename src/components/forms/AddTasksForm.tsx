@@ -1,14 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import highImage from "../iconlib/high.svg";
-import mediumImage from "../iconlib/medium.svg";
-import lowImage from "../iconlib/low.svg";
 import { Task, Contact } from "../../types";
 import { createTask } from "../../helper/fetchApi";
+import Icon from "../Icon";
 
 const AddTasksForm = ({ contacts }: { contacts: Contact[] }) => {
   const { register, handleSubmit } = useForm();
@@ -49,7 +46,7 @@ const AddTasksForm = ({ contacts }: { contacts: Contact[] }) => {
             className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-outline border-2 items-center"
           >
             <span>Urgent</span>
-            <Image src={highImage} alt="Urgent" />
+            <Icon icon="urgent" />
           </button>
           <button
             onClick={() => setPrio("medium")}
@@ -57,7 +54,7 @@ const AddTasksForm = ({ contacts }: { contacts: Contact[] }) => {
             className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-outline border-2 items-center"
           >
             <span>Medium</span>
-            <Image src={mediumImage} alt="Medium" />
+            <Icon icon="medium" />
           </button>
           <button
             onClick={() => setPrio("low")}
@@ -65,7 +62,7 @@ const AddTasksForm = ({ contacts }: { contacts: Contact[] }) => {
             className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-outline border-2 items-center"
           >
             <span>Low</span>
-            <Image src={lowImage} alt="Low" />
+            <Icon icon="low" />
           </button>
         </div>
       </div>
