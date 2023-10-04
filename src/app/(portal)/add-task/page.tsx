@@ -1,4 +1,4 @@
-import AddTaskForm from "../../../components/AddTasksForm";
+import AddTaskForm from "../../../components/forms/AddTasksForm";
 import { getContacts } from "../../../helper/fetchApi";
 
 const AddTaskPage = async () => {

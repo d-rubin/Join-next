@@ -1,6 +1,6 @@
 import Link from "next/link";
 // import Image from "next/image";
-import SignInForm from "../../../components/SignInForm";
+import SignInForm from "../../../components/forms/SignInForm";
 // import backImage from "../../../iconlib/back.svg";
 
 const RegisterPage = () => {

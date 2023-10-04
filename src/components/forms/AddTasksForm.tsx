@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import highImage from "../iconlib/high.svg";
 import mediumImage from "../iconlib/medium.svg";
 import lowImage from "../iconlib/low.svg";
-import { Task, Contact } from "../types";
-import { createTask } from "../helper/fetchApi";
+import { Task, Contact } from "../../types";
+import { createTask } from "../../helper/fetchApi";
 
 const AddTasksForm = ({ contacts }: { contacts: Contact[] }) => {
   const { register, handleSubmit } = useForm();

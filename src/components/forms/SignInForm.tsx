@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import UserIcon from "../iconlib/userIcon.svg";
 import EmailIcon from "../iconlib/emailIcon.svg";
 import LockIcon from "../iconlib/lockIcon.svg";
-import { register as registerFetch } from "../helper/fetchApi";
+import { register as registerFetch } from "../../helper/fetchApi";
 
 const SignInForm = () => {
   const cookieStore = new Cookies();
