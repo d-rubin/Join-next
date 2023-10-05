@@ -51,4 +51,4 @@ export type DefaultInputProps = {
   onChange?: (value: ChangeEvent<HTMLInputElement>) => void;
 };
 
-export type PasswordProps = Omit<DefaultInputProps, "icon" | "type">;
+export type PasswordProps = Omit<DefaultInputProps, "icon" | "type" | "onIconClick">;

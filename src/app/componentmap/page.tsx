@@ -3,6 +3,7 @@ import BigButton from "../../components/buttons/BigButton";
 import Icon from "../../components/Icon";
 import { iconLib } from "../../iconlib/iconLib";
 import DefaultInput from "../../components/inputs/Default";
+import Password from "../../components/inputs/Password";
 
 const ComponentMap = () => {
   return (
@@ -30,6 +31,7 @@ const ComponentMap = () => {
             isError
             errorText="Email wird benötigt"
           />
+          <Password name="password" placeholder="Password" />
         </div>
         <DefaultButton text="submit" />
       </form>

@@ -11,7 +11,7 @@ const Password = forwardRef<HTMLInputElement, PasswordProps>((props, ref) => {
     <DefaultInput
       type={textHidden ? "password" : "text"}
       icon={textHidden ? "eyeOff" : "eye"}
-      onIconClick={() => setTextHidden(false)}
+      onIconClick={() => setTextHidden(!textHidden)}
       ref={ref}
       {...props}
     />
