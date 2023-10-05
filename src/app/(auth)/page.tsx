@@ -1,23 +1,32 @@
-import Link from "next/link";
-import LoginForm from "../../components/forms/LoginForm";
+import { Metadata } from "next";
+import DefaultInput from "../../components/inputs/Default";
+import Password from "../../components/inputs/Password";
+import BigButton from "../../components/buttons/BigButton";
+import Text from "../../components/Text/Text";
+
+export const metadata: Metadata = {
+  title: "Login",
+};
 
 const LoginPage = () => {
   return (
-    <>
-      <div className="w-fit h-fit bg-white relative p-8 items-center flex flex-col gap-4 rounded-[30px] shadow-xl">
-        <h2 className="text-5xl font-semibold">Log in </h2>
-        <div className="border-underline border-2 w-1/3" />
-        <LoginForm />
-      </div>
-      <div className="flex flex-row gap-4 items-center absolute bottom-16 sm:right-8 sm:top-8 h-fit">
-        <span>Not a Join user?</span>
-        <Link href="/register">
-          <button type="button" className="w-fit h-10 px-4 bg-primary rounded-lg text-white text-xl">
-            Sign up
-          </button>
-        </Link>
-      </div>
-    </>
+    <div className="bg-white rounded-3xl px-4 py-8 gap-4 flex flex-col items-center shadow-md">
+      <h1 className="text-4xl font-bold">Log in</h1>
+      <div className="border-underline border-b-[3px] h-0 w-24 rounded-full" />
+      <form className="flex flex-col gap-4 items-center">
+        <DefaultInput type="text" name="username" placeholder="Email" icon="mail" required block maxLength={30} />
+        <Password
+          name="password"
+          placeholder="Password"
+          required
+          block
+          errorText="Ups! Wrong password. Try again."
+          maxLength={20}
+        />
+        <Text text="Remember me" />
+        <BigButton text="Login" loading />
+      </form>
+    </div>
   );
 };
 

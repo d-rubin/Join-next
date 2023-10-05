@@ -1,7 +1,6 @@
 "use client";
 
 import { forwardRef } from "react";
-import { useForm } from "react-hook-form";
 import { DefaultInputProps } from "../../types";
 import Icon from "../Icon";
 
@@ -20,7 +19,6 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>((props, ref
     isError = false,
     onIconClick,
   } = props;
-  const { register } = useForm();
 
   return (
     <div className={`flex flex-col justify-start gap-1 ${block ? "w-full" : "w-fit"}`}>
@@ -31,7 +29,6 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>((props, ref
         }`}
       >
         <input
-          {...register(name, { required, maxLength })}
           ref={(node) => {
             if (node && typeof ref === "function") {
               ref(node);
@@ -39,6 +36,8 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>((props, ref
           }}
           name={name}
           type={type}
+          maxLength={maxLength}
+          required={required}
           placeholder={placeholder}
           onChange={onChange}
           className={`bg-transparent outline-0 placeholder-grey ${block ? "w-full" : ""}`}

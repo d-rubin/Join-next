@@ -1,16 +1,13 @@
 import { ReactNode } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import LogoDark from "../../iconlib/logo-dark.svg";
+import logoDark from "../../iconlib/logo-dark.svg";
 
 const AuthLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <>
-      <Link href="/login">
-        <Image className="absolute w-14 top-8 left-8" src={LogoDark} alt="Logo" />
-      </Link>
-      <div className="w-full h-full p-8 pt-40 flex flex-col items-center">{children}</div>
-    </>
+    <div className="relative min-h-screen p-4 flex flex-col justify-center">
+      <Image src={logoDark} alt="Dark Logo" priority width={50} height={50} className="absolute top-4 left-4" />
+      {children}
+    </div>
   );
 };
 

@@ -1,10 +1,11 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import React from "react";
+import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Join",
   description: "The task management apps",
   icons: {
@@ -15,7 +16,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="de" className="min-w-full min-h-screen">
-      <body className={`${inter.className} min-w-full min-h-screen bg-defaultColor`}>{children}</body>
+      <body className={`${inter.className} min-w-full min-h-screen bg-defaultColor max-w-screen-lg mx-auto`}>
+        {children}
+      </body>
     </html>
   );
 }
