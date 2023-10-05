@@ -22,11 +22,12 @@ const ComponentMap = () => {
           <DefaultInput type="text" name="defaultInput" icon="lock" placeholder="Password" label="Base" />
           <DefaultInput
             type="email"
-            name="anotherInput"
+            name="email"
             icon="mail"
             placeholder="Email"
             block
             required
+            isError
             errorText="Email wird benötigt"
           />
         </div>
