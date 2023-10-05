@@ -18,14 +18,15 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>((props, ref
     errorText,
     maxLength = 30,
     isError = false,
+    onIconClick,
   } = props;
   const { register } = useForm();
 
   return (
-    <div className={`flex flex-col justify-start gap-1 ${block ? "w-full" : ""}`}>
+    <div className={`flex flex-col justify-start gap-1 ${block ? "w-full" : "w-fit"}`}>
       {label && <label htmlFor={name}>{label}</label>}
       <div
-        className={`flex flex-row flex-nowrap bg-white rounded-lg py-1.5 px-4 border-2 border-grey focus-within:border-underline ${
+        className={`flex flex-row flex-nowrap items-center bg-white rounded-lg py-0.5 px-3 border-2 border-grey focus-within:border-underline ${
           isError ? "border-red" : ""
         }`}
       >
@@ -42,7 +43,7 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>((props, ref
           onChange={onChange}
           className={`bg-transparent outline-0 placeholder-grey ${block ? "w-full" : ""}`}
         />
-        {icon && <Icon icon={icon} className="fill-grey stroke-1 h-6 w-6" />}
+        {icon && <Icon icon={icon} onClick={onIconClick} className="fill-grey stroke-1 h-5 w-5" />}
       </div>
       {isError && errorText && <p className="text-xs text-red">{errorText}</p>}
     </div>

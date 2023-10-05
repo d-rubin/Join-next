@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, MutableRefObject } from "react";
 
 export type Task = {
   id?: number;
@@ -15,6 +15,13 @@ export type Contact = {
   id: number;
   username: string;
   email: string;
+};
+
+export type IconProps = {
+  icon: string;
+  iconSize?: string;
+  onClick?: () => void;
+  className?: string;
 };
 
 export type DefaultButtonProps = {
@@ -40,5 +47,8 @@ export type DefaultInputProps = {
   icon?: string;
   placeholder?: string;
   label?: string;
+  onIconClick?: () => void;
   onChange?: (value: ChangeEvent<HTMLInputElement>) => void;
 };
+
+export type PasswordProps = Omit<DefaultInputProps, "icon" | "type">;
