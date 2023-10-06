@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import DefaultInput from "../../components/inputs/Default";
 import Password from "../../components/inputs/Password";
 import BigButton from "../../components/buttons/BigButton";
-import Text from "../../components/Text/Text";
+import Text from "../../components/Text";
 
 export const metadata: Metadata = {
   title: "Login",

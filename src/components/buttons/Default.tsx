@@ -26,7 +26,7 @@ const DefaultButton = (props: DefaultButtonProps) => {
       onClick={onClick}
       className={`${
         outlined ? outlinedButtonStyling : defaultButtonStyling
-      } rounded-xl py-0.5 px-7 transition-all text-2xl flex flex-row items-center justify-center group hover:drop-shadow-lg ${
+      } rounded-xl gap-2 py-0.5 px-7 transition-all text-2xl flex flex-row items-center justify-center group hover:drop-shadow-lg ${
         bold && "font-semibold"
       } ${block ? "w-full" : "w-fit"} ${className}`}
     >

@@ -7,7 +7,7 @@ const Icon = ({ icon, iconSize = "h-8 w-8", onClick, className }: IconProps) => 
     return (
       <svg
         viewBox={`0 0 ${iconLib[icon].viewBoxWidth || "0"} ${iconLib[icon].viewBoxHeight || "0"}`}
-        className={`ml-2 transition-all ${noFill ? "fill-none" : ""} ${
+        className={`transition-all ${noFill ? "fill-none" : ""} ${
           onClick ? "cursor-pointer" : ""
         } ${iconSize} ${className}`}
         width={iconSize || undefined}

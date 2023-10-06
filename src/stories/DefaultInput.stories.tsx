@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import DefaultInput from "../components/inputs/Default";
 
 const meta: Meta = {
-  title: "Inputs/DefaultInput",
+  title: "DataEntry/Input",
   component: DefaultInput,
 };
 export default meta;

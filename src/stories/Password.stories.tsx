@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import Password from "../components/inputs/Password";
 
 const meta: Meta = {
-  title: "Inputs/Password",
+  title: "DataEntry/Password",
   component: Password,
 };
 export default meta;
