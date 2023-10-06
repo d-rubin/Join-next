@@ -14,6 +14,7 @@ import { login } from "../../helper/fetchApi";
 export interface LoginValues {
   username: string;
   password: string;
+  rememberMe: boolean;
 }
 
 const LoginForm = () => {
@@ -43,7 +44,7 @@ const LoginForm = () => {
         type="text"
         register={register}
         name="username"
-        placeholder="Email"
+        placeholder="Username"
         icon="mail"
         required
         block
@@ -59,7 +60,7 @@ const LoginForm = () => {
         errorText="Ups! Wrong password. Try again."
         maxLength={20}
       />
-      <Checkbox text="Remember me" />
+      <Checkbox name="rememberMe" text="Remember me" register={register} />
       <div className="w-full flex justify-center">
         <BigButton text="Login" loading={isSubmitting} />
       </div>

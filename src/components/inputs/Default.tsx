@@ -1,8 +1,25 @@
 "use client";
 
-// eslint-disable-next-line import/no-cycle
-import { DefaultInputProps } from "../../types";
+import { UseFormRegister } from "react-hook-form/dist/types/form";
+import { ChangeEvent } from "react";
 import Icon from "../Icon";
+import { LoginValues } from "../forms/LoginForm";
+
+export type DefaultInputProps = {
+  type: string;
+  name: string;
+  register?: UseFormRegister<LoginValues>;
+  block?: boolean;
+  required?: boolean;
+  errorText?: string;
+  isError?: boolean;
+  maxLength?: number;
+  icon?: string;
+  placeholder?: string;
+  label?: string;
+  onIconClick?: () => void;
+  onChange?: (value: ChangeEvent<HTMLInputElement>) => void;
+};
 
 const DefaultInput = (props: DefaultInputProps) => {
   const {
@@ -30,7 +47,8 @@ const DefaultInput = (props: DefaultInputProps) => {
         }`}
       >
         <input
-          {...register(name, { maxLength, required, onChange })}
+          // @ts-ignore
+          {...register!(name, { maxLength, required, onChange })}
           type={type}
           placeholder={placeholder}
           className={`bg-transparent outline-0 placeholder-grey ${block ? "w-full" : ""}`}

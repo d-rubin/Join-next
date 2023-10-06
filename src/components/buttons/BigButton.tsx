@@ -1,5 +1,4 @@
-import DefaultButton from "./Default";
-import { DefaultButtonProps } from "../../types";
+import DefaultButton, { DefaultButtonProps } from "./Default";
 
 const BigButton = (props: DefaultButtonProps) => {
   const { className } = props;

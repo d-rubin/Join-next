@@ -1,6 +1,16 @@
-// eslint-disable-next-line import/no-cycle
-import { DefaultButtonProps } from "../../types";
 import Icon from "../Icon";
+
+export type DefaultButtonProps = {
+  text: string;
+  className?: string;
+  outlined?: boolean;
+  block?: boolean;
+  loading?: boolean;
+  onClick?: () => void;
+  icon?: string;
+  bold?: boolean;
+  iconSize?: string;
+};
 
 const DefaultButton = (props: DefaultButtonProps) => {
   const { className, text, outlined, block, loading, onClick, icon, iconSize, bold } = props;

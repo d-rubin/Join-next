@@ -1,8 +1,3 @@
-import { ChangeEvent } from "react";
-import { UseFormRegister } from "react-hook-form/dist/types/form";
-import { FieldValues } from "react-hook-form";
-import { LoginValues } from "./components/forms/LoginForm";
-
 export type Task = {
   id?: number;
   title: string;
@@ -19,40 +14,3 @@ export type Contact = {
   username: string;
   email: string;
 };
-
-export type IconProps = {
-  icon: string;
-  iconSize?: string;
-  onClick?: () => void;
-  className?: string;
-};
-
-export type DefaultButtonProps = {
-  text: string;
-  className?: string;
-  outlined?: boolean;
-  block?: boolean;
-  loading?: boolean;
-  onClick?: () => void;
-  icon?: string;
-  bold?: boolean;
-  iconSize?: string;
-};
-
-export type DefaultInputProps = {
-  type: string;
-  name: string;
-  register?: UseFormRegister<LoginValues>;
-  block?: boolean;
-  required?: boolean;
-  errorText?: string;
-  isError?: boolean;
-  maxLength?: number;
-  icon?: string;
-  placeholder?: string;
-  label?: string;
-  onIconClick?: () => void;
-  onChange?: (value: ChangeEvent<HTMLInputElement>) => void;
-};
-
-export type PasswordProps = Omit<DefaultInputProps, "icon" | "type" | "onIconClick">;
