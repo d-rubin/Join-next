@@ -3,6 +3,7 @@
 import { UseFormRegister } from "react-hook-form/dist/types/form";
 import { ChangeEvent } from "react";
 import Icon from "../Icon";
+// eslint-disable-next-line import/no-cycle
 import { LoginValues } from "../forms/LoginForm";
 
 export type DefaultInputProps = {

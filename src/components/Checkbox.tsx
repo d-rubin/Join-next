@@ -2,6 +2,7 @@ import { useState } from "react";
 import { UseFormRegister } from "react-hook-form/dist/types/form";
 import Icon from "./Icon";
 import Text from "./Text";
+// eslint-disable-next-line import/no-cycle
 import { LoginValues } from "./forms/LoginForm";
 
 export type CheckboxProps = {
