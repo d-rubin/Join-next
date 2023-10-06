@@ -1,4 +1,7 @@
 import { ChangeEvent } from "react";
+import { UseFormRegister } from "react-hook-form/dist/types/form";
+import { FieldValues } from "react-hook-form";
+import { LoginValues } from "./components/forms/LoginForm";
 
 export type Task = {
   id?: number;
@@ -39,6 +42,7 @@ export type DefaultButtonProps = {
 export type DefaultInputProps = {
   type: string;
   name: string;
+  register?: UseFormRegister<LoginValues>;
   block?: boolean;
   required?: boolean;
   errorText?: string;

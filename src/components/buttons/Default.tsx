@@ -1,9 +1,11 @@
+// eslint-disable-next-line import/no-cycle
 import { DefaultButtonProps } from "../../types";
 import Icon from "../Icon";
 
 const DefaultButton = (props: DefaultButtonProps) => {
   const { className, text, outlined, block, loading, onClick, icon, iconSize, bold } = props;
-  const defaultButtonStyling: string = " text-white bg-primary hover:bg-underline focus:bg-secondary";
+  const defaultButtonStyling: string =
+    " text-white bg-primary hover:bg-underline focus:bg-secondary focus:outline-none";
   const defaultIconStyling: string = "stroke-white fill-white";
   const outlinedButtonStyling: string =
     "text-primary bg-white border-[2px] border-primary hover:border-underline hover:text-underline focus:text-secondary focus:outline-secondary ";

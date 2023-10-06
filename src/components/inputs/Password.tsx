@@ -1,10 +1,11 @@
 "use client";
 
-import { forwardRef, useState } from "react";
+import { useState } from "react";
+// eslint-disable-next-line import/no-cycle
 import DefaultInput from "./Default";
 import { PasswordProps } from "../../types";
 
-const Password = forwardRef<HTMLInputElement, PasswordProps>((props, ref) => {
+const Password = (props: PasswordProps) => {
   const [textHidden, setTextHidden] = useState<boolean>(true);
 
   return (
@@ -12,11 +13,9 @@ const Password = forwardRef<HTMLInputElement, PasswordProps>((props, ref) => {
       type={textHidden ? "password" : "text"}
       icon={textHidden ? "eyeOff" : "eye"}
       onIconClick={() => setTextHidden(!textHidden)}
-      ref={ref}
       {...props}
     />
   );
-});
+};
 
-Password.displayName = "Password";
 export default Password;

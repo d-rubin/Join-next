@@ -1,14 +1,15 @@
 "use client";
 
-import { forwardRef } from "react";
+// eslint-disable-next-line import/no-cycle
 import { DefaultInputProps } from "../../types";
 import Icon from "../Icon";
 
-const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>((props, ref) => {
+const DefaultInput = (props: DefaultInputProps) => {
   const {
     type,
     name,
     icon,
+    register,
     placeholder,
     label,
     onChange,
@@ -29,17 +30,9 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>((props, ref
         }`}
       >
         <input
-          ref={(node) => {
-            if (node && typeof ref === "function") {
-              ref(node);
-            }
-          }}
-          name={name}
+          {...register(name, { maxLength, required, onChange })}
           type={type}
-          maxLength={maxLength}
-          required={required}
           placeholder={placeholder}
-          onChange={onChange}
           className={`bg-transparent outline-0 placeholder-grey ${block ? "w-full" : ""}`}
         />
         {icon && <Icon icon={icon} onClick={onIconClick} className="fill-grey stroke-1 h-5 w-5" />}
@@ -47,8 +40,6 @@ const DefaultInput = forwardRef<HTMLInputElement, DefaultInputProps>((props, ref
       {isError && errorText && <p className="text-xs text-red">{errorText}</p>}
     </div>
   );
-});
-
-DefaultInput.displayName = "DefaultInput";
+};
 
 export default DefaultInput;
