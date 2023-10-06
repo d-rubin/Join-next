@@ -8,6 +8,7 @@ import { useState } from "react";
 import DefaultInput from "../inputs/Default";
 import Password from "../inputs/Password";
 import BigButton from "../buttons/BigButton";
+// eslint-disable-next-line import/no-cycle
 import Checkbox from "../Checkbox";
 import { login } from "../../helper/fetchApi";
 
