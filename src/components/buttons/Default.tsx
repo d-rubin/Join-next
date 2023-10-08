@@ -10,10 +10,11 @@ export type DefaultButtonProps = {
   icon?: string;
   bold?: boolean;
   iconSize?: string;
+  disabled?: boolean;
 };
 
 const DefaultButton = (props: DefaultButtonProps) => {
-  const { className, text, outlined, block, loading, onClick, icon, iconSize, bold } = props;
+  const { className, text, disabled = false, outlined, block, loading, onClick, icon, iconSize, bold } = props;
   const defaultButtonStyling: string =
     " text-white bg-primary hover:bg-underline focus:bg-secondary focus:outline-none";
   const defaultIconStyling: string = "stroke-white fill-white";
@@ -30,6 +31,19 @@ const DefaultButton = (props: DefaultButtonProps) => {
       >
         {text}
         {icon && <Icon icon={icon} iconSize={iconSize} className="fill-none" />}
+      </button>
+    );
+
+  if (disabled)
+    return (
+      <button
+        className={`border-[2px] text-gray-500 bg-gray-200 cursor-default stroke-gray-500 fill-gray-500 rounded-xl py-0.5 px-7 flex flex-row items-center justify-center ${
+          block ? "w-full" : "w-fit"
+        }
+         ${className}`}
+      >
+        {text}
+        {icon && <Icon icon={icon} iconSize={iconSize} />}
       </button>
     );
 

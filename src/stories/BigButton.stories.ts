@@ -26,3 +26,19 @@ export const FullWidth: Story = {
     block: true,
   },
 };
+
+export const Disabled: Story = {
+  args: {
+    text: "Button",
+    icon: "check",
+    disabled: true,
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    text: "Button",
+    icon: "check",
+    loading: true,
+  },
+};

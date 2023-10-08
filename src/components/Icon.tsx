@@ -11,7 +11,7 @@ export type IconProps = {
   focusable?: boolean;
 };
 
-const Icon = ({ icon, iconSize = "h-8 w-8", onClick, className, focusable = false }: IconProps) => {
+const Icon = ({ icon, iconSize = "h-6 w-6", onClick, className, focusable = false }: IconProps) => {
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === " ") {
       onClick && onClick();
