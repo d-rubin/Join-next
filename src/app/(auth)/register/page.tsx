@@ -1,16 +1,15 @@
 import Link from "next/link";
-// import Image from "next/image";
 import SignInForm from "../../../components/forms/SignInForm";
-// import backImage from "../../../iconlib/back.svg";
+import Icon from "../../../components/Icon";
 
 const RegisterPage = () => {
   return (
-    <div className="w-fit h-fit bg-white relative p-8 items-center flex flex-col gap-4 rounded-[30px] shadow-xl">
-      <Link href="/" className="absolute top-8 left-8">
-        {/* <Image src={backImage} alt="Back" /> */}
+    <div className="relative bg-white sm:w-[30rem] rounded-3xl px-8 py-8 gap-4 flex flex-col items-center shadow-md">
+      <Link href="/" className="absolute left-8 top-8">
+        <Icon icon="arrowLeft" className="stroke-underline fill-underline" />
       </Link>
-      <h2 className="text-5xl font-semibold">Sign in</h2>
-      <div className="border-underline border-2 w-1/3" />
+      <h1 className="text-4xl font-bold">Sign up</h1>
+      <div className="border-underline border-b-[3px] h-0 w-24 rounded-full" />
       <SignInForm />
     </div>
   );

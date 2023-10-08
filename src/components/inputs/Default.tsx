@@ -5,11 +5,13 @@ import { ChangeEvent } from "react";
 import Icon from "../Icon";
 // eslint-disable-next-line import/no-cycle
 import { LoginValues } from "../forms/LoginForm";
+// eslint-disable-next-line import/no-cycle
+import { RegisterValues } from "../forms/SignInForm";
 
 export type DefaultInputProps = {
   type: string;
   name: string;
-  register?: UseFormRegister<LoginValues>;
+  register?: UseFormRegister<LoginValues | RegisterValues>;
   block?: boolean;
   required?: boolean;
   errorText?: string;

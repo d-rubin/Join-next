@@ -21,21 +21,20 @@ export interface LoginValues {
 const LoginForm = () => {
   const cookieStore = new Cookies();
   const router = useRouter();
-  const {
-    handleSubmit,
-    register,
-    formState: { isSubmitting },
-  } = useForm<LoginValues>();
+  const { handleSubmit, register } = useForm<LoginValues>();
   const [error, setError] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const submit = (values: LoginValues) => {
+    setLoading(true);
     login(values).then((res) => {
       if (res.status === 201) {
         cookieStore.set("authToken", res.token);
-        router.push("/summary");
+        router.push("summary");
       } else {
         setError(true);
       }
+      setLoading(false);
     });
   };
 
@@ -43,6 +42,7 @@ const LoginForm = () => {
     <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-4 items-center justify-start">
       <DefaultInput
         type="text"
+        // @ts-ignore
         register={register}
         name="username"
         placeholder="Username"
@@ -54,6 +54,7 @@ const LoginForm = () => {
       <Password
         name="password"
         placeholder="Password"
+        // @ts-ignore
         register={register}
         required
         block
@@ -65,7 +66,7 @@ const LoginForm = () => {
         <Checkbox name="rememberMe" text="Remember me" register={register} />
       </div>
       <div className="w-full flex justify-center">
-        <BigButton text="Login" loading={isSubmitting} className="px-12" />
+        <BigButton text="Login" loading={loading} className="px-12" />
       </div>
     </form>
   );
