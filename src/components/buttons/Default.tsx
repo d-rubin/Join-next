@@ -24,7 +24,7 @@ const DefaultButton = (props: DefaultButtonProps) => {
   if (loading)
     return (
       <button
-        className={`animate-pulse rounded-xl py-0.5 px-7 text-2xl bg-gray-500 text-gray-500 flex flex-row items-center justify-center ${
+        className={`animate-pulse rounded-xl py-0.5 px-7 bg-gray-500 text-gray-500 flex flex-row items-center justify-center ${
           block ? "w-full" : "w-fit"
         } ${className}`}
       >
@@ -38,7 +38,7 @@ const DefaultButton = (props: DefaultButtonProps) => {
       onClick={onClick}
       className={`${
         outlined ? outlinedButtonStyling : defaultButtonStyling
-      } rounded-xl gap-2 py-0.5 px-7 transition-all text-2xl flex flex-row items-center justify-center group hover:drop-shadow-lg ${
+      } rounded-xl gap-2 py-0.5 px-7 transition-all flex flex-row items-center justify-center group hover:drop-shadow-lg ${
         bold && "font-semibold"
       } ${block ? "w-full" : "w-fit"} ${className}`}
     >

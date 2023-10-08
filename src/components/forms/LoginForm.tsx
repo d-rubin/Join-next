@@ -61,9 +61,11 @@ const LoginForm = () => {
         errorText="Ups! Wrong password. Try again."
         maxLength={20}
       />
-      <Checkbox name="rememberMe" text="Remember me" register={register} />
+      <div className="w-full">
+        <Checkbox name="rememberMe" text="Remember me" register={register} />
+      </div>
       <div className="w-full flex justify-center">
-        <BigButton text="Login" loading={isSubmitting} />
+        <BigButton text="Login" loading={isSubmitting} className="px-12" />
       </div>
     </form>
   );
