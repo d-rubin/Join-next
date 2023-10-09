@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+// import { useState } from "react";
 import { register as registerFetch } from "../../helper/fetchApi";
 // eslint-disable-next-line import/no-cycle
 import DefaultInput from "../inputs/Default";
@@ -21,8 +21,8 @@ const SignInForm = () => {
   const cookieStore = new Cookies();
   const router = useRouter();
   const { handleSubmit, register } = useForm<RegisterValues>();
-  const [error, setError] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  // const [error, setError] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false);
 
   const submit = (values: RegisterValues) => {
     registerFetch(values).then((res) => {
