@@ -6,8 +6,12 @@ export type CustomResponse = {
   data: Object;
 };
 
-export interface TokenResponse extends CustomResponse {
-  token?: string;
+export interface TokenResponse extends Omit<CustomResponse, "data"> {
+  token: string;
+}
+
+export interface ErrorResponse extends Omit<CustomResponse, "data"> {
+  message: string;
 }
 
 const fetchApi = async (url: string, options?: RequestInit) => {
@@ -19,9 +23,9 @@ const fetchApi = async (url: string, options?: RequestInit) => {
   }).then((res) => res.json());
 };
 
-const register = async (body: Object): Promise<TokenResponse> => {
+const register = async (body: Object): Promise<TokenResponse | ErrorResponse> => {
   return fetchApi("/auth/register/", { method: "POST", body: JSON.stringify(body) }).then(
-    (res) => res as TokenResponse,
+    (res) => res as TokenResponse | ErrorResponse,
   );
 };
 

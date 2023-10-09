@@ -25,7 +25,7 @@ const DefaultButton = (props: DefaultButtonProps) => {
   if (loading)
     return (
       <button
-        className={`animate-pulse rounded-xl py-0.5 px-7 bg-gray-500 text-gray-500 flex flex-row items-center justify-center ${
+        className={`animate-pulse rounded-xl py-0.5 px-7 bg-gray-500 text-gray-500 flex flex-row items-center justify-center focus:outline-none ${
           block ? "w-full" : "w-fit"
         } ${className}`}
       >
@@ -37,7 +37,8 @@ const DefaultButton = (props: DefaultButtonProps) => {
   if (disabled)
     return (
       <button
-        className={`border-[2px] text-gray-500 bg-gray-200 cursor-default stroke-gray-500 fill-gray-500 rounded-xl py-0.5 px-7 flex flex-row items-center justify-center ${
+        aria-disabled={disabled}
+        className={`border-[2px] text-gray-500 bg-gray-200 cursor-default pointer-events-none stroke-gray-500 fill-gray-500 rounded-xl py-0.5 px-7 flex flex-row items-center justify-center ${
           block ? "w-full" : "w-fit"
         }
          ${className}`}

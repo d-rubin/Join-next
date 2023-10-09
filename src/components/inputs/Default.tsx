@@ -2,16 +2,13 @@
 
 import { UseFormRegister } from "react-hook-form/dist/types/form";
 import { ChangeEvent } from "react";
+import { FieldValues } from "react-hook-form";
 import Icon from "../Icon";
-// eslint-disable-next-line import/no-cycle
-import { LoginValues } from "../forms/LoginForm";
-// eslint-disable-next-line import/no-cycle
-import { RegisterValues } from "../forms/SignInForm";
 
 export type DefaultInputProps = {
   type: string;
   name: string;
-  register?: UseFormRegister<LoginValues | RegisterValues>;
+  register: UseFormRegister<FieldValues>;
   block?: boolean;
   required?: boolean;
   errorText?: string;
@@ -43,15 +40,14 @@ const DefaultInput = (props: DefaultInputProps) => {
 
   return (
     <div className={`flex flex-col justify-start gap-1 ${block ? "w-full" : "w-fit"}`}>
-      {label && <label htmlFor={name}>{label}</label>}
+      {label && <label htmlFor={name as unknown as string}>{label}</label>}
       <div
         className={`flex flex-row flex-nowrap items-center bg-white rounded-lg py-0.5 px-3 border-2 border-grey focus-within:border-underline ${
           isError ? "border-red" : ""
         }`}
       >
         <input
-          // @ts-ignore
-          {...register!(name, { maxLength, required, onChange })}
+          {...register(name, { maxLength, required, onChange })}
           type={type}
           placeholder={placeholder}
           className={`bg-transparent outline-0 placeholder-grey ${block ? "w-full" : ""}`}

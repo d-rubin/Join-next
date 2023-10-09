@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-// eslint-disable-next-line import/no-cycle
 import DefaultInput, { DefaultInputProps } from "./Default";
 
 export type PasswordProps = Omit<DefaultInputProps, "icon" | "type" | "onIconClick">;

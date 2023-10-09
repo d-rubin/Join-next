@@ -2,7 +2,6 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import React from "react";
 import { Metadata } from "next";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });

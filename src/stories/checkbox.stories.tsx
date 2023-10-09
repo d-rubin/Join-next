@@ -8,9 +8,9 @@ const meta: Meta = {
 export default meta;
 type Story = typeof meta;
 
-export const Default: Story = {
+export const checkbox: Story = {
   args: {
-    onChange: console.log("onChangeTriggered"),
+    onChange: console.log("onChange Triggered"),
     text: "Ich bin eine Checkbox",
   },
 };

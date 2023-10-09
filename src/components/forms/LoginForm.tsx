@@ -1,31 +1,23 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-// eslint-disable-next-line import/no-cycle
 import DefaultInput from "../inputs/Default";
 import Password from "../inputs/Password";
 import BigButton from "../buttons/BigButton";
-// eslint-disable-next-line import/no-cycle
 import Checkbox from "../Checkbox";
 import { login } from "../../helper/fetchApi";
-
-export interface LoginValues {
-  username: string;
-  password: string;
-  rememberMe: boolean;
-}
 
 const LoginForm = () => {
   const cookieStore = new Cookies();
   const router = useRouter();
-  const { handleSubmit, register } = useForm<LoginValues>();
+  const { handleSubmit, register } = useForm<FieldValues>();
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const submit = (values: LoginValues) => {
+  const submit = (values: FieldValues) => {
     setLoading(true);
     login(values).then((res) => {
       if (res.status === 201) {
@@ -40,30 +32,18 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-4 items-center justify-start">
-      <DefaultInput
-        type="text"
-        // @ts-ignore
-        register={register}
-        name="username"
-        placeholder="Username"
-        icon="mail"
-        required
-        block
-        maxLength={30}
-      />
+      <DefaultInput type="text" register={register} name="username" placeholder="Username" icon="mail" required block />
       <Password
         name="password"
         placeholder="Password"
-        // @ts-ignore
         register={register}
         required
         block
         isError={error}
         errorText="Ups! Wrong password. Try again."
-        maxLength={20}
       />
       <div className="w-full">
-        <Checkbox name="rememberMe" text="Remember me" register={register} />
+        <Checkbox name="rememberMe" text="Remember me" required />
       </div>
       <div className="w-full flex justify-center">
         <BigButton text="Login" loading={loading} className="px-12" />
