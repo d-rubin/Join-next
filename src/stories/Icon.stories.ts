@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Icon from "../components/Icon";
 
-const meta = {
+const meta: Meta = {
   title: "Icons/Icon",
   component: Icon,
-} satisfies Meta<typeof Icon>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;

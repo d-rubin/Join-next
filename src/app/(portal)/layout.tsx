@@ -1,16 +1,7 @@
-import React from "react";
-import DesktopNav from "../../components/NavBars/DesktopNav";
-import MobileNav from "../../components/NavBars/MobileNav";
-import Header from "../../components/Header";
+import { ReactNode } from "react";
 
-const PortalLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="md:flex-row flex-col flex h-full w-full overflow-y-auto">
-      <DesktopNav />
-      <Header>{children}</Header>
-      <MobileNav />
-    </div>
-  );
+const PortalLayout = ({ children }: { children: ReactNode }) => {
+  return <div>{children}</div>;
 };
 
 export default PortalLayout;
