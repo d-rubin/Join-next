@@ -9,6 +9,7 @@ import DefaultInput from "../inputs/Default";
 import Password from "../inputs/Password";
 import BigButton from "../buttons/BigButton";
 import Checkbox from "../Checkbox";
+import Notification from "../Notification";
 
 const SignInForm = () => {
   const cookieStore = new Cookies();
@@ -29,6 +30,7 @@ const SignInForm = () => {
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [checkbox, setCheckbox] = useState<boolean>(false);
+  const [trigger, setTrigger] = useState<boolean>(false);
 
   const submit = (values: FieldValues) => {
     if (!checkbox) setError({ email: false, name: false, general: false, password: false, privacy: true });
@@ -39,7 +41,8 @@ const SignInForm = () => {
       registerFetch(values).then((res) => {
         if (res.status === 201) {
           cookieStore.set("authToken", (res as TokenResponse).token);
-          router.push("summary");
+          setTrigger(true);
+          setTimeout(() => router.push("summary"), 2000);
         } else {
           switch ((res as ErrorResponse).message) {
             case "Email already in use":
@@ -63,62 +66,65 @@ const SignInForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-4 items-center justify-start">
-      {error.general && <p className="text-xs text-red text-left w-full">Oops, something went wrong!</p>}
-      <DefaultInput
-        type="text"
-        name="name"
-        register={register}
-        block
-        required
-        icon="person"
-        placeholder="Name"
-        isError={error.name}
-        errorText="Username already in use"
-      />
-      <DefaultInput
-        type="text"
-        name="email"
-        register={register}
-        block
-        required
-        maxLength={100}
-        icon="mail"
-        placeholder="Email"
-        isError={error.email}
-        errorText="Email already in use"
-      />
-      <Password
-        name="password"
-        placeholder="Password"
-        register={register}
-        block
-        required
-        isError={error.password}
-        errorText="Passwords don't match"
-      />
-      <DefaultInput
-        type="password"
-        name="secondPassword"
-        placeholder="Confirm password"
-        register={register}
-        block
-        isError={error.password}
-        required
-        icon="lock"
-      />
-      <div className="w-full text-left">
-        <Checkbox
-          name="privacy"
-          text="I accept the Privacy Policy"
-          value={checkbox}
-          onChange={checkboxChange}
-          isError={error.privacy}
-          errorText="Pls accept the Privacy Policy"
+    <>
+      <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-4 items-center justify-start">
+        {error.general && <p className="text-xs text-red text-left w-full">Oops, something went wrong!</p>}
+        <DefaultInput
+          type="text"
+          name="name"
+          register={register}
+          block
+          required
+          icon="person"
+          placeholder="Name"
+          isError={error.name}
+          errorText="Username already in use"
         />
-      </div>
-      <BigButton text="Sign up" loading={loading} disabled={!checkbox} />
-    </form>
+        <DefaultInput
+          type="text"
+          name="email"
+          register={register}
+          block
+          required
+          maxLength={100}
+          icon="mail"
+          placeholder="Email"
+          isError={error.email}
+          errorText="Email already in use"
+        />
+        <Password
+          name="password"
+          placeholder="Password"
+          register={register}
+          block
+          required
+          isError={error.password}
+          errorText="Passwords don't match"
+        />
+        <DefaultInput
+          type="password"
+          name="secondPassword"
+          placeholder="Confirm password"
+          register={register}
+          block
+          isError={error.password}
+          required
+          icon="lock"
+        />
+        <div className="w-full text-left">
+          <Checkbox
+            name="privacy"
+            text="I accept the Privacy Policy"
+            value={checkbox}
+            onChange={checkboxChange}
+            isError={error.privacy}
+            errorText="Pls accept the Privacy Policy"
+          />
+        </div>
+        <BigButton text="Sign up" loading={loading} disabled={!checkbox} />
+      </form>
+      <Notification text="You Signed Up successfully" trigger={trigger} />
+    </>
   );
 };
 
