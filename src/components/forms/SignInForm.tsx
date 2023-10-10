@@ -3,21 +3,17 @@
 import { FieldValues, useForm } from "react-hook-form";
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ErrorResponse, register as registerFetch, TokenResponse } from "../../helper/fetchApi";
 import DefaultInput from "../inputs/Default";
 import Password from "../inputs/Password";
-// import BigButton from "../buttons/BigButton";
+import BigButton from "../buttons/BigButton";
 import Checkbox from "../Checkbox";
 
 const SignInForm = () => {
   const cookieStore = new Cookies();
+  const { handleSubmit, register } = useForm<FieldValues>();
   const router = useRouter();
-  const {
-    handleSubmit,
-    // formState: { isValid },
-    register,
-  } = useForm<FieldValues>();
   const [error, setError] = useState<{
     privacy: boolean;
     general: boolean;
@@ -31,17 +27,15 @@ const SignInForm = () => {
     password: false,
     privacy: false,
   });
-  // const [loading, setLoading] = useState<boolean>(false);
-  // const [disabled, setDisabled] = useState<boolean>(true);
-  const checkboxRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [checkbox, setCheckbox] = useState<boolean>(false);
 
   const submit = (values: FieldValues) => {
-    if (!checkboxRef.current?.checked)
-      setError({ email: false, name: false, general: false, password: false, privacy: true });
+    if (!checkbox) setError({ email: false, name: false, general: false, password: false, privacy: true });
     else if (values.password !== values.secondPassword)
       setError({ email: false, name: false, general: false, password: true, privacy: false });
     else {
-      // setLoading(true);
+      setLoading(true);
       registerFetch(values).then((res) => {
         if (res.status === 201) {
           cookieStore.set("authToken", (res as TokenResponse).token);
@@ -59,9 +53,13 @@ const SignInForm = () => {
               break;
           }
         }
-        // setLoading(false);
+        setLoading(false);
       });
     }
+  };
+
+  const checkboxChange = (value: boolean) => {
+    setCheckbox(value);
   };
 
   return (
@@ -113,12 +111,13 @@ const SignInForm = () => {
         <Checkbox
           name="privacy"
           text="I accept the Privacy Policy"
-          ref={checkboxRef}
+          value={checkbox}
+          onChange={checkboxChange}
           isError={error.privacy}
           errorText="Pls accept the Privacy Policy"
         />
       </div>
-      {/* <BigButton text="Sign up" loading={loading} disabled={!isValid || disabled} /> */}
+      <BigButton text="Sign up" loading={loading} disabled={!checkbox} />
     </form>
   );
 };

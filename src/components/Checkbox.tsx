@@ -6,7 +6,7 @@ export type CheckboxProps = {
   name: string;
   text: string;
   value?: boolean;
-  onChange?: () => void;
+  onChange?: (value: boolean) => void;
   required?: boolean;
   ref?: RefObject<HTMLInputElement>;
   isError?: boolean;
@@ -18,7 +18,7 @@ const Checkbox = ({ text, value = false, onChange, name, required, ref, errorTex
 
   const handleClick = () => {
     setChecked(!checked);
-    onChange && onChange();
+    onChange && onChange(!checked);
   };
 
   return (

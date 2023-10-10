@@ -3,7 +3,7 @@
 import { FieldValues, useForm } from "react-hook-form";
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import DefaultInput from "../inputs/Default";
 import Password from "../inputs/Password";
 import BigButton from "../buttons/BigButton";
@@ -16,10 +16,11 @@ const LoginForm = () => {
   const { handleSubmit, register } = useForm<FieldValues>();
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const checkboxRef = useRef<HTMLInputElement>(null);
 
   const submit = (values: FieldValues) => {
     setLoading(true);
-    login(values).then((res) => {
+    login({ ...values, ...{ rememberMe: checkboxRef.current?.checked || null } }).then((res) => {
       if (res.status === 201) {
         cookieStore.set("authToken", res.token);
         router.push("summary");
@@ -43,7 +44,7 @@ const LoginForm = () => {
         errorText="Ups! Wrong password. Try again."
       />
       <div className="w-full">
-        <Checkbox name="rememberMe" text="Remember me" required />
+        <Checkbox name="rememberMe" text="Remember me" ref={checkboxRef} />
       </div>
       <div className="w-full flex justify-center">
         <BigButton text="Login" loading={loading} className="px-12" />
