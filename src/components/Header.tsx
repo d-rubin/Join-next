@@ -9,7 +9,7 @@ const Header = () => {
   // Todo: Fetch user and
 
   return (
-    <div className="w-full h-16 bg-white shadow-xl flex items-center px-4 justify-between">
+    <div className="w-full h-16 bg-white shadow-xl flex items-center px-4 justify-between lg:pl-16 xl:rounded-r-3xl">
       <Link className="flex items-center lg:hidden" href="/summary">
         <Image className="h-8 w-fit object-cover" src={LogoDark} alt="Logo" />
       </Link>
