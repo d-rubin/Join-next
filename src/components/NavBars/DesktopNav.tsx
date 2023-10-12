@@ -12,7 +12,7 @@ const DesktopNav = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
 
   return (
-    <main className="flex flex-row">
+    <main className="flex flex-row max-w-screen-xl mr-auto">
       <nav className="hidden relative bg-primary h-screen w-56 py-10 items-center lg:flex flex flex-col gap-10">
         <div className="relative object-cover h-36 w-24">
           <Image src={logoLight} alt="Logo" priority fill />

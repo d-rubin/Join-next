@@ -21,7 +21,7 @@ const LoginForm = () => {
   const submit = (values: FieldValues) => {
     setLoading(true);
     login({ ...values, ...{ rememberMe: checkboxRef.current?.checked || null } }).then((res) => {
-      if (res.status === 201) {
+      if (res.status === 200 || res.status === 201) {
         cookieStore.set("authToken", res.token);
         router.push("summary");
       } else {
@@ -33,7 +33,16 @@ const LoginForm = () => {
 
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-col gap-4 items-center justify-start">
-      <DefaultInput type="text" register={register} name="username" placeholder="Username" icon="mail" required block />
+      <DefaultInput
+        type="text"
+        register={register}
+        name="username"
+        placeholder="Username"
+        icon="mail"
+        required
+        block
+        maxLength={100}
+      />
       <Password
         name="password"
         placeholder="Password"
