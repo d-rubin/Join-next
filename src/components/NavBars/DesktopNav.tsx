@@ -5,64 +5,63 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import logoLight from "../../iconlib/logo-light.svg";
 import Icon from "../Icon";
+import Text from "../Text";
 
 const DesktopNav = () => {
   const pathname = usePathname();
 
   return (
-    <div className="md:flex hidden bg-primary w-2/12 max-w-[450px] h-screen flex flex-col items-center justify-between text-white py-[5vh] fixed">
-      <Link href="/summary">
-        <Image alt="Logo" src={logoLight} width={100} className="cursor-pointer" />
-      </Link>
-      <div className="flex flex-col items-center justify-between w-full h-full pt-24">
-        <div className="flex w-full flex-col gap-4">
-          <Link
-            href="/summary"
-            className={`hoverAnimation flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-secondary ${
-              pathname === "/summary" ? "bg-secondary" : "bg-primary"
-            }`}
-          >
-            <Icon icon="summary" />
-            <p>Summary</p>
-          </Link>
-          <Link
-            href="/board"
-            className={`hoverAnimation flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-secondary ${
-              pathname === "/board" ? "bg-secondary" : "bg-primary"
-            }`}
-          >
-            {/* <Image src={boardIcon} alt="Summary Icon" /> */}
-            <p>Board</p>
-          </Link>
-          <Link
-            href="/add-task"
-            className={`hoverAnimation flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-secondary ${
-              pathname === "/add-task" ? "bg-secondary" : "bg-primary"
-            }`}
-          >
-            {/* <Image src={addTaskIcon} alt="Summary Icon" /> */}
-            <p>Add Task</p>
-          </Link>
-          <Link
-            href="/contacts"
-            className={`hoverAnimation flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-secondary ${
-              pathname === "/contacts" ? "bg-secondary" : "bg-primary"
-            }`}
-          >
-            <Icon icon="contacts" />
-            <p>Contacts</p>
-          </Link>
-        </div>
+    <nav className="hidden relative bg-primary h-screen w-56 py-10 items-center lg:flex flex-col gap-10">
+      <div className="relative object-cover h-36 w-24">
+        <Image src={logoLight} alt="Logo" priority fill />
+      </div>
+      <div className="flex flex-col w-full gap-4">
         <Link
-          href="/legal-notice"
-          className={`hoverAnimation flex items-center justify-center w-full h-14 gap-4 cursor-pointer hover:bg-secondary ${
-            pathname === "/legal-notice" ? "bg-secondary" : "bg-primary"
+          href="summary"
+          className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white ${
+            pathname === "/summary" ? "bg-secondary" : ""
           }`}
         >
-          <p>Legal Notice</p>
+          <Icon icon="summary" />
+          <Text text="Summary" className="text-lg" />
+        </Link>
+        <Link
+          href="board"
+          className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white ${
+            pathname === "/board" ? "bg-secondary" : ""
+          }`}
+        >
+          <Icon icon="board" />
+          <Text text="Board" className="text-lg" />
+        </Link>
+        <Link
+          href="add-task"
+          className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white ${
+            pathname === "/add-task" ? "bg-secondary" : ""
+          }`}
+        >
+          <Icon icon="addTask" />
+          <Text text="Add Tasks" className="text-lg" />
+        </Link>
+        <Link
+          href="contacts"
+          className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white ${
+            pathname === "/contacts" ? "bg-secondary" : ""
+          }`}
+        >
+          <Icon icon="contacts" />
+          <Text text="Contacts" className="text-lg" />
         </Link>
       </div>
-    </div>
+      <Link
+        href="legal-notice"
+        className={`w-full absolute bottom-10 py-2.5 flex flex-row items-center justify-center gap-2.5 text-grey ${
+          pathname === "/legal-notice" ? "bg-secondary" : ""
+        }`}
+      >
+        Legal notice
+      </Link>
+    </nav>
   );
 };
 

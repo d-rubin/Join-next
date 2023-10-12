@@ -123,7 +123,7 @@ const SignInForm = () => {
         </div>
         <BigButton text="Sign up" loading={loading} disabled={!checkbox} />
       </form>
-      <Notification text="You Signed Up successfully" trigger={trigger} />
+      {trigger && <Notification text="You Signed Up successfully" trigger={trigger} />}
     </>
   );
 };
