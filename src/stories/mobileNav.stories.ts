@@ -7,4 +7,4 @@ const meta: Meta = {
 };
 export default meta;
 
-export const mobile: StoryObj<typeof MobileNav> = {};
+export const Mobile: StoryObj<typeof MobileNav> = {};
