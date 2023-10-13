@@ -5,13 +5,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Task, Contact } from "../../types";
 import { createTask } from "../../helper/fetchApi";
-import Icon from "../Icon";
 import DefaultInput from "../inputs/Default";
 import BigButton from "../buttons/BigButton";
 
 const AddTasksForm = ({ contacts }: { contacts: Contact[] }) => {
   const { register, handleSubmit } = useForm<FieldValues>();
   const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [prio, setPrio] = useState<"high" | "medium" | "low">("low");
 
   const submitHandler = (data: FieldValues) => {

@@ -3,7 +3,6 @@
 import { UseFormRegister } from "react-hook-form/dist/types/form";
 import { ChangeEvent } from "react";
 import { FieldValues } from "react-hook-form";
-import { className } from "postcss-selector-parser";
 import Icon from "../Icon";
 
 export type DefaultInputProps = {
