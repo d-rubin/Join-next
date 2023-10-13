@@ -1,16 +1,24 @@
 import Link from "next/link";
-import Image from "next/image";
-import SignInForm from "../../../components/SignInForm";
-import backImage from "../../../img/back.svg";
+import { Metadata } from "next";
+import SignInForm from "../../../components/forms/SignInForm";
+import Icon from "../../../components/Icon";
+
+export const metadata: Metadata = {
+  title: "Sign up",
+};
 
 const RegisterPage = () => {
   return (
-    <div className="w-fit h-fit bg-white relative p-8 items-center flex flex-col gap-4 rounded-[30px] shadow-xl">
-      <Link href="/login" className="absolute top-8 left-8">
-        <Image src={backImage} alt="Back" />
-      </Link>
-      <h2 className="text-5xl font-semibold">Sign in</h2>
-      <div className="border-underline border-2 w-1/3" />
+    <div className="bg-white sm:w-[25rem] rounded-3xl px-8 py-8 gap-4 shadow-md flex flex-col">
+      <div className="grid grid-cols-6 items-baseline">
+        <Link href="/">
+          <Icon icon="arrowLeft" className="stroke-underline fill-underline" />
+        </Link>
+        <div className="flex flex-col col-span-4 items-center gap-4 justify-self-center">
+          <h1 className="text-4xl font-bold">Sign up</h1>
+          <div className="border-underline border-b-[3px] h-0 w-24 rounded-full" />
+        </div>
+      </div>
       <SignInForm />
     </div>
   );

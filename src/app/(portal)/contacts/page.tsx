@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getContacts } from "../../../helper/fetchApi";
-import { User } from "../../../interface";
+import { Contact } from "../../../types";
+import PagePadding from "../../../components/PagePadding";
 
 const SummaryPage = () => {
-  const [contacts, setContacts] = useState<User[]>();
+  const [contacts, setContacts] = useState<Contact[]>();
   // const [showDetails, setShowDetails] = useState<boolean>();
   // const [contactDetails, setContactDetails] = useState<User>();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -40,15 +41,15 @@ const SummaryPage = () => {
   };
 
   return (
-    <>
+    <div className="flex flex-row overflow-hidden">
       <dialog ref={dialogRef} />
-      <div className="max-w-[40rem]">
-        <div className="w-full md:w-3/6 md:max-w-[20rem] bg-white p-8 flex flex-col gap-4 absolute left-0 top-20 bottom-0 border-t-2 min-h-full overflow-y-auto">
-          {contacts && renderContacts()}
-        </div>
-        <h2 className="text-4xl font-bold">Contacts</h2>
+      <div className="w-full lg:max-w-[30rem] bg-white p-8 flex flex-col gap-4border-t-2 min-h-full overflow-y-auto overflow-x-hidden">
+        {contacts && renderContacts()}
       </div>
-    </>
+      <PagePadding>
+        <h2 className="text-5xl font-bold">Contacts</h2>
+      </PagePadding>
+    </div>
   );
 };
 

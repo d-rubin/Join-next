@@ -1,42 +1,29 @@
-"use client";
-
-import Cookies from "universal-cookie";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import Link from "next/link";
 import { getTasks } from "../../../helper/fetchApi";
-import { Task } from "../../../interface";
+import { Task } from "../../../types";
+import PagePadding from "../../../components/PagePadding";
+import Card from "../../../components/Card";
+import Icon from "../../../components/Icon";
 
-interface Counts {
-  toDo: number;
-  inProgress: number;
-  awaitingFeedback: number;
-  done: number;
-  urgent: number;
-  taskCount: number;
-}
+const SummaryPage = async () => {
+  const tasks = await getTasks();
 
-const SummaryPage = () => {
-  const cookieStore = new Cookies();
-  const router = useRouter();
-  const authToken = cookieStore.get("authToken");
-  const [response, setResponse] = useState<Task[]>();
-  const [counts, setCounts] = useState<Counts>();
-  // const [user, setUser] = useState();
+  const getNextDeadline = (items: Array<Task>) => {
+    let nextDeadline: Date = new Date(0);
 
-  const getNextDeadline = () => {
-    let nextDeadline: Date;
+    if (Array.isArray(items)) {
+      tasks.forEach((task) => {
+        const deadline = new Date(task.due_date);
+        if (deadline > nextDeadline) nextDeadline = deadline;
+      });
+    } else {
+      return "No Deadline";
+    }
 
-    response!.forEach((task) => {
-      const taskDueDate = new Date(task.due_date);
-      if (!nextDeadline || taskDueDate < nextDeadline) {
-        nextDeadline = taskDueDate;
-      }
-    });
-
-    return new Intl.DateTimeFormat("en-US", { day: "2-digit", month: "long", year: "numeric" }).format(nextDeadline!);
+    return new Intl.DateTimeFormat("en-US", { day: "2-digit", month: "long", year: "numeric" }).format(nextDeadline);
   };
 
-  const getCounts = (tasks: Task[]) => {
+  const getCounts = (items: Task[]) => {
     let toDo = 0;
     let inProgress = 0;
     let awaitingFeedback = 0;
@@ -44,103 +31,140 @@ const SummaryPage = () => {
     let urgent = 0;
     let taskCount = 0;
 
-    tasks!.forEach((task) => {
-      switch (task.status) {
-        case "toDo":
-          toDo += 1;
-          break;
-        case "inProgress":
-          inProgress += 1;
-          break;
-        case "awaitingFeedback":
-          awaitingFeedback += 1;
-          break;
-        default:
-          done += 1;
-          break;
-      }
+    if (Array.isArray(items)) {
+      items.forEach((task) => {
+        switch (task.status) {
+          case "toDo":
+            toDo += 1;
+            break;
+          case "inProgress":
+            inProgress += 1;
+            break;
+          case "awaitingFeedback":
+            awaitingFeedback += 1;
+            break;
+          default:
+            done += 1;
+            break;
+        }
 
-      if (task.priority === "high") urgent += 1;
-      taskCount += 1;
-    });
+        if (task.priority === "high") urgent += 1;
+        taskCount += 1;
+      });
+    }
 
-    setCounts({
+    return {
       toDo,
       inProgress,
       awaitingFeedback,
       done,
       urgent,
       taskCount,
-    });
+    };
   };
 
-  useEffect(() => {
-    if (authToken) {
-      getTasks().then((res) => {
-        setResponse(res);
-        getCounts(res);
-      });
-      // Todo: getUser
-      // getUser(authToken).then((res) => setUser(res));
-    } else {
-      router.push("/");
-    }
-  }, []);
-
   return (
-    counts && (
-      <>
-        <div className="flex flex-col gap-8">
-          <div className="gap-4 flex flex-col md:flex-row md:items-center md:relative md:justify-between md:w-[27rem]">
-            <p className="md:hidden">Kanban Project Management Tool</p>
-            <h2 className="text-4xl font-bold">Summary</h2>
-            <p className="text-xl">Everything in a nutshell!</p>
-            <div className="border-underline border-2 w-28 md:w-12 md:rotate-90 md:absolute md:left-40" />
+    <PagePadding className="gap-8 flex flex-col">
+      <div className="flex flex-col gap-2 lg:gap-4 lg:flex-row lg: lg:items-center cursor-default">
+        <h1 className="text-5xl font-bold">Join 360</h1>
+        <p className="lg:hidden">Key Metrics at a Glance</p>
+        <div className="border-b-2 border-underline w-20 lg:hidden" />
+        <div className="border-l-2 border-underline h-10 hidden lg:block" />
+        <p className="hidden lg:block text-xl">Key Metrics at a Glance</p>
+      </div>
+      {tasks && (
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-row gap-4">
+            <Link href="board" className="w-1/2 max-w-[12rem]">
+              <Card className="flex flex-row gap-2 group hover:bg-primary h-28 p-4 transition-all hover:scale-105">
+                <span className="rounded-full w-12 h-12 bg-primary group-hover:bg-white flex items-center justify-center transition-all group-hover:scale-105">
+                  <Icon
+                    icon="pencil"
+                    className="stroke-white fill-white group-hover:stroke-primary group-hover:fill-primary transition-all group-hover:scale-105"
+                    iconSize="h-8 w-8"
+                  />
+                </span>
+                <div className="flex flex-col items-center">
+                  <p className="text-4xl font-semibold group-hover:text-white transition-all group-hover:scale-105">
+                    {getCounts(tasks).toDo}
+                  </p>
+                  <p className="group-hover:text-white transition-all group-hover:scale-105">To-do</p>
+                </div>
+              </Card>
+            </Link>
+            <Link href="board" className="w-1/2 max-w-[12rem]">
+              <Card className="flex flex-row gap-2 group hover:bg-primary h-28 p-4 transition-all hover:scale-105">
+                <span className="rounded-full w-12 h-12 bg-primary group-hover:bg-white flex items-center justify-center transition-all group-hover:scale-105">
+                  <Icon
+                    icon="check"
+                    className="stroke-white fill-white group-hover:stroke-primary group-hover:fill-primary transition-all group-hover:scale-105"
+                    iconSize="h-8 w-8"
+                  />
+                </span>
+                <div className="flex flex-col items-center">
+                  <p className="text-4xl font-semibold group-hover:text-white transition-all">
+                    {getCounts(tasks).done}
+                  </p>
+                  <p className="group-hover:text-white transition-all">Done</p>
+                </div>
+              </Card>
+            </Link>
           </div>
-          <div className="flex gap-8 flex-col text-center max-w-[40rem]">
-            <div className="flex gap-4">
-              <div className="w-1/3 bg-white h-36 rounded-3xl shadow-xl flex flex-col items-center justify-around py-4">
-                <p className="text-5xl font-bold">{counts.taskCount}</p>
-                <p>Tasks in Board</p>
+          <Link href="board" className="block w-full max-w-[25rem]">
+            <Card className="flex flex-row justify-around gap-2 group hover:bg-primary h-28 p-4 transition-all hover:scale-105">
+              <span className="rounded-full w-12 h-12 bg-red flex items-center justify-center transition-all group-hover:scale-105">
+                <Icon
+                  icon="urgent"
+                  className="stroke-white fill-white transition-all group-hover:scale-105"
+                  iconSize="h-8 w-8"
+                />
+              </span>
+              <div className="flex flex-col items-center">
+                <p className="text-4xl font-semibold group-hover:text-white transition-all">
+                  {getCounts(tasks).urgent}
+                </p>
+                <p className="group-hover:text-white transition-all">Urgent</p>
               </div>
-              <div className="w-1/3 bg-white h-36 rounded-3xl shadow-xl flex flex-col items-center justify-around py-4">
-                <p className="text-5xl font-bold">{counts.inProgress}</p>
-                <p>Tasks in progress</p>
+              <div className="h-4/5 border-grey border-l-2" />
+              <div>
+                <p className="text-lg font-semibold group-hover:text-white transition-all">{getNextDeadline(tasks)}</p>
+                <p className="group-hover:text-white transition-all">Upcoming Deadline</p>
               </div>
-              <div className="w-1/3 bg-white h-36 rounded-3xl shadow-xl flex flex-col items-center justify-around py-4">
-                <p className="text-5xl font-bold">{counts.awaitingFeedback}</p>
-                <p>Awaiting feedback</p>
-              </div>
-            </div>
-            <div className="w-ful bg-white h-36 rounded-3xl shadow-xl flex flex-row p-4 gap-4 justify-around">
-              <div className="flex flex-col items-center justify-around">
-                <p className="text-5xl font-bold">{counts.urgent}</p>
-                <p>Urgent</p>
-              </div>
-              <div className="border-outline border-2 h-28 w-0" />
-              <div className="flex flex-col items-center justify-center">
-                <p className="text-lg font-bold">{getNextDeadline()}</p>
-                <p>Upcoming Deadline</p>
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="w-1/2 bg-white h-36 rounded-3xl shadow-xl flex flex-col items-center justify-around py-4">
-                <p className="text-5xl font-bold">{counts.toDo}</p>
-                <p>To-do</p>
-              </div>
-              <div className="w-1/2 bg-white h-36 rounded-3xl shadow-xl flex flex-col items-center justify-around py-4">
-                <p className="text-5xl font-bold">{counts.done}</p>
-                <p>Done</p>
-              </div>
-            </div>
+            </Card>
+          </Link>
+          <div className="flex flex-row gap-4">
+            <Link href="board" className="w-1/3 max-w-[7.6rem]">
+              <Card className="flex flex-row gap-2 group hover:bg-primary h-28 p-4 transition-all hover:scale-105">
+                <div className="flex flex-col items-center">
+                  <p className="text-4xl font-semibold group-hover:text-white transition-all">{tasks.length}</p>
+                  <p className="group-hover:text-white transition-all text-center">Tasks in Board</p>
+                </div>
+              </Card>
+            </Link>
+            <Link href="board" className="w-1/3 max-w-[7.6rem]">
+              <Card className="flex flex-row gap-2 group hover:bg-primary h-28 p-4 transition-all hover:scale-105">
+                <div className="flex flex-col items-center">
+                  <p className="text-4xl font-semibold group-hover:text-white transition-all">
+                    {getCounts(tasks).inProgress}
+                  </p>
+                  <p className="group-hover:text-white transition-all text-center">Tasks in Progress</p>
+                </div>
+              </Card>
+            </Link>
+            <Link href="board" className="w-1/3 max-w-[7.6rem]">
+              <Card className="flex flex-row gap-2 group hover:bg-primary h-28 p-4 transition-all hover:scale-105">
+                <div className="flex flex-col items-center">
+                  <p className="text-4xl font-semibold group-hover:text-white transition-all">
+                    {getCounts(tasks).awaitingFeedback}
+                  </p>
+                  <p className="group-hover:text-white transition-all text-center">Awaiting Feedback</p>
+                </div>
+              </Card>
+            </Link>
           </div>
         </div>
-        <div className="absolute left-3/4 top-1/2 -translate-y-1/2 hidden xl:block">
-          <h4 className="text-2xl">Good morning,</h4>
-          <h3 className="text-3xl text-underline font-semibold">User</h3>
-        </div>
-      </>
-    )
+      )}
+    </PagePadding>
   );
 };
 

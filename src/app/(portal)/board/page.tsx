@@ -1,19 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import plusIcon from "../../../img/plus.svg";
 import { getContacts, getTasks, updateTask } from "../../../helper/fetchApi";
-import { Task, User } from "../../../interface";
+import { Task, Contact } from "../../../types";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../../../helper/generalHelper";
-import TaskDialog from "../../../components/TaskDialog/TaskDialog";
+import TaskDialog from "../../../components/TaskDialog";
+import Icon from "../../../components/Icon";
+import PagePadding from "../../../components/PagePadding";
 
 const BoardPage = () => {
   const [draggedTask, setDraggedTask] = useState<Task>();
   const [tasks, setTasks] = useState<Task[]>();
   const [openedTask, setOpenedTask] = useState<Task>();
-  const [contacts, setContacts] = useState<User[]>();
+  const [contacts, setContacts] = useState<Contact[]>();
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -73,57 +73,57 @@ const BoardPage = () => {
   };
 
   return (
-    <>
+    <PagePadding>
       {openedTask && contacts && (
         <TaskDialog task={openedTask} contacts={contacts} closeDialog={closeDialog} ref={dialogRef} />
       )}
       {tasks && contacts && (
-        <div className="flex flex-col gap-4 max-w-screen-lg">
+        <div className="flex flex-col gap-4">
           <div className="flex justify-between w-full">
             <h2 className="text-4xl font-bold cursor-default">Board</h2>
             <Link href="/add-task">
               <button className="w-fit h-10 px-4 bg-primary rounded-lg text-white text-xl">
-                <Image width={18} height={18} src={plusIcon} alt="Add Task" />
+                <Icon icon="plus" className="stroke-white fill-white" />
               </button>
             </Link>
           </div>
-          <div className="flex flex-col gap-4 lg:flex-row lg:overflow-y-auto max-h-[43rem]">
-            <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-4 lg:flex-row lg:overflow-y-auto">
+            <div className="flex flex-col gap-2 lg:w-1/4">
               <p className="font-bold text-xl">To do</p>
               <span
                 onDrop={() => updateStatus("toDo")}
                 onDragOver={(event) => event.preventDefault()}
-                className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
+                className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col"
               >
                 {getTasksByStatus("toDo")}
               </span>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 lg:w-1/4">
               <p className="font-bold text-xl">In Progress</p>
               <span
                 onDrop={() => updateStatus("inProgress")}
                 onDragOver={(event) => event.preventDefault()}
-                className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
+                className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col"
               >
                 {getTasksByStatus("inProgress")}
               </span>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 lg:w-1/4">
               <p className="font-bold text-xl">Awaiting feedback</p>
               <span
                 onDrop={() => updateStatus("awaitingFeedback")}
                 onDragOver={(event) => event.preventDefault()}
-                className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
+                className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col"
               >
                 {getTasksByStatus("awaitingFeedback")}
               </span>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 lg:w-1/4">
               <p className="font-bold text-xl">Done</p>
               <span
                 onDrop={() => updateStatus("done")}
                 onDragOver={(event) => event.preventDefault()}
-                className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col lg:w-fit"
+                className="flex w-full max-w-full min-h-40 h-40 lg:min-h-fit lg:h-auto overflow-x-auto overflow-y-hidden lg:overflow-x-hidden lg:overflow-y-auto gap-4 lg:flex-col"
               >
                 {getTasksByStatus("done")}
               </span>
@@ -131,7 +131,7 @@ const BoardPage = () => {
           </div>
         </div>
       )}
-    </>
+    </PagePadding>
   );
 };
 

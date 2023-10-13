@@ -8,7 +8,8 @@
     "airbnb-typescript",
     "plugin:import/typescript",
     "plugin:prettier/recommended",
-    "next/core-web-vitals"
+    "next/core-web-vitals",
+    "plugin:storybook/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -22,33 +23,83 @@
   "globals": {
     "React": "writable"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier"
+  ],
   "rules": {
     "no-plusplus": "off",
-    "radix": ["error", "as-needed"],
+    "radix": [
+      "error",
+      "as-needed"
+    ],
     "quotes": "off",
-    "@typescript-eslint/quotes": ["error", "double", { "avoidEscape": true, "allowTemplateLiterals": true }],
+    "@typescript-eslint/quotes": [
+      "error",
+      "double",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
+    ],
     "no-unused-expressions": "off",
-    "@typescript-eslint/no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
-    "react/jsx-no-constructed-context-values": ["warn"],
-    "func-names": ["error", "never"],
-    "import/prefer-default-export": ["off"],
-    "prefer-promise-reject-errors": ["off"],
-    "react/button-has-type": ["off"],
-    "react/react-in-jsx-scope": ["off"],
-    "react/jsx-uses-react": ["off"],
-    "react/jsx-props-no-spreading": ["off"],
-    "react/no-unescaped-entities": ["off"],
-    "react/require-default-props": ["off"],
+    "@typescript-eslint/no-unused-expressions": [
+      "error",
+      {
+        "allowShortCircuit": true,
+        "allowTernary": true
+      }
+    ],
+    "react/jsx-no-constructed-context-values": [
+      "warn"
+    ],
+    "func-names": [
+      "error",
+      "never"
+    ],
+    "import/prefer-default-export": [
+      "off"
+    ],
+    "prefer-promise-reject-errors": [
+      "off"
+    ],
+    "react/button-has-type": [
+      "off"
+    ],
+    "react/react-in-jsx-scope": [
+      "off"
+    ],
+    "react/jsx-uses-react": [
+      "off"
+    ],
+    "react/jsx-props-no-spreading": [
+      "off"
+    ],
+    "react/no-unescaped-entities": [
+      "off"
+    ],
+    "react/require-default-props": [
+      "off"
+    ],
     "react/function-component-definition": [
       "error",
       {
-        "namedComponents": ["function-declaration", "arrow-function"],
-        "unnamedComponents": ["arrow-function", "function-expression"]
+        "namedComponents": [
+          "function-declaration",
+          "arrow-function"
+        ],
+        "unnamedComponents": [
+          "arrow-function",
+          "function-expression"
+        ]
       }
     ],
-    "jsx-a11y/click-events-have-key-events": ["off"],
-    "jsx-a11y/no-static-element-interactions": ["off"]
+    "jsx-a11y/click-events-have-key-events": [
+      "off"
+    ],
+    "jsx-a11y/no-static-element-interactions": [
+      "off"
+    ]
   }
 }
-

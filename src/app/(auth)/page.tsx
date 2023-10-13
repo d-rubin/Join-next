@@ -1,23 +1,28 @@
+import { Metadata } from "next";
 import Link from "next/link";
-import LoginForm from "../../components/LoginForm/LoginForm";
+import LoginForm from "../../components/forms/LoginForm";
+import Text from "../../components/Text";
+import BigButton from "../../components/buttons/BigButton";
+
+export const metadata: Metadata = {
+  title: "Login",
+};
 
 const LoginPage = () => {
   return (
-    <>
-      <div className="w-fit h-fit bg-white relative p-8 items-center flex flex-col gap-4 rounded-[30px] shadow-xl">
-        <h2 className="text-5xl font-semibold">Log in </h2>
-        <div className="border-underline border-2 w-1/3" />
+    <div className="flex flex-col gap-8 w-full items-center">
+      <div className="bg-white sm:w-[25rem] rounded-3xl px-8 py-8 gap-4 flex flex-col items-center shadow-md">
+        <h1 className="text-4xl font-bold">Log in</h1>
+        <div className="border-underline border-b-[3px] h-0 w-24 rounded-full" />
         <LoginForm />
       </div>
-      <div className="flex flex-row gap-4 items-center absolute bottom-16 sm:right-8 sm:top-8 h-fit">
-        <span>Not a Join user?</span>
-        <Link href="/register">
-          <button type="button" className="w-fit h-10 px-4 bg-primary rounded-lg text-white text-xl">
-            Sign up
-          </button>
+      <div className="flex flex-row items-center justify-center gap-4 md:absolute md:right-4 md:top-4">
+        <Text text="Not a Join user?" />
+        <Link href="register">
+          <BigButton text="Sign up" />
         </Link>
       </div>
-    </>
+    </div>
   );
 };
 
