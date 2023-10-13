@@ -24,7 +24,7 @@ const Profile = ({ letters, size = "h-10 w-10" }: { letters: string; size?: stri
       >
         {letters.toUpperCase()}
         <div
-          className={`absolute z-20 w-36 h-fit -left-28 rounded-b-3xl rounded-tl-3xl bg-primary top-12 text-base text-grey font-normal flex flex-col ${
+          className={`absolute z-20 w-36 h-fit -left-32 rounded-b-3xl rounded-tl-3xl bg-primary top-12 text-base text-grey font-normal flex flex-col ${
             openOptions ? "flex" : "hidden"
           }`}
         >

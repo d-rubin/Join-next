@@ -6,7 +6,7 @@ import Header from "../../components/Header";
 const PortalLayout = ({ children }: { children: ReactNode }) => {
   return (
     <DesktopNav>
-      <div className="flex flex-col w-full max-h-screen">
+      <div className="flex flex-col w-full max-h-screen overflow-y-auto">
         <Header />
         {children}
       </div>
