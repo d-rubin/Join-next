@@ -14,8 +14,8 @@ const HelpPage = () => {
         <section>
           <h3 className="text-3xl font-bold cursor-default">What is Join?</h3>
           <p>
-            Join is a kanban-based project management tool designed and built by a group of dedicated students as part
-            of their web development bootcamp at the Developer Akademie.
+            Join is a kanban-based project management tool designed and built by Daniel Rubin as part of his web
+            development bootcamp at the Developer Akademie.
           </p>
           <p>
             Kanban, a Japanese term meaning "billboard", is a highly effective method to visualize work, limit
