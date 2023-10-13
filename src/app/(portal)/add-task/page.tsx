@@ -7,10 +7,7 @@ const AddTaskPage = async () => {
 
   return (
     <PagePadding className="flex flex-col gap-4 relative">
-      <div className="gap-4 flex flex-col lg:flex-row lg:items-center lg:relative lg:justify-between">
-        <p className="sm:hidden">Kanban Project Management Tool</p>
-        <h2 className="text-4xl font-bold">Add Task</h2>
-      </div>
+      <h1 className="text-5xl font-bold">Add Task</h1>
       <AddTaskForm contacts={contacts} />
     </PagePadding>
   );

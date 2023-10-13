@@ -3,6 +3,7 @@
 import { UseFormRegister } from "react-hook-form/dist/types/form";
 import { ChangeEvent } from "react";
 import { FieldValues } from "react-hook-form";
+import { className } from "postcss-selector-parser";
 import Icon from "../Icon";
 
 export type DefaultInputProps = {
@@ -19,6 +20,7 @@ export type DefaultInputProps = {
   label?: string;
   onIconClick?: () => void;
   onChange?: (value: ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
 };
 
 const DefaultInput = (props: DefaultInputProps) => {
@@ -36,6 +38,7 @@ const DefaultInput = (props: DefaultInputProps) => {
     maxLength = 30,
     isError = false,
     onIconClick,
+    className,
   } = props;
 
   return (
@@ -50,7 +53,7 @@ const DefaultInput = (props: DefaultInputProps) => {
           {...register(name, { maxLength, required, onChange })}
           type={type}
           placeholder={placeholder}
-          className={`bg-transparent outline-0 placeholder-grey ${block ? "w-full" : ""}`}
+          className={`bg-transparent outline-0 placeholder-grey ${block ? "w-full" : ""} ${className}`}
         />
         {icon && <Icon icon={icon} onClick={onIconClick} className="fill-grey stroke-1 h-5 w-5" />}
       </div>

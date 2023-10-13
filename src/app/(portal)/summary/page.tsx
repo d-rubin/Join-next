@@ -65,8 +65,8 @@ const SummaryPage = async () => {
 
   return (
     <PagePadding className="gap-8 flex flex-col">
-      <div className="flex flex-col gap-2 lg:gap-4 lg:flex-row lg: lg:items-center">
-        <h1 className="text-4xl font-bold">Join 360</h1>
+      <div className="flex flex-col gap-2 lg:gap-4 lg:flex-row lg: lg:items-center cursor-default">
+        <h1 className="text-5xl font-bold">Join 360</h1>
         <p className="lg:hidden">Key Metrics at a Glance</p>
         <div className="border-b-2 border-underline w-20 lg:hidden" />
         <div className="border-l-2 border-underline h-10 hidden lg:block" />
