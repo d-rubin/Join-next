@@ -20,7 +20,7 @@ const DesktopNav = ({ children }: { children: ReactNode }) => {
         <div className="flex flex-col w-full gap-4">
           <Link
             href="summary"
-            className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white ${
+            className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white hover:bg-secondary ${
               pathname === "/summary" ? "bg-secondary" : ""
             }`}
           >
@@ -29,7 +29,7 @@ const DesktopNav = ({ children }: { children: ReactNode }) => {
           </Link>
           <Link
             href="board"
-            className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white ${
+            className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white hover:bg-secondary ${
               pathname === "/board" ? "bg-secondary" : ""
             }`}
           >
@@ -38,7 +38,7 @@ const DesktopNav = ({ children }: { children: ReactNode }) => {
           </Link>
           <Link
             href="add-task"
-            className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white ${
+            className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white hover:bg-secondary ${
               pathname === "/add-task" ? "bg-secondary" : ""
             }`}
           >
@@ -47,7 +47,7 @@ const DesktopNav = ({ children }: { children: ReactNode }) => {
           </Link>
           <Link
             href="contacts"
-            className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white ${
+            className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white hover:bg-secondary ${
               pathname === "/contacts" ? "bg-secondary" : ""
             }`}
           >
@@ -55,14 +55,26 @@ const DesktopNav = ({ children }: { children: ReactNode }) => {
             <Text text="Contacts" className="text-lg" />
           </Link>
         </div>
-        <Link
-          href="legal-notice"
-          className={`w-full absolute bottom-10 py-2.5 flex flex-row items-center justify-center gap-2.5 text-grey ${
-            pathname === "/legal-notice" ? "bg-secondary" : ""
-          }`}
-        >
-          Legal notice
-        </Link>
+        <div className="w-full absolute bottom-10">
+          <Link
+            href="privacy-policy"
+            target="_blank"
+            className={`py-2.5 flex flex-row items-center justify-center gap-2.5 text-grey hover:bg-secondary ${
+              pathname === "/privacy-policy" ? "bg-secondary" : ""
+            }`}
+          >
+            Privacy Policy
+          </Link>
+          <Link
+            href="legal-notice"
+            target="_blank"
+            className={`py-2.5 flex flex-row items-center justify-center gap-2.5 text-grey hover:bg-secondary ${
+              pathname === "/legal-notice" ? "bg-secondary" : ""
+            }`}
+          >
+            Legal notice
+          </Link>
+        </div>
       </nav>
       {children}
     </main>

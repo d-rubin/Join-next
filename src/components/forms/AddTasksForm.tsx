@@ -107,7 +107,7 @@ const AddTasksForm = ({ contacts }: { contacts: Contact[] }) => {
       </div>
       <button
         type="submit"
-        className="w-fit h-12 px-4 bg-primary rounded-lg text-white text-xl flex items-center gap-2 absolute top-4 right-8 z-10"
+        className="w-fit h-12 px-4 bg-primary rounded-lg text-white text-xl flex items-center gap-2 absolute top-4 lg:top-16 right-4 z-10"
       >
         <span>Create</span>
         {/* <Image src={checkImage} alt="Create" /> */}
