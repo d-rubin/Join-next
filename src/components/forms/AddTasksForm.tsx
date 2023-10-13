@@ -21,7 +21,7 @@ const AddTasksForm = ({ contacts }: { contacts: Contact[] }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col gap-4 overflow-y-auto max-h-[27rem]">
+    <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col gap-4">
       <DefaultInput
         type="text"
         name="title"
