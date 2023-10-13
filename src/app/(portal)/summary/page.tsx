@@ -3,6 +3,7 @@ import { Task } from "../../../types";
 import PagePadding from "../../../components/PagePadding";
 
 const SummaryPage = async () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getNextDeadline = async () => {
     let nextDeadline: Date = new Date(0);
 
@@ -20,6 +21,7 @@ const SummaryPage = async () => {
     return new Intl.DateTimeFormat("en-US", { day: "2-digit", month: "long", year: "numeric" }).format(nextDeadline);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getCounts = (tasks: Task[]) => {
     let toDo = 0;
     let inProgress = 0;
