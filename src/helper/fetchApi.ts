@@ -45,7 +45,7 @@ const getContacts = async (): Promise<Contact[]> => {
   return fetchApi("/contacts/", { method: "GET" }).then((res) => res);
 };
 
-const createTask = async (task: Task) => {
+const createTask = async (task: Task): Promise<Task | { status: 400 }> => {
   return fetchApi("/tasks/", { method: "POST", body: JSON.stringify(task) });
 };
 

@@ -12,7 +12,7 @@ const Notification = ({ text, trigger }: { text: string; trigger: boolean }) => 
 
   return (
     <span
-      className={`absolute left-1/3 w-1/3 -bottom-20 transition-all ease-in-out duration-1000 bg-primary text-white text-xl rounded-2xl px-5 h-16 flex flex-wrap justify-center content-center ${
+      className={`fixed left-1/3 w-1/3 -bottom-20 transition-all ease-in-out duration-1000 bg-primary text-white text-xl rounded-2xl px-5 h-16 flex flex-wrap justify-center content-center ${
         triggerTransition ? "bottom-[30%]" : ""
       }`}
     >

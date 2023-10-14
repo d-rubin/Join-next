@@ -11,10 +11,23 @@ export type DefaultButtonProps = {
   bold?: boolean;
   iconSize?: string;
   disabled?: boolean;
+  type?: "reset" | "submit" | "button";
 };
 
 const DefaultButton = (props: DefaultButtonProps) => {
-  const { className, text, disabled = false, outlined, block, loading, onClick, icon, iconSize, bold } = props;
+  const {
+    className,
+    text,
+    disabled = false,
+    outlined,
+    block,
+    loading,
+    type = "submit",
+    onClick,
+    icon,
+    iconSize,
+    bold,
+  } = props;
   const defaultButtonStyling: string =
     " text-white bg-primary hover:bg-underline focus:bg-secondary focus:outline-none";
   const defaultIconStyling: string = "stroke-white fill-white";
@@ -51,6 +64,7 @@ const DefaultButton = (props: DefaultButtonProps) => {
   return (
     <button
       onClick={onClick}
+      type={type}
       className={`${
         outlined ? outlinedButtonStyling : defaultButtonStyling
       } rounded-xl gap-2 py-0.5 px-7 transition-all flex flex-row items-center justify-center group hover:drop-shadow-lg ${
