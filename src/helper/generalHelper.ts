@@ -1,3 +1,6 @@
+"use server";
+
+import { cookies } from "next/headers";
 import { Contact } from "../types";
 
 export const generalHelper = (string: string) => {
@@ -23,4 +26,8 @@ export const getBackgroundForCategory = (category: string) => {
 export const getAssignee = (assignee: number, contacts: Contact[]) => {
   const assignedPerson = contacts?.find((user) => user.id === assignee);
   return assignedPerson?.username;
+};
+
+export const isUserLoggedIn = (): boolean => {
+  return !!cookies().get("authToken");
 };
