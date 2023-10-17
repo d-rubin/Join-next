@@ -3,41 +3,23 @@ import { getContacts, getTasks } from "../../../helper/fetchApi";
 import PagePadding from "../../../components/PagePadding";
 import BigButton from "../../../components/buttons/BigButton";
 import DefaultButton from "../../../components/buttons/Default";
+import BoardTask from "../../../components/BoardTask";
 
 const BoardPage = async () => {
   const [tasks, contacts] = await Promise.all([getTasks(), getContacts()]);
 
-  // const getTasksByStatus = (status: string) => {
-  //   return (
-  //     contacts &&
-  //     tasks?.map((task: Task) => {
-  //       if (task?.status === status) {
-  //         return (
-  //           // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-  //           <article
-  //             className="p-4 bg-white rounded-3xl flex flex-col gap-2 h-fit cursor-pointer"
-  //             draggable
-  //             onClick={() => handleTaskClick(task)}
-  //             onDragStart={() => setDraggedTask(task)}
-  //             key={task.id}
-  //           >
-  //             <p
-  //               className="text-white px-4 py-1 w-fit rounded-lg"
-  //               style={{ backgroundColor: getBackgroundForCategory(task.category) }}
-  //             >
-  //               {generalHelper(task.category)}
-  //             </p>
-  //             <p className="text-lg font-bold">{task.title}</p>
-  //             <p>{task.description}</p>
-  //             <p>Assigned to: {getAssignee(task.assignee, contacts)}</p>
-  //           </article>
-  //         );
-  //       }
-  //
-  //       return null;
-  //     })
-  //   );
-  // };
+  const getTasksByStatus = (status: string) => {
+    const tasksMatchingStatus = tasks.filter((task) => task.status === status);
+    if (tasksMatchingStatus.length === 0)
+      return (
+        <span className="w-full flex flex-row items-center justify-center bg-gray-200 border-gray-500 text-gray-500 border-dotted border-2 rounded-xl p-2">
+          No tasks to do
+        </span>
+      );
+
+    return tasksMatchingStatus.map((task) => <BoardTask key={task.id} task={task} contacts={contacts} />);
+  };
+
   return (
     <PagePadding>
       <div className="flex flex-col gap-4">
@@ -55,9 +37,7 @@ const BoardPage = async () => {
                 <DefaultButton text="" icon="plus" outlined className="px-1" />
               </Link>
             </div>
-            <span className="w-full flex flex-row items-center justify-center bg-gray-200 border-gray-500 text-gray-500 border-dotted border-2 rounded-xl p-2">
-              No tasks to do
-            </span>
+            {getTasksByStatus("toDo")}
           </div>
           <div className="flex flex-col gap-4 lg:w-1/4">
             <div className="flex flex-row justify-between items-center gap-2">
@@ -66,9 +46,7 @@ const BoardPage = async () => {
                 <DefaultButton text="" icon="plus" outlined className="px-1" />
               </Link>
             </div>
-            <span className="w-full flex flex-row items-center justify-center bg-gray-200 border-gray-500 text-gray-500 border-dotted border-2 rounded-xl p-2">
-              No tasks in progress
-            </span>
+            {getTasksByStatus("inProgress")}
           </div>
           <div className="flex flex-col gap-4 lg:w-1/4">
             <div className="flex flex-row justify-between items-center gap-2">
@@ -79,9 +57,7 @@ const BoardPage = async () => {
                 <DefaultButton text="" icon="plus" outlined className="px-1" />
               </Link>
             </div>
-            <span className="w-full flex flex-row items-center justify-center bg-gray-200 border-gray-500 text-gray-500 border-dotted border-2 rounded-xl p-2">
-              No tasks awaiting feedback
-            </span>
+            {getTasksByStatus("awaitingFeedback")}
           </div>
           <div className="flex flex-col gap-4 lg:w-1/4">
             <div className="flex flex-row justify-between items-center gap-2">
@@ -90,9 +66,7 @@ const BoardPage = async () => {
                 <DefaultButton text="" icon="plus" outlined className="px-1" />
               </Link>
             </div>
-            <span className="w-full flex flex-row items-center justify-center bg-gray-200 border-gray-500 text-gray-500 border-dotted border-2 rounded-xl p-2">
-              No tasks done
-            </span>
+            {getTasksByStatus("done")}
           </div>
         </div>
       </div>
