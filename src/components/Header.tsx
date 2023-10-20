@@ -6,10 +6,10 @@ import Icon from "./Icon";
 import Text from "./Text";
 
 const Header = () => {
-  // Todo: Fetch user and
+  // Todo: Fetch user
 
   return (
-    <div className="w-full h-16 bg-white shadow-xl flex items-center px-4 justify-between lg:pl-16 xl:rounded-r-3xl">
+    <div className="w-full h-16 bg-white shadow-xl flex items-center px-4 justify-between lg:pl-16 2xl:rounded-r-3xl">
       <Link className="flex items-center justify-center h-16 lg:hidden" href="/summary">
         <Image className="h-8 w-fit object-cover" src={LogoDark} alt="Logo" />
       </Link>
