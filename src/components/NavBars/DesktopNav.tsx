@@ -45,15 +45,15 @@ const DesktopNav = ({ children }: { children: ReactNode }) => {
             <Icon icon="addTask" />
             <Text text="Add Tasks" className="text-lg" />
           </Link>
-          <Link
-            href="contacts"
-            className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white hover:bg-secondary ${
-              pathname === "/contacts" ? "bg-secondary" : ""
-            }`}
-          >
-            <Icon icon="contacts" />
-            <Text text="Contacts" className="text-lg" />
-          </Link>
+          {/* <Link */}
+          {/*  href="contacts" */}
+          {/*  className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white hover:bg-secondary ${ */}
+          {/*    pathname === "/contacts" ? "bg-secondary" : "" */}
+          {/*  }`} */}
+          {/* > */}
+          {/*  <Icon icon="contacts" /> */}
+          {/*  <Text text="Contacts" className="text-lg" /> */}
+          {/* </Link> */}
         </div>
         <div className="w-full absolute bottom-10">
           <Link

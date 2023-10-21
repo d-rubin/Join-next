@@ -37,15 +37,15 @@ const MobileNav = () => {
         <Icon icon="addTask" className="stroke-white fill-white" />
         <Text text="Add Tasks" className="text-white" />
       </Link>
-      <Link
-        href="contacts"
-        className={`flex flex-col items-center gap-1 w-24 p-4 rounded-2xl ${
-          pathname === "/contacts" ? "bg-secondary" : ""
-        }`}
-      >
-        <Icon icon="contacts" className="stroke-white fill-white" />
-        <Text text="Contacts" className="text-white" />
-      </Link>
+      {/* <Link */}
+      {/*  href="contacts" */}
+      {/*  className={`flex flex-col items-center gap-1 w-24 p-4 rounded-2xl ${ */}
+      {/*    pathname === "/contacts" ? "bg-secondary" : "" */}
+      {/*  }`} */}
+      {/* > */}
+      {/*  <Icon icon="contacts" className="stroke-white fill-white" /> */}
+      {/*  <Text text="Contacts" className="text-white" /> */}
+      {/* </Link> */}
     </nav>
   );
 };
