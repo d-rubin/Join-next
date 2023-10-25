@@ -1,7 +1,7 @@
 import { redirect, RedirectType } from "next/navigation";
 import { getContacts } from "../../../helper/fetchApi";
-import PagePadding from "../../../components/PagePadding";
 import { isUserLoggedIn } from "../../../helper/serverActions";
+import PagePadding from "../../../components/PagePadding";
 import AddTaskFormMobile from "../../../components/forms/AddTask/AddTaskFormMobile";
 import AddTaskFormDesktop from "../../../components/forms/AddTask/AddTaskFormDesktop";
 
