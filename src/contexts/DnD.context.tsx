@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useCallback, useMemo, useState } from "react";
 import { Task } from "../types";
 
 export const DnDContext = createContext<{ task: Task | null; updateDraggedTask: (task: Task | null) => void }>({
@@ -11,9 +11,16 @@ export const DnDContext = createContext<{ task: Task | null; updateDraggedTask: 
 export const DnDContextProvider = ({ children }: { children: ReactNode }) => {
   const [task, setTask] = useState<Task | null>(null);
 
-  const updateDraggedTask = (draggedTask: Task | null) => {
+  const updateDraggedTask = useCallback((draggedTask: Task | null) => {
     setTask(draggedTask);
-  };
+  }, []);
 
-  return <DnDContext.Provider value={{ task, updateDraggedTask }}>{children}</DnDContext.Provider>;
+  const value = useMemo(() => {
+    return {
+      task,
+      updateDraggedTask,
+    };
+  }, [task, updateDraggedTask]);
+
+  return <DnDContext.Provider value={value}>{children}</DnDContext.Provider>;
 };

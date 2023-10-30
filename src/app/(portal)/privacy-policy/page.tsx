@@ -92,7 +92,7 @@ const PrivacyPage = () => {
             <strong>Website</strong>{" "}
             <p>
               refers to Join, accessible from{" "}
-              <a href="join.daniel-rubin.de" rel="external nofollow noopener" target="_blank">
+              <a href="https://join.daniel-rubin.de" rel="external nofollow noopener" target="_blank">
                 join.daniel-rubin.de
               </a>
             </p>

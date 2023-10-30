@@ -29,7 +29,6 @@ const DropArea = ({ status }: { status: string }) => {
   };
 
   useEffect(() => {
-    console.log("useEffect Triggered");
     Promise.all([getTasks(), getContacts()]).then(([tasks, contactArray]) => {
       setContacts(contactArray);
       setTasksMatchingStatus(tasks.filter((item) => item.status === status));

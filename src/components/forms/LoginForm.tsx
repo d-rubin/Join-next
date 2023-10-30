@@ -1,9 +1,9 @@
 import DefaultInput from "../inputs/Default";
 import Password from "../inputs/Password";
-import BigButton from "../buttons/BigButton";
 import Checkbox from "../Checkbox";
 
 import { login } from "../../helper/serverActions";
+import SubmitButton from "./SubmitButton";
 
 const LoginForm = () => {
   return (
@@ -14,7 +14,7 @@ const LoginForm = () => {
         <Checkbox name="rememberMe" text="Remember me" />
       </div>
       <div className="w-full flex justify-center">
-        <BigButton text="Login" className="px-12" />
+        <SubmitButton text="Login" />
       </div>
     </form>
   );
