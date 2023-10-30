@@ -6,11 +6,17 @@ import Text from "./Text";
 const Footer = () => {
   return (
     <div className="absolute bottom-8 flex flex-row gap-4">
-      <Link href="legal-notice" target="_blank">
-        <Text text="Legal notice" className="text-gray-400" />
+      <Link href="legal-notice" target="_blank" className="focus:outline-none group">
+        <Text
+          text="Legal notice"
+          className="text-gray-400 hover:text-underline transition-all group-focus:text-underline"
+        />
       </Link>
-      <Link href="privacy-policy" target="_blank">
-        <Text text="Privacy Policy" className="text-gray-400" />
+      <Link href="privacy-policy" target="_blank" className="focus:outline-none group">
+        <Text
+          text="Privacy Policy"
+          className="text-gray-400 hover:text-underline transition-all group-focus:text-underline"
+        />
       </Link>
     </div>
   );

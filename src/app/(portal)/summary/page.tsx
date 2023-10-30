@@ -1,9 +1,14 @@
 import Link from "next/link";
+import { Metadata } from "next";
 import { Task } from "../../../types";
 import PagePadding from "../../../components/PagePadding";
 import Card from "../../../components/Card";
 import Icon from "../../../components/Icon";
 import { getTasks } from "../../../helper/serverActions";
+
+export const metadata: Metadata = {
+  title: "Summary",
+};
 
 const SummaryPage = async () => {
   const tasks = await getTasks();

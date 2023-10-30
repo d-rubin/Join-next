@@ -1,5 +1,10 @@
 import Link from "next/link";
+import { Metadata } from "next";
 import PagePadding from "../../../components/PagePadding";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+};
 
 const PrivacyPage = () => {
   return (

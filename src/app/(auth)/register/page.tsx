@@ -14,7 +14,7 @@ const RegisterPage = () => {
         <Link href="/">
           <Icon icon="arrowLeft" className="stroke-underline fill-underline" />
         </Link>
-        <div className="flex flex-col col-span-4 items-center gap-4 justify-self-center">
+        <div className="flex flex-col col-span-4 items-center cursor-default gap-4 justify-self-center">
           <h1 className="text-4xl font-bold">Sign up</h1>
           <div className="border-underline border-b-[3px] h-0 w-24 rounded-full" />
         </div>

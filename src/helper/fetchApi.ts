@@ -29,10 +29,6 @@ const register = async (body: Object): Promise<TokenResponse | ErrorResponse> =>
   );
 };
 
-const login = async (body: Object): Promise<TokenResponse> => {
-  return fetchApi("/auth/login/", { method: "POST", body: JSON.stringify(body) }).then((res) => res as TokenResponse);
-};
-
 const getUser = async (token: string) => {
   return fetchApi("/contacts/user/", { method: "GET", headers: { Authorization: `Token ${token}` } });
 };
@@ -49,4 +45,4 @@ const updateTask = async (task: Task) => {
   return fetchApi(`/tasks/${task.id}/`, { method: "PATCH", body: JSON.stringify(task) });
 };
 
-export { fetchApi, register, login, getUser, getContacts, createTask, updateTask };
+export { fetchApi, register, getUser, getContacts, createTask, updateTask };

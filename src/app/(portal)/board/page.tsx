@@ -1,9 +1,14 @@
 import Link from "next/link";
+import { Metadata } from "next";
 import PagePadding from "../../../components/PagePadding";
 import BigButton from "../../../components/buttons/BigButton";
 import Icon from "../../../components/Icon";
 import DropArea from "../../../components/DropArea";
 import { DnDContextProvider } from "../../../contexts/DnD.context";
+
+export const metadata: Metadata = {
+  title: "Board",
+};
 
 const BoardPage = async () => {
   return (

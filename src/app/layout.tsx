@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: { default: "Join", template: "%3 | Join" },
+  title: { default: "Join", template: "%s | Join" },
   description: "The task management apps",
   icons: {
     icon: "/favicon.ico",
