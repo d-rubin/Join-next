@@ -10,9 +10,7 @@ export const isUserLoggedIn = (): boolean => {
 };
 
 export const patchTaskStatus = (task: Task, update: string) => {
-  updateTask({ ...task, ...{ status: update } }).then((res) => {
-    if (res.status === 200) {
-      revalidatePath("/board");
-    }
+  updateTask({ ...task, ...{ status: update } }).then(() => {
+    revalidatePath("/board");
   });
 };
