@@ -1,13 +1,11 @@
 import Link from "next/link";
-import { redirect, RedirectType } from "next/navigation";
 import { Task } from "../../../types";
 import PagePadding from "../../../components/PagePadding";
 import Card from "../../../components/Card";
 import Icon from "../../../components/Icon";
-import { getTasks, isUserLoggedIn } from "../../../helper/serverActions";
+import { getTasks } from "../../../helper/serverActions";
 
 const SummaryPage = async () => {
-  if (!isUserLoggedIn()) return redirect("login", RedirectType.replace);
   const tasks = await getTasks();
 
   const getNextDeadline = (items: Array<Task>) => {
