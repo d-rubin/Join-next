@@ -35,24 +35,13 @@ const AddTaskFormMobile = ({ contacts }: { contacts: Contact[] }) => {
 
   return (
     <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col gap-4 mb-16 lg:hidden">
-      <DefaultInput
-        type="text"
-        name="title"
-        register={register}
-        placeholder="Enter a title"
-        block
-        isError={error}
-        label="Title"
-        required
-      />
+      <DefaultInput type="text" name="title" placeholder="Enter a title" block isError={error} label="Title" />
       <Textarea
         name="description"
-        register={register}
         placeholder="Enter a description"
         block
         isError={error}
         label="Description"
-        required
         className="h-20"
       />
       <div className="flex flex-col gap-1">
@@ -63,7 +52,7 @@ const AddTaskFormMobile = ({ contacts }: { contacts: Contact[] }) => {
           <Prio prio="low" active={prio === "low"} setPrio={setPrio} />
         </div>
       </div>
-      <DefaultInput type="date" name="due_date" register={register} required isError={error} block label="Due Date" />
+      <DefaultInput type="date" name="due_date" isError={error} block label="Due Date" />
       <div className="flex flex-col gap-1">
         <p>Category</p>
         <select

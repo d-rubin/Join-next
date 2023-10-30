@@ -23,12 +23,6 @@ const fetchApi = async (url: string, options?: RequestInit) => {
   }).then((res) => res.json());
 };
 
-const register = async (body: Object): Promise<TokenResponse | ErrorResponse> => {
-  return fetchApi("/auth/register/", { method: "POST", body: JSON.stringify(body) }).then(
-    (res) => res as TokenResponse | ErrorResponse,
-  );
-};
-
 const getUser = async (token: string) => {
   return fetchApi("/contacts/user/", { method: "GET", headers: { Authorization: `Token ${token}` } });
 };
@@ -45,4 +39,4 @@ const updateTask = async (task: Task) => {
   return fetchApi(`/tasks/${task.id}/`, { method: "PATCH", body: JSON.stringify(task) });
 };
 
-export { fetchApi, register, getUser, getContacts, createTask, updateTask };
+export { fetchApi, getUser, getContacts, createTask, updateTask };

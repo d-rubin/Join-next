@@ -38,23 +38,12 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
   return (
     <form onSubmit={handleSubmit(submitHandler)} className="hidden lg:flex flex-row gap-8">
       <div className="flex flex-col gap-4 min-w-[20rem]">
-        <DefaultInput
-          type="text"
-          name="title"
-          register={register}
-          placeholder="Enter a title"
-          block
-          label="Title"
-          required
-          isError={error}
-        />
+        <DefaultInput type="text" name="title" placeholder="Enter a title" block label="Title" isError={error} />
         <Textarea
           name="description"
-          register={register}
           placeholder="Enter a description"
           block
           label="Description"
-          required
           isError={error}
           className="h-20"
         />
@@ -79,7 +68,7 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
       </div>
       <div className="border-r-2 border-grey h-full" />
       <div className="flex flex-col gap-4 relative min-w-[20rem]">
-        <DefaultInput type="date" name="due_date" register={register} required isError={error} block label="Due Date" />
+        <DefaultInput type="date" name="due_date" isError={error} block label="Due Date" />
         <div className="flex flex-col gap-1">
           <p>Priority</p>
           <div className="flex flex-row gap-2">
