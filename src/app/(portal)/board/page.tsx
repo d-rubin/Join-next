@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { getContacts, getTasks } from "../../../helper/fetchApi";
 import PagePadding from "../../../components/PagePadding";
 import BigButton from "../../../components/buttons/BigButton";
 import Icon from "../../../components/Icon";
@@ -7,8 +6,6 @@ import DropArea from "../../../components/DropArea";
 import { DnDContextProvider } from "../../../contexts/DnD.context";
 
 const BoardPage = async () => {
-  const [tasks, contacts] = await Promise.all([getTasks(), getContacts()]);
-
   return (
     <PagePadding>
       <div className="flex flex-col gap-4">
@@ -29,7 +26,7 @@ const BoardPage = async () => {
                   </span>
                 </Link>
               </div>
-              <DropArea contacts={contacts} tasks={tasks} status="toDo" />
+              <DropArea status="toDo" />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
               <div className="flex flex-row justify-between items-center gap-2">
@@ -40,7 +37,7 @@ const BoardPage = async () => {
                   </span>{" "}
                 </Link>
               </div>
-              <DropArea tasks={tasks} contacts={contacts} status="inProgress" />
+              <DropArea status="inProgress" />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
               <div className="flex flex-row justify-between items-center gap-2">
@@ -53,7 +50,7 @@ const BoardPage = async () => {
                   </span>{" "}
                 </Link>
               </div>
-              <DropArea tasks={tasks} contacts={contacts} status="awaitingFeedback" />
+              <DropArea status="awaitingFeedback" />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
               <div className="flex flex-row justify-between items-center gap-2">
@@ -64,7 +61,7 @@ const BoardPage = async () => {
                   </span>{" "}
                 </Link>
               </div>
-              <DropArea tasks={tasks} contacts={contacts} status="done" />
+              <DropArea status="done" />
             </div>
           </div>
         </DnDContextProvider>

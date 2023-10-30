@@ -1,5 +1,5 @@
 import * as process from "process";
-import { Task, Contact } from "../types";
+import { Contact, Task } from "../types";
 
 export type CustomResponse = {
   status: number;
@@ -33,10 +33,6 @@ const login = async (body: Object): Promise<TokenResponse> => {
   return fetchApi("/auth/login/", { method: "POST", body: JSON.stringify(body) }).then((res) => res as TokenResponse);
 };
 
-const getTasks = async () => {
-  return fetchApi("/tasks/", { method: "GET" }).then((res) => res as Task[]);
-};
-
 const getUser = async (token: string) => {
   return fetchApi("/contacts/user/", { method: "GET", headers: { Authorization: `Token ${token}` } });
 };
@@ -53,4 +49,4 @@ const updateTask = async (task: Task) => {
   return fetchApi(`/tasks/${task.id}/`, { method: "PATCH", body: JSON.stringify(task) });
 };
 
-export { fetchApi, register, login, getTasks, getUser, getContacts, createTask, updateTask };
+export { fetchApi, register, login, getUser, getContacts, createTask, updateTask };

@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { redirect, RedirectType } from "next/navigation";
-import { getTasks } from "../../../helper/fetchApi";
 import { Task } from "../../../types";
 import PagePadding from "../../../components/PagePadding";
 import Card from "../../../components/Card";
 import Icon from "../../../components/Icon";
-import { isUserLoggedIn } from "../../../helper/serverActions";
+import { getTasks, isUserLoggedIn } from "../../../helper/serverActions";
 
 const SummaryPage = async () => {
   if (!isUserLoggedIn()) return redirect("login", RedirectType.replace);

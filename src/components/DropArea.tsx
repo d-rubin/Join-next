@@ -4,11 +4,13 @@ import { useContext, useEffect, useState } from "react";
 import BoardTask from "./BoardTask";
 import { Contact, Task } from "../types";
 import { DnDContext } from "../contexts/DnD.context";
-import { patchTaskStatus } from "../helper/serverActions";
+import { getTasks, patchTaskStatus } from "../helper/serverActions";
+import { getContacts } from "../helper/fetchApi";
 
-const DropArea = ({ tasks, contacts, status }: { tasks: Task[]; contacts: Contact[]; status: string }) => {
+const DropArea = ({ status }: { status: string }) => {
   const { task } = useContext(DnDContext);
   const [tasksMatchingStatus, setTasksMatchingStatus] = useState<Task[]>();
+  const [contacts, setContacts] = useState<Contact[]>();
   const handleDrop = () => {
     if (task) patchTaskStatus(task, status);
   };
@@ -28,8 +30,11 @@ const DropArea = ({ tasks, contacts, status }: { tasks: Task[]; contacts: Contac
 
   useEffect(() => {
     console.log("useEffect Triggered");
-    setTasksMatchingStatus(tasks.filter((item) => item.status === status));
-  }, [status, tasks]);
+    Promise.all([getTasks(), getContacts()]).then(([tasks, contactArray]) => {
+      setContacts(contactArray);
+      setTasksMatchingStatus(tasks.filter((item) => item.status === status));
+    });
+  }, [status]);
 
   if (tasksMatchingStatus?.length === 0)
     return (
@@ -40,11 +45,13 @@ const DropArea = ({ tasks, contacts, status }: { tasks: Task[]; contacts: Contac
       </div>
     );
 
-  if (tasksMatchingStatus && tasksMatchingStatus.length > 0)
+  if (tasksMatchingStatus && contacts && tasksMatchingStatus.length > 0)
     return (
       <div className="w-full overflow-x-auto h-full" onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
         <div className="flex flex-row lg:flex-col gap-4 w-fit lg:w-full">
-          {tasksMatchingStatus?.map((item) => <BoardTask key={item.id} task={item} contacts={contacts} />)}
+          {tasksMatchingStatus.map((item) => (
+            <BoardTask key={item.id} task={item} contacts={contacts} />
+          ))}
         </div>
       </div>
     );
