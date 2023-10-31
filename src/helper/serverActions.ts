@@ -21,6 +21,7 @@ const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T> =>
 const isUserLoggedIn = (): boolean => {
   return !!cookies().get("authToken");
 };
+// Todo: make serverActions use fetchServer
 
 const patchTaskStatus = (task: Task, update: string) => {
   updateTask({ ...task, ...{ status: update } }).then(() => {
