@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 import { Task } from "../types";
 import { ErrorResponse, fetchApi, TokenResponse, updateTask } from "./fetchApi";
-import { LoginSchema } from "../schemas";
+import { AddTaskSchema, LoginSchema } from "../schemas";
 
 const isUserLoggedIn = (): boolean => {
   return !!cookies().get("authToken");
@@ -48,4 +48,27 @@ const login = async (formData: FormData, rememberMe: boolean = false): Promise<T
 
   return { status: response.status, message: "Ups! Wrong password. Try again." };
 };
-export { getTasks, isUserLoggedIn, patchTaskStatus, login, register };
+
+const createTask = async (
+  formData: FormData,
+  priority: "low" | "medium" | "high" = "low",
+): Promise<Task | ErrorResponse> => {
+  const body = AddTaskSchema.parse({
+    title: formData.get("title"),
+    description: formData.get("description"),
+    assignee: formData.get("assignee"),
+    due_date: formData.get("due_date"),
+    category: formData.get("category"),
+    priority,
+  });
+
+  const response = await fetchApi<Task | ErrorResponse>("/tasks/", { method: "POST", body: JSON.stringify(body) });
+  if ("id" in response) {
+    revalidatePath("/board");
+    return response;
+  }
+
+  return { status: response.status, message: "Error while creating the Task" } as ErrorResponse;
+};
+
+export { getTasks, isUserLoggedIn, patchTaskStatus, login, register, createTask };

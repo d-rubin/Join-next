@@ -6,4 +6,13 @@ const LoginSchema = z.object({
   rememberMe: z.boolean(),
 });
 
-export { LoginSchema };
+const AddTaskSchema = z.object({
+  title: z.string().max(50),
+  description: z.string().max(100),
+  assignee: z.string(),
+  due_date: z.string(),
+  category: z.string(),
+  priority: z.string(),
+});
+
+export { LoginSchema, AddTaskSchema };

@@ -4,11 +4,11 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Task, Contact } from "../../../types";
-import { createTask } from "../../../helper/fetchApi";
 import DefaultInput from "../../inputs/Default";
 import BigButton from "../../buttons/BigButton";
 import Textarea from "../../inputs/Textarea";
 import Prio from "../../Prio";
+import { createTask } from "../../../helper/serverActions";
 
 const AddTaskFormMobile = ({ contacts }: { contacts: Contact[] }) => {
   const { register, handleSubmit } = useForm<FieldValues>();

@@ -4,10 +4,10 @@
 import { useFormStatus } from "react-dom";
 import BigButton from "../buttons/BigButton";
 
-const SubmitButton = ({ text }: { text: string }) => {
+const SubmitButton = ({ text, icon, iconSize }: { text: string; icon?: string; iconSize?: string }) => {
   const { pending } = useFormStatus();
 
-  return <BigButton text={text} className="px-12" loading={pending} />;
+  return <BigButton text={text} className="px-12" loading={pending} icon={icon} iconSize={iconSize} />;
 };
 
 export default SubmitButton;
