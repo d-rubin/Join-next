@@ -68,9 +68,9 @@ const DefaultButton = (props: DefaultButtonProps) => {
       type={type}
       className={`${
         outlined ? outlinedButtonStyling : defaultButtonStyling
-      } rounded-xl gap-2 py-0.5 px-7 transition-all flex flex-row items-center justify-center group hover:drop-shadow-lg ${
-        bold && "font-semibold"
-      } ${block ? "w-full" : "w-fit"} ${className}`}
+      } ${className} defaultButton rounded-xl gap-2 py-0.5 px-7 transition-all flex flex-row items-center justify-center group hover:drop-shadow-lg ${
+        bold ? "font-semibold" : ""
+      } ${block ? "w-full" : "w-fit"}`}
     >
       {text}
       {icon && <Icon icon={icon} iconSize={iconSize} className={outlined ? outlinedIconStyling : defaultIconStyling} />}

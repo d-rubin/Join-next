@@ -5,19 +5,7 @@ import { DefaultInputProps } from "./Default";
 export type TextareaProps = Omit<DefaultInputProps, "type" | "icon" | "onIconClick">;
 
 const Textarea = (props: TextareaProps) => {
-  const {
-    name,
-    register,
-    placeholder,
-    label,
-    onChange,
-    block,
-    required = false,
-    errorText,
-    maxLength = 100,
-    isError = false,
-    className,
-  } = props;
+  const { name, placeholder, label, block, errorText, isError = false, className } = props;
 
   return (
     <div className={`flex flex-col justify-start gap-1 ${block ? "w-full" : "w-fit"}`}>
@@ -28,7 +16,7 @@ const Textarea = (props: TextareaProps) => {
         }`}
       >
         <textarea
-          {...register(name, { maxLength, required, onChange })}
+          name={name}
           placeholder={placeholder}
           className={`bg-transparent outline-0 placeholder-grey ${block ? "w-full" : ""} ${className}`}
         />

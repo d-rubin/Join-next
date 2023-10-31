@@ -1,5 +1,5 @@
 const Text = ({ text, className }: { text: string; className?: string }) => {
-  return <p className={`cursor-default ${className}`}>{text}</p>;
+  return <p className={className}>{text}</p>;
 };
 
 export default Text;

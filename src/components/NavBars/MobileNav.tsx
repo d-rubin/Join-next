@@ -12,7 +12,7 @@ const MobileNav = () => {
     <nav className="lg:hidden flex flex-row fixed bottom-0 left-0 right-0 bg-primary justify-around">
       <Link
         href="summary"
-        className={`flex flex-col items-center gap-1 w-24 p-4 rounded-2xl ${
+        className={`flex flex-col items-center gap-1 w-24 p-4 rounded-2xl hover:bg-secondary transition-all ${
           pathname === "/summary" ? "bg-secondary" : ""
         }`}
       >
@@ -21,7 +21,7 @@ const MobileNav = () => {
       </Link>
       <Link
         href="board"
-        className={`flex flex-col items-center gap-1 w-24 p-4 rounded-2xl ${
+        className={`flex flex-col items-center gap-1 w-24 p-4 rounded-2xl hover:bg-secondary transition-all ${
           pathname === "/board" ? "bg-secondary" : ""
         }`}
       >
@@ -30,22 +30,22 @@ const MobileNav = () => {
       </Link>
       <Link
         href="add-task"
-        className={`flex flex-col items-center gap-1 w-24 p-4 rounded-2xl whitespace-nowrap ${
+        className={`flex flex-col items-center gap-1 w-24 p-4 rounded-2xl hover:bg-secondary transition-all whitespace-nowrap ${
           pathname === "/add-task" ? "bg-secondary" : ""
         }`}
       >
         <Icon icon="addTask" className="stroke-white fill-white" />
         <Text text="Add Tasks" className="text-white" />
       </Link>
-      <Link
-        href="contacts"
-        className={`flex flex-col items-center gap-1 w-24 p-4 rounded-2xl ${
-          pathname === "/contacts" ? "bg-secondary" : ""
-        }`}
-      >
-        <Icon icon="contacts" className="stroke-white fill-white" />
-        <Text text="Contacts" className="text-white" />
-      </Link>
+      {/* <Link */}
+      {/*  href="contacts" */}
+      {/*  className={`flex flex-col items-center gap-1 w-24 p-4 rounded-2xl ${ */}
+      {/*    pathname === "/contacts" ? "bg-secondary" : "" */}
+      {/*  }`} */}
+      {/* > */}
+      {/*  <Icon icon="contacts" className="stroke-white fill-white" /> */}
+      {/*  <Text text="Contacts" className="text-white" /> */}
+      {/* </Link> */}
     </nav>
   );
 };

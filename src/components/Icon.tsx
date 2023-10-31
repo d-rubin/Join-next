@@ -1,6 +1,7 @@
 "use client";
 
 import { KeyboardEvent } from "react";
+import clsx from "clsx";
 import { iconLib } from "../iconlib/iconLib";
 
 export type IconProps = {
@@ -23,9 +24,15 @@ const Icon = ({ icon, iconSize = "h-6 w-6", onClick, className, focusable = fals
     return (
       <svg
         viewBox={`0 0 ${iconLib[icon].viewBoxWidth || "0"} ${iconLib[icon].viewBoxHeight || "0"}`}
-        className={`transition-all ${focusable ? "outline-underline" : "outline-none"} ${noFill ? "fill-none" : ""} ${
-          onClick ? "cursor-pointer" : ""
-        } ${iconSize} ${className}`}
+        className={clsx(
+          `transition-all ${iconSize} ${className}`,
+          { "outline-underline": focusable },
+          { "outline-none": !focusable },
+          { "fill-none": noFill },
+          {
+            "cursor-pointer": !!onClick,
+          },
+        )}
         width={iconSize || undefined}
         height={iconSize || undefined}
         onClick={onClick}
@@ -42,5 +49,4 @@ const Icon = ({ icon, iconSize = "h-6 w-6", onClick, className, focusable = fals
   return null;
 };
 
-// @ts-ignore
 export default Icon;

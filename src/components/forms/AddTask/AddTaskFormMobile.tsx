@@ -1,26 +1,22 @@
 "use client";
 
-import { FieldValues, useForm } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Task, Contact } from "../../../types";
-import { createTask } from "../../../helper/fetchApi";
+import { Contact } from "../../../types";
 import DefaultInput from "../../inputs/Default";
-import BigButton from "../../buttons/BigButton";
 import Textarea from "../../inputs/Textarea";
 import Prio from "../../Prio";
+import { createTask } from "../../../helper/serverActions";
+import SubmitButton from "../SubmitButton";
 
 const AddTaskFormMobile = ({ contacts }: { contacts: Contact[] }) => {
-  const { register, handleSubmit } = useForm<FieldValues>();
   const router = useRouter();
   const [prio, setPrio] = useState<"high" | "medium" | "low" | undefined>();
-  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [trigger, setTrigger] = useState<boolean>(false);
-  const submitHandler = async (data: FieldValues) => {
-    setLoading(true);
+  const submitHandler = async (formData: FormData) => {
     setError(false);
-    await createTask({ ...(data as Task), ...{ priority: prio || "low" } }).then((res) => {
+    await createTask(formData, prio).then((res) => {
       if ("id" in res) {
         setTrigger(!trigger);
         setTimeout(() => {
@@ -30,29 +26,28 @@ const AddTaskFormMobile = ({ contacts }: { contacts: Contact[] }) => {
         setError(true);
       }
     });
-    setLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit(submitHandler)} className="flex flex-col gap-4 mb-16 lg:hidden">
+    <form action={submitHandler} className="flex flex-col gap-4 mb-16 lg:hidden">
       <DefaultInput
         type="text"
         name="title"
-        register={register}
+        required
+        maxLength={50}
         placeholder="Enter a title"
         block
         isError={error}
         label="Title"
-        required
       />
       <Textarea
         name="description"
-        register={register}
         placeholder="Enter a description"
         block
+        required
+        maxLength={100}
         isError={error}
         label="Description"
-        required
         className="h-20"
       />
       <div className="flex flex-col gap-1">
@@ -63,12 +58,13 @@ const AddTaskFormMobile = ({ contacts }: { contacts: Contact[] }) => {
           <Prio prio="low" active={prio === "low"} setPrio={setPrio} />
         </div>
       </div>
-      <DefaultInput type="date" name="due_date" register={register} required isError={error} block label="Due Date" />
+      <DefaultInput type="date" required name="due_date" isError={error} block label="Due Date" />
       <div className="flex flex-col gap-1">
         <p>Category</p>
         <select
-          {...register("category")}
-          className={`border-2 border-outline h-8 w-full rounded-lg px-3 focus:border-underline outline-none py-0.5 ${
+          name="category"
+          required
+          className={`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5 ${
             error ? "border-red" : ""
           }`}
         >
@@ -83,8 +79,9 @@ const AddTaskFormMobile = ({ contacts }: { contacts: Contact[] }) => {
       <div className="flex flex-col gap-1">
         <p>Assignee</p>
         <select
-          {...register("assignee")}
-          className={`border-2 border-outline h-8 w-full rounded-lg px-3 focus:border-underline outline-none py-0.5 ${
+          name="assignee"
+          required
+          className={`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5 ${
             error ? "border-red" : ""
           }`}
         >
@@ -98,7 +95,7 @@ const AddTaskFormMobile = ({ contacts }: { contacts: Contact[] }) => {
           })}
         </select>
       </div>
-      <BigButton text="Create Task" icon="check" className="fixed bottom-24 right-4" loading={loading} />
+      <SubmitButton text="Create Task" icon="check" className="fixed bottom-24 right-4" />
     </form>
   );
 };

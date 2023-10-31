@@ -1,24 +1,20 @@
-"use client";
-
-import { UseFormRegister } from "react-hook-form/dist/types/form";
-import { ChangeEvent } from "react";
-import { FieldValues } from "react-hook-form";
+import clsx from "clsx";
 import Icon from "../Icon";
 
 export type DefaultInputProps = {
   type: string;
   name: string;
-  register: UseFormRegister<FieldValues>;
   block?: boolean;
-  required?: boolean;
   errorText?: string;
   isError?: boolean;
-  maxLength?: number;
+  disabled?: boolean;
   icon?: string;
+  required?: boolean;
+  maxLength?: number;
+  minLength?: number;
   placeholder?: string;
   label?: string;
   onIconClick?: () => void;
-  onChange?: (value: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
 };
 
@@ -27,14 +23,14 @@ const DefaultInput = (props: DefaultInputProps) => {
     type,
     name,
     icon,
-    register,
     placeholder,
     label,
-    onChange,
+    disabled,
     block,
-    required = false,
     errorText,
-    maxLength = 30,
+    required,
+    maxLength,
+    minLength,
     isError = false,
     onIconClick,
     className,
@@ -44,17 +40,26 @@ const DefaultInput = (props: DefaultInputProps) => {
     <div className={`flex flex-col justify-start gap-1 ${block ? "w-full" : "w-fit"}`}>
       {label && <label htmlFor={name}>{label}</label>}
       <div
-        className={`flex flex-row flex-nowrap items-center bg-white rounded-lg py-0.5 px-3 border-2 border-grey focus-within:border-underline ${
-          isError ? "border-red" : ""
-        }`}
+        className={clsx(
+          `flex flex-row flex-nowrap items-center bg-white rounded-lg px-2 py-1.5 border-2 border-grey focus-within:border-underline`,
+          {
+            "border-red": isError,
+          },
+        )}
       >
         <input
-          {...register(name, { maxLength, required, onChange })}
+          name={name}
           type={type}
+          required={required}
+          maxLength={maxLength}
+          minLength={minLength}
+          aria-disabled={disabled}
           placeholder={placeholder}
-          className={`bg-transparent outline-0 placeholder-grey ${block ? "w-full" : ""} ${className}`}
+          className={clsx(`bg-transparent outline-0 placeholder-grey`, { "w-full": block }, { className })}
         />
-        {icon && <Icon icon={icon} onClick={onIconClick} className="fill-grey stroke-1 h-5 w-5" />}
+        {icon && (
+          <Icon icon={icon} onClick={disabled ? undefined : onIconClick} className="fill-grey stroke-1 h-5 w-5" />
+        )}
       </div>
       {isError && errorText && <p className="text-xs text-red">{errorText}</p>}
     </div>

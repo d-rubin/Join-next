@@ -1,5 +1,5 @@
 import * as process from "process";
-import { Task, Contact } from "../types";
+import { Contact, Task } from "../types";
 
 export type CustomResponse = {
   status: number;
@@ -14,27 +14,13 @@ export interface ErrorResponse extends Omit<CustomResponse, "data"> {
   message: string;
 }
 
-const fetchApi = async (url: string, options?: RequestInit) => {
+const fetchApi = async <T>(url: string, options?: RequestInit): Promise<T> => {
   return fetch(`${process.env.API_URL}${url}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",
     },
-  }).then((res) => res.json());
-};
-
-const register = async (body: Object): Promise<TokenResponse | ErrorResponse> => {
-  return fetchApi("/auth/register/", { method: "POST", body: JSON.stringify(body) }).then(
-    (res) => res as TokenResponse | ErrorResponse,
-  );
-};
-
-const login = async (body: Object): Promise<TokenResponse> => {
-  return fetchApi("/auth/login/", { method: "POST", body: JSON.stringify(body) }).then((res) => res as TokenResponse);
-};
-
-const getTasks = async () => {
-  return fetchApi("/tasks/", { method: "GET" }).then((res) => res as Task[]);
+  }).then((res) => res.json() as T);
 };
 
 const getUser = async (token: string) => {
@@ -42,15 +28,11 @@ const getUser = async (token: string) => {
 };
 
 const getContacts = async (): Promise<Contact[]> => {
-  return fetchApi("/contacts/", { method: "GET" }).then((res) => res);
-};
-
-const createTask = async (task: Task): Promise<Task | { status: 400 }> => {
-  return fetchApi("/tasks/", { method: "POST", body: JSON.stringify(task) });
+  return fetchApi<Contact[]>("/contacts/", { method: "GET" }).then((res) => res);
 };
 
 const updateTask = async (task: Task) => {
   return fetchApi(`/tasks/${task.id}/`, { method: "PATCH", body: JSON.stringify(task) });
 };
 
-export { fetchApi, register, login, getTasks, getUser, getContacts, createTask, updateTask };
+export { fetchApi, getUser, getContacts, updateTask };

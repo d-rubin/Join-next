@@ -1,5 +1,10 @@
 import Link from "next/link";
+import { Metadata } from "next";
 import PagePadding from "../../../components/PagePadding";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+};
 
 const PrivacyPage = () => {
   return (
@@ -87,7 +92,7 @@ const PrivacyPage = () => {
             <strong>Website</strong>{" "}
             <p>
               refers to Join, accessible from{" "}
-              <a href="join.daniel-rubin.de" rel="external nofollow noopener" target="_blank">
+              <a href="https://join.daniel-rubin.de" rel="external nofollow noopener" target="_blank">
                 join.daniel-rubin.de
               </a>
             </p>

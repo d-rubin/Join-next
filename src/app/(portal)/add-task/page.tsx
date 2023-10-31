@@ -1,12 +1,14 @@
-import { redirect, RedirectType } from "next/navigation";
+import { Metadata } from "next";
 import { getContacts } from "../../../helper/fetchApi";
 import PagePadding from "../../../components/PagePadding";
-import { isUserLoggedIn } from "../../../helper/generalHelper";
 import AddTaskFormMobile from "../../../components/forms/AddTask/AddTaskFormMobile";
 import AddTaskFormDesktop from "../../../components/forms/AddTask/AddTaskFormDesktop";
 
+export const metadata: Metadata = {
+  title: "Add Task",
+};
+
 const AddTaskPage = async () => {
-  if (!isUserLoggedIn()) return redirect("login", RedirectType.replace);
   const contacts = await getContacts();
 
   return (

@@ -1,4 +1,9 @@
+import { Metadata } from "next";
 import PagePadding from "../../../components/PagePadding";
+
+export const metadata: Metadata = {
+  title: "Legal Notice",
+};
 
 const LegalNoticePage = () => {
   return (

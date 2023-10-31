@@ -1,11 +1,7 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 
 const SlugPage = () => {
-  const router = useRouter();
-
-  router.replace("/");
+  redirect("/", RedirectType.replace);
 };
 
 export default SlugPage;
