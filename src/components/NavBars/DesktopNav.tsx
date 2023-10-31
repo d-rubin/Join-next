@@ -14,8 +14,8 @@ const DesktopNav = ({ children }: { children: ReactNode }) => {
         </div>
         <div className="flex flex-col w-full gap-4">
           <DesktopNavLink path="summary">
-            <Icon icon="board" />
-            <Text text="Board" className="text-lg" />
+            <Icon icon="summary" />
+            <Text text="Summary" className="text-lg" />
           </DesktopNavLink>
           <DesktopNavLink path="board">
             <Icon icon="board" />

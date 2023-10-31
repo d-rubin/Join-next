@@ -69,8 +69,8 @@ const SummaryPage = async () => {
   };
 
   return (
-    <PagePadding className="gap-8 flex flex-col">
-      <div className="flex flex-col gap-2 lg:gap-4 lg:flex-row lg: lg:items-center cursor-default">
+    <PagePadding className="gap-6 flex flex-col items-center lg:items-baseline">
+      <div className="flex flex-col w-full max-w-screen-sm gap-2 lg:gap-4 lg:flex-row items-center cursor-default">
         <h1 className="text-5xl font-bold">Join 360</h1>
         <p className="lg:hidden">Key Metrics at a Glance</p>
         <div className="border-b-2 border-underline w-20 lg:hidden" />
@@ -78,10 +78,10 @@ const SummaryPage = async () => {
         <p className="hidden lg:block text-xl">Key Metrics at a Glance</p>
       </div>
       {tasks && (
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-row gap-4">
-            <Link href="board" className="w-1/2 max-w-[12rem]">
-              <Card className="flex flex-row gap-2 group hover:bg-primary h-28 p-4 transition-all hover:scale-105">
+        <div className="flex flex-col gap-8 w-full max-w-screen-sm">
+          <div className="flex flex-row gap-4 w-full">
+            <Link href="board" className="w-1/2">
+              <Card className="flex flex-row gap-2 group hover:bg-primary h-32 p-4 transition-all hover:scale-105">
                 <span className="rounded-full w-12 h-12 bg-primary group-hover:bg-white flex items-center justify-center transition-all group-hover:scale-105">
                   <Icon
                     icon="pencil"
@@ -97,8 +97,8 @@ const SummaryPage = async () => {
                 </div>
               </Card>
             </Link>
-            <Link href="board" className="w-1/2 max-w-[12rem]">
-              <Card className="flex flex-row gap-2 group hover:bg-primary h-28 p-4 transition-all hover:scale-105">
+            <Link href="board" className="w-1/2">
+              <Card className="flex flex-row gap-2 group hover:bg-primary h-32 p-4 transition-all hover:scale-105">
                 <span className="rounded-full w-12 h-12 bg-primary group-hover:bg-white flex items-center justify-center transition-all group-hover:scale-105">
                   <Icon
                     icon="check"
@@ -115,8 +115,8 @@ const SummaryPage = async () => {
               </Card>
             </Link>
           </div>
-          <Link href="board" className="block w-full max-w-[25rem]">
-            <Card className="flex flex-row justify-around gap-2 group hover:bg-primary h-28 p-4 transition-all hover:scale-105">
+          <Link href="board" className="block">
+            <Card className="flex flex-row justify-around gap-2 group hover:bg-primary h-32 p-4 transition-all hover:scale-105">
               <span className="rounded-full w-12 h-12 bg-red flex items-center justify-center transition-all group-hover:scale-105">
                 <Icon
                   icon="urgent"
@@ -138,16 +138,16 @@ const SummaryPage = async () => {
             </Card>
           </Link>
           <div className="flex flex-row gap-4">
-            <Link href="board" className="w-1/3 max-w-[7.6rem]">
-              <Card className="flex flex-row gap-2 group hover:bg-primary h-28 p-4 transition-all hover:scale-105">
+            <Link href="board" className="w-1/3">
+              <Card className="flex flex-row gap-2 group hover:bg-primary h-32 p-4 transition-all hover:scale-105">
                 <div className="flex flex-col items-center">
                   <p className="text-4xl font-semibold group-hover:text-white transition-all">{tasks.length}</p>
                   <p className="group-hover:text-white transition-all text-center">Tasks in Board</p>
                 </div>
               </Card>
             </Link>
-            <Link href="board" className="w-1/3 max-w-[7.6rem]">
-              <Card className="flex flex-row gap-2 group hover:bg-primary h-28 p-4 transition-all hover:scale-105">
+            <Link href="board" className="w-1/3">
+              <Card className="flex flex-row gap-2 group hover:bg-primary h-32 p-4 transition-all hover:scale-105">
                 <div className="flex flex-col items-center">
                   <p className="text-4xl font-semibold group-hover:text-white transition-all">
                     {getCounts(tasks).inProgress}
@@ -156,8 +156,8 @@ const SummaryPage = async () => {
                 </div>
               </Card>
             </Link>
-            <Link href="board" className="w-1/3 max-w-[7.6rem]">
-              <Card className="flex flex-row gap-2 group hover:bg-primary h-28 p-4 transition-all hover:scale-105">
+            <Link href="board" className="w-1/3">
+              <Card className="flex flex-row gap-2 group hover:bg-primary h-32 p-4 transition-all hover:scale-105">
                 <div className="flex flex-col items-center">
                   <p className="text-4xl font-semibold group-hover:text-white transition-all">
                     {getCounts(tasks).awaitingFeedback}
