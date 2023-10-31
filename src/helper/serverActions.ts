@@ -7,6 +7,17 @@ import { Task } from "../types";
 import { ErrorResponse, fetchApi, TokenResponse, updateTask } from "./fetchApi";
 import { AddTaskSchema, LoginSchema } from "../schemas";
 
+const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T> => {
+  const authToken = cookies().get("authToken")?.value;
+  return fetch(`${process.env.API_URL}${url}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Token ${authToken}`,
+    },
+  }).then((res) => res.json() as T);
+};
+
 const isUserLoggedIn = (): boolean => {
   return !!cookies().get("authToken");
 };
@@ -18,7 +29,13 @@ const patchTaskStatus = (task: Task, update: string) => {
 };
 
 const getTasks = async () => {
-  return fetchApi("/tasks/", { method: "GET" }).then((res) => res as Task[]);
+  const response = await fetchServer("/tasks/", { method: "GET" }).then((res) => {
+    return res as Task[];
+  });
+
+  if (response[0]) return response;
+
+  return [];
 };
 
 const register = async (body: Object): Promise<TokenResponse | ErrorResponse> => {

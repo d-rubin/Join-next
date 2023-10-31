@@ -5,13 +5,14 @@ import { isUserLoggedIn } from "./helper/serverActions";
 // This function can be marked `async` if using `await` inside
 // const authRoutes = ["/board", "/contacts", "/add-task", "/summary"];
 export function middleware(request: NextRequest) {
+  const response = NextResponse;
+  const newHeaders = new Headers(request.headers);
+
   if (isUserLoggedIn()) {
     if (request.nextUrl.pathname === "/") return NextResponse.redirect(new URL("/summary", request.url));
   }
 
-  // if (authRoutes.includes(request.nextUrl.pathname)) return NextResponse.rewrite("/");
-
-  return NextResponse.next();
+  return response.next({ request: { headers: newHeaders } });
 }
 
 export const config = {
