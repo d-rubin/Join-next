@@ -1,14 +1,9 @@
 import Link from "next/link";
-import { Metadata } from "next";
 import { Task } from "../../../types";
 import PagePadding from "../../../components/PagePadding";
 import Card from "../../../components/Card";
 import Icon from "../../../components/Icon";
 import { getTasks } from "../../../helper/serverActions";
-
-export const metadata: Metadata = {
-  title: "Summary",
-};
 
 const SummaryPage = async () => {
   const tasks = await getTasks();
@@ -69,8 +64,8 @@ const SummaryPage = async () => {
   };
 
   return (
-    <PagePadding className="gap-6 flex flex-col items-center lg:items-baseline">
-      <div className="flex flex-col w-full max-w-screen-sm gap-2 lg:gap-4 lg:flex-row items-center cursor-default">
+    <PagePadding className="gap-6 flex flex-col items-center">
+      <div className="flex flex-col w-full max-w-screen-sm gap-2 lg:gap-4 lg:flex-row items-center justify-center cursor-default">
         <h1 className="text-5xl font-bold">Join 360</h1>
         <p className="lg:hidden">Key Metrics at a Glance</p>
         <div className="border-b-2 border-underline w-20 lg:hidden" />
