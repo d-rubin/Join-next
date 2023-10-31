@@ -4,10 +4,10 @@ import { useContext, useEffect, useState } from "react";
 import BoardTask from "./BoardTask";
 import { Contact, Task } from "../types";
 import { DnDContext } from "../contexts/DnD.context";
-import { getTasks, patchTaskStatus } from "../helper/serverActions";
+import { patchTaskStatus } from "../helper/serverActions";
 import { getContacts } from "../helper/fetchApi";
 
-const DropArea = ({ status }: { status: string }) => {
+const DropArea = ({ status, tasks }: { status: string; tasks: Task[] }) => {
   const { task } = useContext(DnDContext);
   const [tasksMatchingStatus, setTasksMatchingStatus] = useState<Task[]>();
   const [contacts, setContacts] = useState<Contact[]>();
@@ -29,11 +29,14 @@ const DropArea = ({ status }: { status: string }) => {
   };
 
   useEffect(() => {
-    Promise.all([getTasks(), getContacts()]).then(([tasks, contactArray]) => {
+    Promise.all([getContacts()]).then(([contactArray]) => {
       setContacts(contactArray);
-      setTasksMatchingStatus(tasks.filter((item) => item.status === status));
     });
   }, [status]);
+
+  useEffect(() => {
+    setTasksMatchingStatus(tasks.filter((item) => item.status === status));
+  }, [status, tasks]);
 
   if (tasksMatchingStatus?.length === 0)
     return (
