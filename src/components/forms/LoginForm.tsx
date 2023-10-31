@@ -16,7 +16,7 @@ const LoginForm = () => {
   const submit = (formData: FormData) => {
     setError(undefined);
     login(formData).then((res) => {
-      if (res.status !== 200 && "message" in res) setError(res.message);
+      if (res?.status !== 200) setError(res?.message);
     });
   };
 

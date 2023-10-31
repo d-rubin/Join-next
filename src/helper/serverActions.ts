@@ -1,7 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 import { Task } from "../types";
 import { ErrorResponse, fetchApi, TokenResponse, updateTask } from "./fetchApi";
@@ -18,6 +18,12 @@ const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T> =>
   }).then((res) => res.json() as T);
 };
 
+const logout = () => {
+  cookies().delete("authToken");
+  revalidatePath("/");
+  redirect("/", RedirectType.push);
+};
+
 const isUserLoggedIn = (): boolean => {
   return !!cookies().get("authToken");
 };
@@ -25,12 +31,12 @@ const isUserLoggedIn = (): boolean => {
 
 const patchTaskStatus = (task: Task, update: string) => {
   updateTask({ ...task, ...{ status: update } }).then(() => {
-    revalidatePath("/board");
+    revalidateTag("tasks");
   });
 };
 
 const getTasks = async () => {
-  const response = await fetchServer("/tasks/", { method: "GET" }).then((res) => {
+  const response = await fetchServer("/tasks/", { method: "GET", next: { tags: ["tasks"] } }).then((res) => {
     return res as Task[];
   });
 
@@ -45,7 +51,7 @@ const register = async (body: Object): Promise<TokenResponse | ErrorResponse> =>
   );
 };
 
-const login = async (formData: FormData, rememberMe: boolean = false): Promise<TokenResponse | ErrorResponse> => {
+const login = async (formData: FormData, rememberMe: boolean = false): Promise<ErrorResponse> => {
   const body = LoginSchema.parse({
     username: formData.get("username"),
     password: formData.get("password"),
@@ -89,4 +95,4 @@ const createTask = async (
   return { status: response.status, message: "Error while creating the Task" } as ErrorResponse;
 };
 
-export { getTasks, isUserLoggedIn, patchTaskStatus, login, register, createTask };
+export { getTasks, isUserLoggedIn, patchTaskStatus, login, register, createTask, logout };
