@@ -9,6 +9,9 @@ export type DefaultInputProps = {
   isError?: boolean;
   disabled?: boolean;
   icon?: string;
+  required?: boolean;
+  maxLength?: number;
+  minLength?: number;
   placeholder?: string;
   label?: string;
   onIconClick?: () => void;
@@ -25,6 +28,9 @@ const DefaultInput = (props: DefaultInputProps) => {
     disabled,
     block,
     errorText,
+    required,
+    maxLength,
+    minLength,
     isError = false,
     onIconClick,
     className,
@@ -44,6 +50,9 @@ const DefaultInput = (props: DefaultInputProps) => {
         <input
           name={name}
           type={type}
+          required={required}
+          maxLength={maxLength}
+          minLength={minLength}
           aria-disabled={disabled}
           placeholder={placeholder}
           className={clsx(`bg-transparent outline-0 placeholder-grey`, { "w-full": block }, { className })}

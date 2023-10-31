@@ -1,17 +1,11 @@
 "use server";
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { z } from "zod";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 import { Task } from "../types";
 import { ErrorResponse, fetchApi, TokenResponse, updateTask } from "./fetchApi";
-
-const LoginSchema = z.object({
-  username: z.string().max(30),
-  password: z.string().min(8),
-});
+import { LoginSchema } from "../schemas";
 
 const isUserLoggedIn = (): boolean => {
   return !!cookies().get("authToken");
@@ -33,12 +27,25 @@ const register = async (body: Object): Promise<TokenResponse | ErrorResponse> =>
   );
 };
 
-const login = async (formData: FormData): Promise<TokenResponse | ErrorResponse> => {
-  const body = LoginSchema.parse({ username: formData.get("username"), password: formData.get("password") });
-  const response = await fetchApi("/auth/login/", { method: "POST", body: JSON.stringify(body) });
+const login = async (formData: FormData, rememberMe: boolean = false): Promise<TokenResponse | ErrorResponse> => {
+  const body = LoginSchema.parse({
+    username: formData.get("username"),
+    password: formData.get("password"),
+    rememberMe,
+  });
+  const response = await fetchApi<TokenResponse | ErrorResponse>("/auth/login/", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
 
-  if (response.status === 200) return redirect("/summary", RedirectType.push);
+  if (response.status === 200) {
+    const tokenResponse = response as TokenResponse;
+    const expires = rememberMe ? Date.now() + 30 * 86400000 : Date.now() + 86400000;
 
-  return { status: response.status, message: "Username or password incorrect" };
+    cookies().set("authToken", tokenResponse.token, { expires });
+    return redirect("/summary", RedirectType.push);
+  }
+
+  return { status: response.status, message: "Ups! Wrong password. Try again." };
 };
 export { getTasks, isUserLoggedIn, patchTaskStatus, login, register };

@@ -14,13 +14,13 @@ export interface ErrorResponse extends Omit<CustomResponse, "data"> {
   message: string;
 }
 
-const fetchApi = async (url: string, options?: RequestInit) => {
+const fetchApi = async <T>(url: string, options?: RequestInit): Promise<T> => {
   return fetch(`${process.env.API_URL}${url}`, {
     ...options,
     headers: {
       "Content-Type": "application/json",
     },
-  }).then((res) => res.json());
+  }).then((res) => res.json() as T);
 };
 
 const getUser = async (token: string) => {
@@ -28,7 +28,7 @@ const getUser = async (token: string) => {
 };
 
 const getContacts = async (): Promise<Contact[]> => {
-  return fetchApi("/contacts/", { method: "GET" }).then((res) => res);
+  return fetchApi<Contact[]>("/contacts/", { method: "GET" }).then((res) => res);
 };
 
 const createTask = async (task: Task): Promise<Task | { status: 400 }> => {
