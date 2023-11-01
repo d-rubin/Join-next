@@ -1,5 +1,5 @@
 import * as process from "process";
-import { Contact, Task } from "../types";
+import { Contact } from "../types";
 
 export type CustomResponse = {
   status: number;
@@ -31,8 +31,4 @@ const getContacts = async (): Promise<Contact[]> => {
   return fetchApi<Contact[]>("/contacts/", { method: "GET" }).then((res) => res);
 };
 
-const updateTask = async (task: Task) => {
-  return fetchApi(`/tasks/${task.id}/`, { method: "PATCH", body: JSON.stringify(task) });
-};
-
-export { fetchApi, getUser, getContacts, updateTask };
+export { fetchApi, getUser, getContacts };

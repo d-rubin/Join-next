@@ -5,14 +5,12 @@ import BigButton from "../../../components/buttons/BigButton";
 import Icon from "../../../components/Icon";
 import DropArea from "../../../components/DropArea";
 import { DnDContextProvider } from "../../../contexts/DnD.context";
-import { getTasks } from "../../../helper/serverActions";
 
 export const metadata: Metadata = {
   title: "Board",
 };
 
 const BoardPage = async () => {
-  const tasks = await getTasks();
   return (
     <PagePadding>
       <div className="flex flex-col gap-4">
@@ -33,7 +31,7 @@ const BoardPage = async () => {
                   </span>
                 </Link>
               </div>
-              <DropArea status="toDo" tasks={tasks} />
+              <DropArea status="toDo" />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
               <div className="flex flex-row justify-between items-center gap-2">
@@ -44,7 +42,7 @@ const BoardPage = async () => {
                   </span>{" "}
                 </Link>
               </div>
-              <DropArea status="inProgress" tasks={tasks} />
+              <DropArea status="inProgress" />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
               <div className="flex flex-row justify-between items-center gap-2">
@@ -57,7 +55,7 @@ const BoardPage = async () => {
                   </span>{" "}
                 </Link>
               </div>
-              <DropArea status="awaitingFeedback" tasks={tasks} />
+              <DropArea status="awaitingFeedback" />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
               <div className="flex flex-row justify-between items-center gap-2">
@@ -68,7 +66,7 @@ const BoardPage = async () => {
                   </span>{" "}
                 </Link>
               </div>
-              <DropArea status="done" tasks={tasks} />
+              <DropArea status="done" />
             </div>
           </div>
         </DnDContextProvider>

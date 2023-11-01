@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 import { Task } from "../types";
-import { ErrorResponse, fetchApi, TokenResponse, updateTask } from "./fetchApi";
+import { ErrorResponse, fetchApi, TokenResponse } from "./fetchApi";
 import { AddTaskSchema, LoginSchema } from "../schemas";
 
 const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T> => {
@@ -28,6 +28,10 @@ const isUserLoggedIn = (): boolean => {
   return !!cookies().get("authToken");
 };
 // Todo: make serverActions use fetchServer
+
+const updateTask = async (task: Task) => {
+  return fetchServer(`/tasks/${task.id}/`, { method: "PATCH", body: JSON.stringify(task) });
+};
 
 const patchTaskStatus = (task: Task, update: string) => {
   updateTask({ ...task, ...{ status: update } }).then(() => {
@@ -95,4 +99,4 @@ const createTask = async (
   return { status: response.status, message: "Error while creating the Task" } as ErrorResponse;
 };
 
-export { getTasks, isUserLoggedIn, patchTaskStatus, login, register, createTask, logout };
+export { getTasks, isUserLoggedIn, patchTaskStatus, login, register, createTask, logout, updateTask };
