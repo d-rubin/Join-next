@@ -22,5 +22,5 @@ export const getBackgroundForCategory = (category: string) => {
 
 export const getAssignee = (assignee: number, contacts: Contact[]) => {
   const assignedPerson = contacts?.find((user) => user.id === assignee);
-  return assignedPerson?.username;
+  return assignedPerson?.username || "-";
 };
