@@ -6,6 +6,7 @@ export type DefaultInputProps = {
   name: string;
   block?: boolean;
   errorText?: string;
+  defaultValue?: string;
   isError?: boolean;
   disabled?: boolean;
   icon?: string;
@@ -26,6 +27,7 @@ const DefaultInput = (props: DefaultInputProps) => {
     placeholder,
     label,
     disabled,
+    defaultValue,
     block,
     errorText,
     required,
@@ -55,6 +57,7 @@ const DefaultInput = (props: DefaultInputProps) => {
           minLength={minLength}
           aria-disabled={disabled}
           placeholder={placeholder}
+          defaultValue={defaultValue}
           className={clsx(`bg-transparent outline-0 placeholder-grey`, { "w-full": block }, { className })}
         />
         {icon && (

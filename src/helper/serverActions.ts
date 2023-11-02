@@ -5,7 +5,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 import { Task } from "../types";
 import { ErrorResponse, fetchApi, TokenResponse } from "./fetchApi";
-import { AddTaskSchema, LoginSchema } from "../schemas";
+import { LoginSchema } from "../schemas";
 
 const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T> => {
   const authToken = cookies().get("authToken")?.value;
@@ -29,14 +29,23 @@ const isUserLoggedIn = (): boolean => {
 };
 // Todo: make serverActions use fetchServer
 
-const updateTask = async (task: Task) => {
-  return fetchServer(`/tasks/${task.id}/`, { method: "PATCH", body: JSON.stringify(task) });
+const updateTask = async (task: unknown): Promise<Task | ErrorResponse> => {
+  let response: Task | ErrorResponse | null = null;
+  if (task && typeof task === "object" && "id" in task)
+    response = await fetchServer<Task | ErrorResponse>(`/tasks/${task.id}/`, {
+      method: "PATCH",
+      body: JSON.stringify(task),
+    });
+
+  if (response && response.status)
+    return { status: response.status, message: "Ups! Wrong password. Try again." } as ErrorResponse;
+
+  revalidateTag("tasks");
+  return response as Task;
 };
 
 const patchTaskStatus = (task: Task, update: string) => {
-  updateTask({ ...task, ...{ status: update } }).then(() => {
-    revalidateTag("tasks");
-  });
+  return updateTask({ ...task, ...{ status: update } });
 };
 
 const getTasks = async () => {
@@ -77,26 +86,14 @@ const login = async (formData: FormData, rememberMe: boolean = false): Promise<E
   return { status: response.status, message: "Ups! Wrong password. Try again." };
 };
 
-const createTask = async (
-  formData: FormData,
-  priority: "low" | "medium" | "high" = "low",
-): Promise<Task | ErrorResponse> => {
-  const body = AddTaskSchema.parse({
-    title: formData.get("title"),
-    description: formData.get("description"),
-    assignee: formData.get("assignee"),
-    due_date: formData.get("due_date"),
-    category: formData.get("category"),
-    priority,
-  });
-
+const createTask = async (body: unknown): Promise<Task | ErrorResponse> => {
   const response = await fetchApi<Task | ErrorResponse>("/tasks/", { method: "POST", body: JSON.stringify(body) });
   if ("id" in response) {
-    revalidatePath("/board");
+    revalidateTag("tasks");
     return response;
   }
 
-  return { status: response.status, message: "Error while creating the Task" } as ErrorResponse;
+  return { status: response.status, message: "Task couldn't be created" } as ErrorResponse;
 };
 
 export { getTasks, isUserLoggedIn, patchTaskStatus, login, register, createTask, logout, updateTask };

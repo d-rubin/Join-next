@@ -3,16 +3,23 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { Contact } from "../../../types";
+import { Contact, Task } from "../../../types";
 import DefaultInput from "../../inputs/Default";
 import BigButton from "../../buttons/BigButton";
 import Textarea from "../../inputs/Textarea";
 import Prio from "../../Prio";
 import Notification from "../../Notification";
 import SubmitButton from "../SubmitButton";
-import { createTask } from "../../../helper/serverActions";
+import { AddTaskSchema } from "../../../schemas";
+import { ErrorResponse } from "../../../helper/fetchApi";
 
-const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
+const AddTaskFormDesktop = ({
+  contacts,
+  action,
+}: {
+  contacts: Contact[];
+  action: (body: unknown) => Promise<Task | ErrorResponse>;
+}) => {
   const { reset } = useForm();
   const { push } = useRouter();
   const [prio, setPrio] = useState<"high" | "medium" | "low" | undefined>();
@@ -21,14 +28,29 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
 
   const submitHandler = async (formData: FormData) => {
     setError(false);
-    await createTask(formData, prio).then((res) => {
-      if ("id" in res) {
-        setTrigger(!trigger);
-        setTimeout(() => push("/board"), 2000);
-      } else {
-        setError(true);
-      }
-    });
+    try {
+      const body = AddTaskSchema.parse({
+        title: formData.get("title"),
+        description: formData.get("description"),
+        assignee: formData.get("assignee"),
+        due_date: formData.get("due_date"),
+        category: formData.get("category"),
+        priority: prio || "low",
+      });
+      await action(body).then((res) => {
+        if ("id" in res) {
+          setTrigger(!trigger);
+          setTimeout(() => {
+            push("board");
+          }, 2000);
+        } else {
+          setError(true);
+        }
+      });
+    } catch (e) {
+      console.error("Error while creating the Task");
+      setError(true);
+    }
   };
 
   return (

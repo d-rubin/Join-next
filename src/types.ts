@@ -14,3 +14,5 @@ export type Contact = {
   username: string;
   email: string;
 };
+
+export type PrioType = "high" | "medium" | "low";
