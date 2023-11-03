@@ -67,14 +67,12 @@ const register = async (body: Object): Promise<TokenResponse | ErrorResponse> =>
 
 const login = async (fieldValues: TLoginSchema, rememberMe: boolean = false) => {
   const validation = loginSchema.safeParse(fieldValues);
-  console.log("validation", validation);
 
   if (validation.success) {
     const response = await fetchApi<TokenResponse | ErrorResponse>("/auth/login/", {
       method: "POST",
       body: JSON.stringify(validation.data),
     });
-    console.log(response);
 
     if (response.status === 200) {
       const expires = new Date(rememberMe ? Date.now() + 30 * 86400000 : Date.now() + 86400000);
