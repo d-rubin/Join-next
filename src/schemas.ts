@@ -8,7 +8,10 @@ const LoginSchema = z.object({
 
 const AddTaskSchema = z.object({
   id: z.number().optional(),
-  title: z.string().max(50),
+  title: z
+    .string()
+    .min(4, "The title must have at least 4 characters")
+    .max(50, "The title can have at most 50 characters"),
   description: z.string().max(100),
   assignee: z.string(),
   due_date: z.string(),

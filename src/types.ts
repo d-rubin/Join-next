@@ -1,3 +1,6 @@
+import { z } from "zod";
+import { AddTaskSchema } from "./schemas";
+
 export type Task = {
   id?: number;
   title: string;
@@ -14,5 +17,7 @@ export type Contact = {
   username: string;
   email: string;
 };
+
+export type AddTaskSchemaType = z.infer<typeof AddTaskSchema>;
 
 export type PrioType = "high" | "medium" | "low";

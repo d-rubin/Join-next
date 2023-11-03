@@ -2,14 +2,20 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { logout } from "../helper/serverActions";
+import Cookies from "universal-cookie";
+import { useRouter } from "next/navigation";
+// import { logout } from "../helper/serverActions";
 
 const Profile = ({ letters, size = "h-10 w-10" }: { letters: string; size?: string }) => {
   const [openOptions, setOpenOptions] = useState<boolean>(false);
+  const cookieStore = new Cookies();
+  const { push } = useRouter();
 
   const handleLogout = () => {
     setOpenOptions(false);
-    logout();
+    // logout();
+    cookieStore.remove("authToken");
+    push("/");
   };
 
   return (

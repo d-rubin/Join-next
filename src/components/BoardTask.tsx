@@ -5,6 +5,7 @@ import { Contact, PrioType, Task } from "../types";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../helper/generalHelper";
 import { DnDContext } from "../contexts/DnD.context";
 import Icon from "./Icon";
+import Text from "./Text";
 import DefaultInput from "./inputs/Default";
 import Textarea from "./inputs/Textarea";
 import Prio from "./Prio";
@@ -61,8 +62,7 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
           {generalHelper(task.category)}
         </p>
         <p className="text-lg font-bold">{task.title}</p>
-        <p>{task.description}</p>
-        <p>Assigned to: {getAssignee(task.assignee, contacts)}</p>
+        <p className="text-gray-500">{task.description}</p>
       </div>
       <dialog className="fixed top-0 left-0 w-screen h-full bg-transparent" open={dialogOpen}>
         <div className="flex items-center justify-center w-full h-full bg-transparent">
@@ -153,11 +153,11 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                   </select>
                 </div>
                 <span className="w-full flex justify-end">
-                  <SubmitButton text="Edit" icon="pencil" />
+                  <SubmitButton text="OK" icon="check" />
                 </span>
               </form>
             ) : (
-              <div className="gap-2 flex flex-col relative">
+              <div className="gap-4 flex flex-col relative">
                 <Icon
                   icon="x"
                   className="absolute right-0 top-0 hover:border-underline hover:stroke-underline hover:fill-underline"
@@ -169,12 +169,8 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                 >
                   {generalHelper(task.category)}
                 </p>
-                <p className="text-lg font-bold">{task.title}</p>
+                <p className="text-3xl font-bold">{task.title}</p>
                 <p>{task.description}</p>
-                <span className="flex flex-row gap-2">
-                  <p className="w-1/3">Assigned to:</p>
-                  <p className="w-2/2"> {getAssignee(task.assignee, contacts)}</p>
-                </span>
                 <span className="flex flex-row gap-2">
                   <p className="w-1/3">Due Date:</p>
                   <p className="w-2/2">
@@ -187,23 +183,29 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                   <p className="w-1/3">Priority:</p>
                   <p className="w-2/2">
                     {task.priority.charAt(0).toUpperCase()}
-                    {task.priority.slice(1)}
+                    {task.priority.slice(1)}{" "}
                   </p>
                 </span>
-                <span className="flex flex-row gap-2 w-full justify-end">
-                  <Icon
-                    rounded-2xl
-                    icon="pencil"
-                    iconSize="h-8 w-8"
-                    className="border-primary border-2 rounded-lg hover:border-underline hover:stroke-underline hover:fill-underline"
+                <span className="flex flex-row gap-2">
+                  <p className="w-1/3">Assigned to:</p>
+                  <p className="w-2/2"> {getAssignee(task.assignee, contacts)}</p>
+                </span>
+                <span className="flex flex-row items-center gap-1 w-full justify-end">
+                  <span
                     onClick={() => setEditTask(true)}
-                  />
-                  <Icon
-                    icon="trash"
-                    iconSize="h-8 w-8"
-                    className="border-primary border-2 rounded-lg hover:border-underline hover:stroke-underline hover:fill-underline"
-                    onClick={deleteTask}
-                  />
+                    className="flex flex-row gap-1 hover:text-underline transition-all hover:border-underline hover:stroke-underline hover:fill-underline"
+                  >
+                    <Icon icon="pencil" />
+                    <Text text="Edit" />
+                  </span>
+                  <span className="h-5 border-l-2 border-grey" />
+                  <span
+                    onClick={() => setEditTask(true)}
+                    className="flex flex-row gap-1 hover:text-underline transition-all hover:border-underline hover:stroke-underline hover:fill-underline"
+                  >
+                    <Icon icon="trash" />
+                    <Text text="Delete" />
+                  </span>
                 </span>
               </div>
             )}
