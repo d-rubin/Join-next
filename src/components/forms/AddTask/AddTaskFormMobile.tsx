@@ -8,7 +8,7 @@ import Textarea from "../../inputs/Textarea";
 import Prio from "../../Prio";
 import SubmitButton from "../SubmitButton";
 import { ErrorResponse } from "../../../helper/fetchApi";
-import { AddTaskSchema } from "../../../schemas";
+import { addTaskSchema } from "../../../schemas";
 
 const AddTaskFormMobile = ({
   contacts,
@@ -32,7 +32,7 @@ const AddTaskFormMobile = ({
   const submitHandler = async (formData: FormData) => {
     setError(false);
     try {
-      const body = AddTaskSchema.parse({
+      const body = addTaskSchema.parse({
         title: formData.get("title"),
         description: formData.get("description"),
         assignee: formData.get("assignee"),

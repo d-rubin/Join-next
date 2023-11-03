@@ -12,7 +12,6 @@ import { login } from "../../helper/serverActions";
 import BigButton from "../buttons/BigButton";
 import { loginSchema } from "../../schemas";
 import { ErrorResponse } from "../../helper/fetchApi";
-import { TLoginSchema } from "../../types";
 
 const LoginForm = () => {
   const {
@@ -25,7 +24,7 @@ const LoginForm = () => {
   const rememberMeRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = async (fieldValues: FieldValues) => {
-    const response = await login(fieldValues as TLoginSchema, rememberMeRef.current?.checked);
+    const response = await login(fieldValues, rememberMeRef.current?.checked);
 
     if (response) {
       setError((response as ErrorResponse).message);

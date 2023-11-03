@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { AddTaskSchema, loginSchema } from "./schemas";
+import { addTaskSchema, loginSchema, signInSchema } from "./schemas";
 
 type Task = {
   id?: number;
@@ -19,8 +19,9 @@ type Contact = {
 };
 
 type TLoginSchema = z.infer<typeof loginSchema>;
-type TAddTaskSchema = z.infer<typeof AddTaskSchema>;
+type TSignInSchema = z.infer<typeof signInSchema>;
+type TAddTaskSchema = z.infer<typeof addTaskSchema>;
 
 type PrioType = "high" | "medium" | "low";
 
-export type { PrioType, TAddTaskSchema, TLoginSchema, Contact, Task };
+export type { PrioType, TAddTaskSchema, TLoginSchema, TSignInSchema, Contact, Task };

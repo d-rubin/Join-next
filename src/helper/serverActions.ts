@@ -3,18 +3,16 @@
 import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
-import { Task, TLoginSchema } from "../types";
+import { Task } from "../types";
 import { ErrorResponse, fetchApi, TokenResponse } from "./fetchApi";
-import { loginSchema } from "../schemas";
+import { loginSchema, signInSchema } from "../schemas";
 
 const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T> => {
   const authToken = cookies().get("authToken")?.value;
+
   return fetch(`${process.env.API_URL}${url}`, {
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Token ${authToken}`,
-    },
+    headers: { "Content-Type": "application/json", ...(authToken ? { Authorization: `Token ${authToken}` } : {}) },
   }).then((res) => res.json() as T);
 };
 
@@ -59,19 +57,50 @@ const getTasks = async () => {
   return [];
 };
 
-const register = async (body: Object): Promise<TokenResponse | ErrorResponse> => {
-  return fetchApi("/auth/register/", { method: "POST", body: JSON.stringify(body) }).then(
-    (res) => res as TokenResponse | ErrorResponse,
-  );
+const register = async (body: unknown) => {
+  const isValid = signInSchema.safeParse(body);
+
+  if (!isValid.success) {
+    const { error } = isValid;
+
+    // todo: Resolve errors
+    if (error.name) return { status: 401, name: "name", message: error.name };
+    // if (error.email) return { status: 401, name: "name", message: error.name };
+    // if (error.password) return { status: 401, name: "name", message: error.name };
+    // if (error.secondPassword) return { status: 401, name: "name", message: error.name };
+    return { status: 404, name: "secondPassword", message: "Something went wrong." };
+  }
+
+  const response = await fetchServer<TokenResponse | ErrorResponse>("/auth/register/", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+
+  if (response.status === 201) {
+    cookies().set("authToken", (response as TokenResponse).token, { expires: new Date(Date.now() + 86400000) });
+    return response as TokenResponse;
+  }
+  if ("message" in response) {
+    switch (response.message) {
+      case "Email already in use":
+        return { status: response.status, name: "email", message: response.message };
+      case "Name already in use":
+        return { status: response.status, name: "name", message: response.message };
+      default:
+        return { status: response.status, name: "secondPassword", message: response.message };
+    }
+  }
+
+  return { detail: "Invalid token." };
 };
 
-const login = async (fieldValues: TLoginSchema, rememberMe: boolean = false) => {
-  const validation = loginSchema.safeParse(fieldValues);
+const login = async (fieldValues: unknown, rememberMe: boolean = false) => {
+  const isValid = loginSchema.safeParse(fieldValues);
 
-  if (validation.success) {
+  if (isValid.success) {
     const response = await fetchApi<TokenResponse | ErrorResponse>("/auth/login/", {
       method: "POST",
-      body: JSON.stringify(validation.data),
+      body: JSON.stringify(isValid.data),
     });
 
     if (response.status === 200) {
