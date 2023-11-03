@@ -3,9 +3,9 @@
 import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
-import { Task } from "../types";
+import { Task, TLoginSchema } from "../types";
 import { ErrorResponse, fetchApi, TokenResponse } from "./fetchApi";
-import { LoginSchema } from "../schemas";
+import { loginSchema } from "../schemas";
 
 const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T> => {
   const authToken = cookies().get("authToken")?.value;
@@ -65,26 +65,25 @@ const register = async (body: Object): Promise<TokenResponse | ErrorResponse> =>
   );
 };
 
-const login = async (formData: FormData, rememberMe: boolean = false): Promise<ErrorResponse> => {
-  const body = LoginSchema.parse({
-    username: formData.get("username"),
-    password: formData.get("password"),
-    rememberMe,
-  });
-  const response = await fetchApi<TokenResponse | ErrorResponse>("/auth/login/", {
-    method: "POST",
-    body: JSON.stringify(body),
-  });
+const login = async (fieldValues: TLoginSchema, rememberMe: boolean = false) => {
+  const validation = loginSchema.safeParse(fieldValues);
+  console.log("validation", validation);
 
-  if (response.status === 200) {
-    const tokenResponse = response as TokenResponse;
-    const expires = rememberMe ? Date.now() + 30 * 86400000 : Date.now() + 86400000;
+  if (validation.success) {
+    const response = await fetchApi<TokenResponse | ErrorResponse>("/auth/login/", {
+      method: "POST",
+      body: JSON.stringify(validation.data),
+    });
+    console.log(response);
 
-    cookies().set("authToken", tokenResponse.token, { expires });
-    return redirect("/summary", RedirectType.push);
+    if (response.status === 200) {
+      const expires = new Date(rememberMe ? Date.now() + 30 * 86400000 : Date.now() + 86400000);
+      cookies().set("authToken", (response as TokenResponse).token, { expires });
+      redirect("/summary", RedirectType.push);
+    }
   }
 
-  return { status: response.status, message: "Ups! Wrong password. Try again." };
+  return { status: 401, message: "Ups! Wrong password. Try again." } as ErrorResponse;
 };
 
 const createTask = async (body: unknown): Promise<Task | ErrorResponse> => {

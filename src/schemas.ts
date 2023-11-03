@@ -1,9 +1,9 @@
 import { z } from "zod";
 
-const LoginSchema = z.object({
-  username: z.string().max(30),
-  password: z.string().min(8),
-  rememberMe: z.boolean(),
+const loginSchema = z.object({
+  username: z.string(),
+  password: z.string(),
+  rememberMe: z.boolean().optional(),
 });
 
 const AddTaskSchema = z.object({
@@ -19,4 +19,4 @@ const AddTaskSchema = z.object({
   priority: z.string(),
 });
 
-export { LoginSchema, AddTaskSchema };
+export { loginSchema, AddTaskSchema };

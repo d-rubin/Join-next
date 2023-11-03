@@ -1,19 +1,21 @@
-import { RefObject, useState } from "react";
+"use client";
+
+import { forwardRef, useState } from "react";
 import Icon from "./Icon";
 import Text from "./Text";
 
 export type CheckboxProps = {
   name: string;
   text: string;
+  required?: boolean;
   value?: boolean;
   onChange?: (value: boolean) => void;
-  required?: boolean;
-  ref?: RefObject<HTMLInputElement>;
-  isError?: boolean;
   errorText?: string;
+  isError?: boolean;
 };
 
-const Checkbox = ({ text, value = false, onChange, name, required, ref, errorText, isError }: CheckboxProps) => {
+const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
+  const { name, required, text, value = false, onChange, errorText, isError } = props;
   const [checked, setChecked] = useState<boolean>(value);
 
   const handleClick = () => {
@@ -27,9 +29,9 @@ const Checkbox = ({ text, value = false, onChange, name, required, ref, errorTex
         <input
           name={name}
           required={required}
+          ref={ref}
           type="checkbox"
           defaultChecked={checked}
-          ref={ref}
           className="w-0 h-0 hidden"
         />
         <Icon
@@ -44,6 +46,8 @@ const Checkbox = ({ text, value = false, onChange, name, required, ref, errorTex
       {isError && errorText && <p className="text-xs text-red">{errorText}</p>}
     </>
   );
-};
+});
+
+Checkbox.displayName = "Checkbox";
 
 export default Checkbox;

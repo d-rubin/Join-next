@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { AddTaskSchema } from "./schemas";
+import { AddTaskSchema, loginSchema } from "./schemas";
 
-export type Task = {
+type Task = {
   id?: number;
   title: string;
   description: string;
@@ -12,12 +12,15 @@ export type Task = {
   assignee: number;
 };
 
-export type Contact = {
+type Contact = {
   id: number;
   username: string;
   email: string;
 };
 
-export type AddTaskSchemaType = z.infer<typeof AddTaskSchema>;
+type TLoginSchema = z.infer<typeof loginSchema>;
+type TAddTaskSchema = z.infer<typeof AddTaskSchema>;
 
-export type PrioType = "high" | "medium" | "low";
+type PrioType = "high" | "medium" | "low";
+
+export type { PrioType, TAddTaskSchema, TLoginSchema, Contact, Task };
