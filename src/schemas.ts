@@ -7,6 +7,7 @@ const LoginSchema = z.object({
 });
 
 const AddTaskSchema = z.object({
+  id: z.number().optional(),
   title: z.string().max(50),
   description: z.string().max(100),
   assignee: z.string(),

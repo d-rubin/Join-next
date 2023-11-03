@@ -37,11 +37,12 @@ const updateTask = async (task: unknown): Promise<Task | ErrorResponse> => {
       body: JSON.stringify(task),
     });
 
-  if (response && response.status)
-    return { status: response.status, message: "Ups! Wrong password. Try again." } as ErrorResponse;
+  if (response && "id" in response) {
+    revalidateTag("tasks");
+    return response as Task;
+  }
 
-  revalidateTag("tasks");
-  return response as Task;
+  return { status: 404, message: "Ups! Wrong password. Try again." } as ErrorResponse;
 };
 
 const patchTaskStatus = (task: Task, update: string) => {
