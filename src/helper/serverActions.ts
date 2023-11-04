@@ -131,6 +131,7 @@ const createTask = async (body: unknown) => {
     method: "POST",
     body: JSON.stringify(isValid.data),
   });
+  console.log(response);
 
   if ("id" in response) {
     revalidateTag("tasks");

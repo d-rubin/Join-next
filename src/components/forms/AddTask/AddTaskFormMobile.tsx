@@ -12,7 +12,7 @@ import { taskSchema } from "../../../schemas";
 import { createTask } from "../../../helper/serverActions";
 import BigButton from "../../buttons/BigButton";
 
-const AddTaskFormMobile = ({ contacts, task, className }: { contacts: Contact[]; task?: Task; className?: string }) => {
+const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Task }) => {
   const {
     register,
     handleSubmit,
@@ -27,7 +27,7 @@ const AddTaskFormMobile = ({ contacts, task, className }: { contacts: Contact[];
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4 mb-16 ${className}`}>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mb-16 lg:hidden">
       {serverError && <p className="text-red">{serverError}</p>}
       <DefaultInput
         type="text"
@@ -64,8 +64,8 @@ const AddTaskFormMobile = ({ contacts, task, className }: { contacts: Contact[];
         name="due_date"
         register={register}
         defaultValue={task ? task.due_date : undefined}
-        isError={!!errors.date}
-        errorText={errors.date?.message as string}
+        isError={!!errors.due_date}
+        errorText={errors.due_date?.message as string}
         block
         label="Due Date"
       />

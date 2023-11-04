@@ -14,8 +14,8 @@ const AddTaskPage = async () => {
   return (
     <PagePadding className="flex flex-col gap-4 relative h-full">
       <h1 className="text-5xl font-bold">Add Task</h1>
-      <AddTaskFormMobile contacts={contacts} className="lg:hidden" />
-      {/* <AddTaskFormDesktop contacts={contacts} /> */}
+      <AddTaskFormMobile contacts={contacts} />
+      <AddTaskFormDesktop contacts={contacts} />
     </PagePadding>
   );
 };
