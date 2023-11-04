@@ -13,7 +13,7 @@ import DefaultInput from "./inputs/Default";
 import Textarea from "./inputs/Textarea";
 import Prio from "./Prio";
 import { taskSchema } from "../schemas";
-import { updateTask } from "../helper/serverActions";
+import { deleteTask, updateTask } from "../helper/serverActions";
 import BigButton from "./buttons/BigButton";
 
 const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
@@ -34,8 +34,6 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
       }
     });
   };
-
-  // const deleteTask = () => {};
 
   return (
     <Fragment key={task.id}>
@@ -191,15 +189,15 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                 <span className="flex flex-row items-center gap-1 w-full justify-end">
                   <span
                     onClick={() => setEditTask(true)}
-                    className="flex flex-row gap-1 hover:text-underline transition-all hover:border-underline hover:stroke-underline hover:fill-underline"
+                    className="flex cursor-pointer flex-row gap-1 hover:text-underline transition-all hover:border-underline hover:stroke-underline hover:fill-underline"
                   >
                     <Icon icon="pencil" />
                     <Text text="Edit" />
                   </span>
                   <span className="h-5 border-l-2 border-grey" />
                   <span
-                    onClick={() => setEditTask(true)}
-                    className="flex flex-row gap-1 hover:text-underline transition-all hover:border-underline hover:stroke-underline hover:fill-underline"
+                    onClick={() => (task.id ? deleteTask(task.id) : undefined)}
+                    className="flex cursor-pointer flex-row gap-1 hover:text-underline transition-all hover:border-underline hover:stroke-underline hover:fill-underline"
                   >
                     <Icon icon="trash" />
                     <Text text="Delete" />

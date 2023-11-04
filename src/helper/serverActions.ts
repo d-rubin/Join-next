@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 import { Task } from "../types";
-import { ErrorResponse, fetchApi, TokenResponse } from "./fetchApi";
+import { ErrorResponse, TokenResponse } from "./fetchApi";
 import { loginSchema, signInSchema, taskSchema } from "../schemas";
 
 const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T> => {
@@ -25,10 +25,10 @@ const logout = () => {
 const isUserLoggedIn = (): boolean => {
   return !!cookies().get("authToken");
 };
-// Todo: make serverActions use fetchServer
 
 const updateTask = async (task: unknown): Promise<Task | ErrorResponse> => {
   let response: Task | ErrorResponse | null = null;
+
   if (task && typeof task === "object" && "id" in task)
     response = await fetchServer<Task | ErrorResponse>(`/tasks/${task.id}/`, {
       method: "PATCH",
@@ -98,7 +98,7 @@ const login = async (fieldValues: unknown, rememberMe: boolean = false) => {
   const isValid = loginSchema.safeParse(fieldValues);
 
   if (isValid.success) {
-    const response = await fetchApi<TokenResponse | ErrorResponse>("/auth/login/", {
+    const response = await fetchServer<TokenResponse | ErrorResponse>("/auth/login/", {
       method: "POST",
       body: JSON.stringify(isValid.data),
     });
@@ -131,7 +131,6 @@ const createTask = async (body: unknown) => {
     method: "POST",
     body: JSON.stringify(isValid.data),
   });
-  console.log(response);
 
   if ("id" in response) {
     revalidateTag("tasks");
@@ -141,4 +140,26 @@ const createTask = async (body: unknown) => {
   return { status: response.status, message: "Couldn't create the Task" } as ErrorResponse;
 };
 
-export { getTasks, isUserLoggedIn, patchTaskStatus, login, register, createTask, logout, updateTask };
+const getCurrentUser = () => {
+  return fetchServer<{ username: string; email: string }>("/contacts/currentUser");
+};
+
+const deleteTask = (id: number) => {
+  fetchServer(`/tasks/${id}/`, { method: "DELETE" }).then(() => {
+    revalidateTag("tasks");
+    return redirect("/board");
+  });
+};
+
+export {
+  createTask,
+  getTasks,
+  updateTask,
+  patchTaskStatus,
+  deleteTask,
+  login,
+  register,
+  isUserLoggedIn,
+  logout,
+  getCurrentUser,
+};

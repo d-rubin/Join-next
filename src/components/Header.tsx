@@ -4,9 +4,17 @@ import LogoDark from "../iconlib/logo-dark.svg";
 import Profile from "./Profile";
 import Icon from "./Icon";
 import Text from "./Text";
+import { getCurrentUser } from "../helper/serverActions";
 
-const Header = () => {
-  // Todo: Fetch user
+const Header = async () => {
+  const currentUser = await getCurrentUser();
+
+  const getLetter = (user: { username: string; email: string }) => {
+    if ("username" in user) return user.username.charAt(0).toUpperCase();
+
+    console.error("Could not fetch user");
+    return "-";
+  };
 
   return (
     <div className="w-full h-16 bg-white shadow-xl flex items-center px-4 justify-between lg:pl-16 2xl:rounded-r-3xl">
@@ -22,7 +30,7 @@ const Header = () => {
             iconSize="h-8 w-8"
           />
         </Link>
-        <Profile letters="D" />
+        <Profile letters={getLetter(currentUser)} />
       </div>
     </div>
   );
