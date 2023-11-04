@@ -1,6 +1,9 @@
 "use client";
 
 import { Fragment, useContext, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
 import { Contact, PrioType, Task } from "../types";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../helper/generalHelper";
 import { DnDContext } from "../contexts/DnD.context";
@@ -9,42 +12,30 @@ import Text from "./Text";
 import DefaultInput from "./inputs/Default";
 import Textarea from "./inputs/Textarea";
 import Prio from "./Prio";
-import SubmitButton from "./forms/SubmitButton";
 import { taskSchema } from "../schemas";
 import { updateTask } from "../helper/serverActions";
+import BigButton from "./buttons/BigButton";
 
 const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
   const { updateDraggedTask } = useContext(DnDContext);
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm({ resolver: zodResolver(taskSchema) });
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<boolean>(false);
   const [prio, setPrio] = useState<PrioType | undefined>(task ? task.priority : undefined);
-  const [error, setError] = useState<boolean>(false);
-  const submitHandler = async (formData: FormData) => {
-    setError(false);
-    try {
-      const body = taskSchema.parse({
-        id: Number(formData.get("id")),
-        title: formData.get("title"),
-        description: formData.get("description"),
-        assignee: formData.get("assignee"),
-        due_date: formData.get("due_date"),
-        category: formData.get("category"),
-        priority: prio || "low",
-      });
-      await updateTask(body).then((res) => {
-        if ("id" in res) {
-          setDialogOpen(false);
-        } else {
-          setError(true);
-        }
-      });
-    } catch (e) {
-      console.error("Error while creating the Task", e);
-      setError(true);
-    }
+
+  const onSubmit = async (fieldValues: FieldValues) => {
+    await updateTask({ ...fieldValues, ...{ priority: prio || "low" } }).then((res) => {
+      if ("id" in res) {
+        setDialogOpen(false);
+      }
+    });
   };
 
-  const deleteTask = () => {};
+  // const deleteTask = () => {};
 
   return (
     <Fragment key={task.id}>
@@ -68,7 +59,7 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
         <div className="flex items-center justify-center w-full h-full bg-transparent">
           <div className="z-10 w-fit h-fit bg-white rounded-3xl p-4 min-w-[20rem] shadow-2xl">
             {editTask ? (
-              <form action={submitHandler} className="flex flex-col gap-4 relative">
+              <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 relative">
                 <Icon
                   icon="arrowLeft"
                   className="hover:stroke-underline hover:fill-underline absolute right-0 top-0"
@@ -78,21 +69,21 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                 <DefaultInput
                   type="text"
                   name="title"
-                  required
-                  maxLength={50}
+                  register={register}
                   placeholder="Enter a title"
                   block
                   defaultValue={task ? task.title : undefined}
-                  isError={error}
+                  isError={!!errors.title}
+                  errorText={errors.title?.message as string}
                   label="Title"
                 />
                 <Textarea
                   name="description"
                   placeholder="Enter a description"
                   block
-                  required
-                  maxLength={100}
-                  isError={error}
+                  register={register}
+                  isError={!!errors.description}
+                  errorText={errors.description?.message as string}
                   label="Description"
                   className="h-20"
                   defaultValue={task ? task.description : undefined}
@@ -107,22 +98,25 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                 </div>
                 <DefaultInput
                   type="date"
-                  required
                   name="due_date"
+                  register={register}
                   defaultValue={task ? task.due_date : undefined}
-                  isError={error}
+                  isError={!!errors.due_date}
+                  errorText={errors.due_date?.message as string}
                   block
                   label="Due Date"
                 />
                 <div className="flex flex-col gap-1">
                   <p>Category</p>
                   <select
-                    name="category"
                     required
-                    defaultValue={task ? task.category : undefined}
-                    className={`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5 ${
-                      error ? "border-red" : ""
-                    }`}
+                    {...register("category", { value: task ? task.category : undefined })}
+                    className={clsx(
+                      `border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5`,
+                      {
+                        "border-red": !!errors.category,
+                      },
+                    )}
                   >
                     <option value="">Select task category</option>
                     <option value="backoffice">Backoffice</option>
@@ -131,16 +125,19 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                     <option value="sales">Sales</option>
                     <option value="media">Media</option>
                   </select>
+                  {errors.category && <p className="text-xs text-red">{errors.category.message as string}</p>}
                 </div>
                 <div className="flex flex-col gap-1">
                   <p>Assignee</p>
                   <select
-                    name="assignee"
                     required
-                    defaultValue={task ? task.assignee : undefined}
-                    className={`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5 ${
-                      error ? "border-red" : ""
-                    }`}
+                    {...register("assignee", { value: task ? task.assignee : undefined })}
+                    className={clsx(
+                      `border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5`,
+                      {
+                        "border-red": !!errors.assignee,
+                      },
+                    )}
                   >
                     <option value="">Select Assignee</option>
                     {contacts.map((contact) => {
@@ -151,9 +148,10 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                       );
                     })}
                   </select>
+                  {errors.assignee && <p className="text-xs text-red">{errors.assignee.message as string}</p>}
                 </div>
                 <span className="w-full flex justify-end">
-                  <SubmitButton text="OK" icon="check" />
+                  <BigButton text="Ok" icon="check" loading={isSubmitting} />
                 </span>
               </form>
             ) : (
