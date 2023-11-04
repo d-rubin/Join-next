@@ -1,81 +1,52 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { FieldValues, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
 import { Contact, PrioType, Task } from "../../../types";
 import DefaultInput from "../../inputs/Default";
 import Textarea from "../../inputs/Textarea";
 import Prio from "../../Prio";
-import SubmitButton from "../SubmitButton";
-import { ErrorResponse } from "../../../helper/fetchApi";
-import { addTaskSchema } from "../../../schemas";
+import { taskSchema } from "../../../schemas";
+import { createTask } from "../../../helper/serverActions";
+import BigButton from "../../buttons/BigButton";
 
-const AddTaskFormMobile = ({
-  contacts,
-  action,
-  task,
-  text,
-  icon,
-  className,
-}: {
-  contacts: Contact[];
-  action: (body: unknown) => Promise<Task | ErrorResponse>;
-  text: string;
-  icon: string;
-  task?: Task;
-  className?: string;
-}) => {
-  const { push } = useRouter();
+const AddTaskFormMobile = ({ contacts, task, className }: { contacts: Contact[]; task?: Task; className?: string }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm({ resolver: zodResolver(taskSchema) });
   const [prio, setPrio] = useState<PrioType | undefined>(task ? task.priority : undefined);
-  const [error, setError] = useState<boolean>(false);
-  const [trigger, setTrigger] = useState<boolean>(false);
-  const submitHandler = async (formData: FormData) => {
-    setError(false);
-    try {
-      const body = addTaskSchema.parse({
-        title: formData.get("title"),
-        description: formData.get("description"),
-        assignee: formData.get("assignee"),
-        due_date: formData.get("due_date"),
-        category: formData.get("category"),
-        priority: prio || "low",
-      });
-      await action(body).then((res) => {
-        if ("id" in res) {
-          setTrigger(!trigger);
-          setTimeout(() => {
-            push("board");
-          }, 2000);
-        } else {
-          setError(true);
-        }
-      });
-    } catch (e) {
-      console.error("Error while creating the Task");
-      setError(true);
-    }
+  const [serverError, setServerError] = useState<string>();
+
+  const onSubmit = async (fieldValues: FieldValues) => {
+    const response = await createTask({ ...fieldValues, ...{ priority: prio || "low" } });
+    if (response) setServerError(response.message);
   };
 
   return (
-    <form action={submitHandler} className={`flex flex-col gap-4 mb-16 ${className}`}>
+    <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4 mb-16 ${className}`}>
+      {serverError && <p className="text-red">{serverError}</p>}
       <DefaultInput
         type="text"
         name="title"
-        required
-        maxLength={50}
+        register={register}
         placeholder="Enter a title"
         block
         defaultValue={task ? task.title : undefined}
-        isError={error}
+        isError={!!errors.title}
+        errorText={errors.title?.message as string}
         label="Title"
       />
       <Textarea
         name="description"
         placeholder="Enter a description"
         block
-        required
-        maxLength={100}
-        isError={error}
+        register={register}
+        isError={!!errors.description}
+        errorText={errors.description?.message as string}
         label="Description"
         className="h-20"
         defaultValue={task ? task.description : undefined}
@@ -90,22 +61,21 @@ const AddTaskFormMobile = ({
       </div>
       <DefaultInput
         type="date"
-        required
         name="due_date"
+        register={register}
         defaultValue={task ? task.due_date : undefined}
-        isError={error}
+        isError={!!errors.date}
+        errorText={errors.date?.message as string}
         block
         label="Due Date"
       />
       <div className="flex flex-col gap-1">
         <p>Category</p>
         <select
-          name="category"
-          required
-          defaultValue={task ? task.category : undefined}
-          className={`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5 ${
-            error ? "border-red" : ""
-          }`}
+          {...register("category", { value: task ? task.category : undefined })}
+          className={clsx(`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5`, {
+            "border-red": !!errors.category,
+          })}
         >
           <option value="">Select task category</option>
           <option value="backoffice">Backoffice</option>
@@ -114,16 +84,15 @@ const AddTaskFormMobile = ({
           <option value="sales">Sales</option>
           <option value="media">Media</option>
         </select>
+        {errors.category && <p className="text-xs text-red">{errors.category.message as string}</p>}
       </div>
       <div className="flex flex-col gap-1">
         <p>Assignee</p>
         <select
-          name="assignee"
-          required
-          defaultValue={task ? task.assignee : undefined}
-          className={`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5 ${
-            error ? "border-red" : ""
-          }`}
+          {...register("assignee", { value: task ? task.assignee : undefined })}
+          className={clsx(`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5`, {
+            "border-red": !!errors.assigeee,
+          })}
         >
           <option value="">Select Assignee</option>
           {contacts.map((contact) => {
@@ -134,8 +103,9 @@ const AddTaskFormMobile = ({
             );
           })}
         </select>
+        {errors.assignee && <p className="text-xs text-red">{errors.assignee.message as string}</p>}
       </div>
-      <SubmitButton text={text} icon={icon} className="fixed bottom-24 right-4" />
+      <BigButton text="Create" icon="check" loading={isSubmitting} className="fixed bottom-24 right-4" />
     </form>
   );
 };

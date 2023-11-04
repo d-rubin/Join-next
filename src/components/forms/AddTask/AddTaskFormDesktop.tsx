@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import clsx from "clsx";
 import { Contact, Task } from "../../../types";
 import DefaultInput from "../../inputs/Default";
 import BigButton from "../../buttons/BigButton";
 import Textarea from "../../inputs/Textarea";
 import Prio from "../../Prio";
 import Notification from "../../Notification";
-import SubmitButton from "../SubmitButton";
-import { addTaskSchema } from "../../../schemas";
+import { taskSchema } from "../../../schemas";
 import { ErrorResponse } from "../../../helper/fetchApi";
 
 const AddTaskFormDesktop = ({
@@ -20,16 +20,20 @@ const AddTaskFormDesktop = ({
   contacts: Contact[];
   action: (body: unknown) => Promise<Task | ErrorResponse>;
 }) => {
-  const { reset } = useForm();
+  const {
+    reset,
+    setError,
+    formState: { isSubmitting, errors },
+    register,
+    handleSubmit,
+  } = useForm();
   const { push } = useRouter();
   const [prio, setPrio] = useState<"high" | "medium" | "low" | undefined>();
-  const [error, setError] = useState<boolean>(false);
   const [trigger, setTrigger] = useState<boolean>(false);
 
   const submitHandler = async (formData: FormData) => {
-    setError(false);
     try {
-      const body = addTaskSchema.parse({
+      const body = taskSchema.safeParse({
         title: formData.get("title"),
         description: formData.get("description"),
         assignee: formData.get("assignee"),
@@ -44,12 +48,10 @@ const AddTaskFormDesktop = ({
             push("board");
           }, 2000);
         } else {
-          setError(true);
         }
       });
     } catch (e) {
       console.error("Error while creating the Task");
-      setError(true);
     }
   };
 
@@ -59,20 +61,19 @@ const AddTaskFormDesktop = ({
         <DefaultInput
           type="text"
           name="title"
+          register={register}
           placeholder="Enter a title"
           block
           label="Title"
-          maxLength={50}
-          required
-          isError={error}
+          isError={!!errors.title}
         />
         <Textarea
           name="description"
           placeholder="Enter a description"
           block
+          register={register}
           label="Description"
-          maxLength={100}
-          isError={error}
+          isError={!!errors.description}
           className="h-20"
         />
         <div className="flex flex-col gap-1">
@@ -80,9 +81,12 @@ const AddTaskFormDesktop = ({
           <select
             name="assignee"
             required
-            className={`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5 ${
-              error ? "border-red" : ""
-            }`}
+            className={clsx(
+              `border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5`,
+              {
+                "border-red": !!errors.assignee,
+              },
+            )}
           >
             <option value="">Select Assignee</option>
             {contacts.map((contact) => {
@@ -97,7 +101,7 @@ const AddTaskFormDesktop = ({
       </div>
       <div className="border-r-2 border-grey h-full" />
       <div className="flex flex-col gap-4 relative max-w-screen-md w-full">
-        <DefaultInput type="date" name="due_date" isError={error} required block label="Due Date" />
+        <DefaultInput type="date" name="due_date" register={register} isError={!!errors.date} block label="Due Date" />
         <div className="flex flex-col gap-1">
           <p>Priority</p>
           <div className="flex flex-row gap-2">
@@ -111,9 +115,12 @@ const AddTaskFormDesktop = ({
           <select
             name="category"
             required
-            className={`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5 ${
-              error ? "border-red" : ""
-            }`}
+            className={clsx(
+              `border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5`,
+              {
+                "border-red": !!errors.category,
+              },
+            )}
           >
             <option value="">Select task category</option>
             <option value="backoffice">Backoffice</option>
@@ -125,7 +132,6 @@ const AddTaskFormDesktop = ({
         </div>
         <div className="flex w-full flex-row gap-4 absolute -bottom-20 right-0 justify-between">
           <BigButton type="reset" text="Clear" outlined icon="x" onClick={reset} />
-          <SubmitButton text="Create Task" icon="check" iconSize="h-8 w-8" />
         </div>
       </div>
       {trigger && <Notification text="Task added to board" trigger={trigger} />}

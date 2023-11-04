@@ -24,17 +24,16 @@ const signInSchema = z
     path: ["secondPassword"],
   });
 
-const addTaskSchema = z.object({
+const taskSchema = z.object({
   id: z.number().optional(),
   title: z
     .string()
     .min(4, "The title must have at least 4 characters")
     .max(50, "The title can have at most 50 characters"),
-  description: z.string().max(100),
+  description: z.string().max(100, "The description can be at most 100 characters"),
   assignee: z.string(),
   due_date: z.string(),
-  category: z.string(),
-  priority: z.string(),
+  category: z.string().min(3, "Select a category"),
 });
 
-export { loginSchema, signInSchema, addTaskSchema };
+export { loginSchema, signInSchema, taskSchema };

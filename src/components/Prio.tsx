@@ -14,7 +14,8 @@ const Prio = (props: PrioProps) => {
 
   if (prio === "urgent")
     return (
-      <div
+      <button
+        type="button"
         className={`w-full justify-center flex flex-row items-center gap-2 outline-none border-2 focus:shadow-md hover:shadow-lg transition-all rounded-lg p-2 cursor-pointer ${
           active ? "bg-red border-red" : "bg-white border-grey"
         }`}
@@ -26,12 +27,13 @@ const Prio = (props: PrioProps) => {
           className={`${active ? "stroke-white fill-white" : "stroke-red fill-red"}`}
           iconSize="h-4 w-4"
         />
-      </div>
+      </button>
     );
 
   if (prio === "medium")
     return (
-      <div
+      <button
+        type="button"
         className={`w-full justify-center flex flex-row items-center gap-2 outline-none border-2 focus:shadow-md hover:shadow-lg transition-all rounded-lg p-2 cursor-pointer ${
           active ? "bg-orange border-orange" : "bg-white border-grey"
         }`}
@@ -43,11 +45,12 @@ const Prio = (props: PrioProps) => {
           className={`${active ? "stroke-white fill-white" : "stroke-orange fill-orange"}`}
           iconSize="h-4 w-4"
         />
-      </div>
+      </button>
     );
 
   return (
-    <div
+    <button
+      type="button"
       className={`w-full justify-center flex flex-row items-center gap-2 outline-none border-2 focus:shadow-md hover:shadow-lg transition-all rounded-lg p-2 cursor-pointer ${
         active ? "bg-green border-green" : "bg-white border-grey"
       }`}
@@ -59,7 +62,7 @@ const Prio = (props: PrioProps) => {
         className={`${active ? "stroke-white fill-white" : "stroke-green fill-green"}`}
         iconSize="h-4 w-4"
       />
-    </div>
+    </button>
   );
 };
 

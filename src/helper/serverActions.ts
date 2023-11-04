@@ -5,7 +5,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 import { Task } from "../types";
 import { ErrorResponse, fetchApi, TokenResponse } from "./fetchApi";
-import { loginSchema, signInSchema } from "../schemas";
+import { loginSchema, signInSchema, taskSchema } from "../schemas";
 
 const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T> => {
   const authToken = cookies().get("authToken")?.value;
@@ -113,14 +113,31 @@ const login = async (fieldValues: unknown, rememberMe: boolean = false) => {
   return { status: 401, message: "Ups! Wrong password. Try again." } as ErrorResponse;
 };
 
-const createTask = async (body: unknown): Promise<Task | ErrorResponse> => {
-  const response = await fetchApi<Task | ErrorResponse>("/tasks/", { method: "POST", body: JSON.stringify(body) });
-  if ("id" in response) {
-    revalidateTag("tasks");
-    return response;
+const createTask = async (body: unknown) => {
+  const isValid = taskSchema.safeParse(body);
+
+  if (!isValid.success) {
+    // const { error } = isValid;
+
+    // todo: Resolve errors
+    // if (error.title) return { status: 401, name: "name", message: error.name };
+    // if (error.email) return { status: 401, name: "name", message: error.name };
+    // if (error.password) return { status: 401, name: "name", message: error.name };
+    // if (error.secondPassword) return { status: 401, name: "name", message: error.name };
+    return { status: 404, message: "Couldn't create the Task" } as ErrorResponse;
   }
 
-  return { status: response.status, message: "Task couldn't be created" } as ErrorResponse;
+  const response = await fetchServer<Task | ErrorResponse>("/tasks/", {
+    method: "POST",
+    body: JSON.stringify(isValid.data),
+  });
+
+  if ("id" in response) {
+    revalidateTag("tasks");
+    return redirect("/board", RedirectType.push);
+  }
+
+  return { status: response.status, message: "Couldn't create the Task" } as ErrorResponse;
 };
 
 export { getTasks, isUserLoggedIn, patchTaskStatus, login, register, createTask, logout, updateTask };
