@@ -2,13 +2,15 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // This function can be marked `async` if using `await` inside
-// const authRoutes = ["/board", "/contacts", "/add-task", "/summary"];
+const authRoutes = ["/board", "/contacts", "/add-task", "/summary"];
 export function middleware(request: NextRequest) {
   const response = NextResponse;
   const newHeaders = new Headers(request.headers);
 
   if (request.cookies.get("authToken")) {
-    if (request.nextUrl.pathname === "/") return NextResponse.redirect(new URL("/summary", request.url));
+    if (request.nextUrl.pathname === "/") return response.redirect(new URL("/summary", request.url));
+  } else if (!request.cookies.get("authToken") && authRoutes.includes(request.nextUrl.pathname)) {
+    return response.rewrite(new URL("/", request.url));
   }
 
   return response.next({ request: { headers: newHeaders } });

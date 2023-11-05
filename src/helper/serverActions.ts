@@ -4,17 +4,15 @@ import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
 import { Task } from "../types";
-import { ErrorResponse, fetchApi, TokenResponse, updateTask } from "./fetchApi";
-import { AddTaskSchema, LoginSchema } from "../schemas";
+import { ErrorResponse, TokenResponse } from "./fetchApi";
+import { loginSchema, signInSchema, taskSchema } from "../schemas";
 
 const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T> => {
   const authToken = cookies().get("authToken")?.value;
+
   return fetch(`${process.env.API_URL}${url}`, {
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Token ${authToken}`,
-    },
+    headers: { "Content-Type": "application/json", ...(authToken ? { Authorization: `Token ${authToken}` } : {}) },
   }).then((res) => res.json() as T);
 };
 
@@ -27,12 +25,26 @@ const logout = () => {
 const isUserLoggedIn = (): boolean => {
   return !!cookies().get("authToken");
 };
-// Todo: make serverActions use fetchServer
+
+const updateTask = async (task: unknown): Promise<Task | ErrorResponse> => {
+  let response: Task | ErrorResponse | null = null;
+
+  if (task && typeof task === "object" && "id" in task)
+    response = await fetchServer<Task | ErrorResponse>(`/tasks/${task.id}/`, {
+      method: "PATCH",
+      body: JSON.stringify(task),
+    });
+
+  if (response && "id" in response) {
+    revalidateTag("tasks");
+    return response as Task;
+  }
+
+  return { status: 404, message: "Ups! Wrong password. Try again." } as ErrorResponse;
+};
 
 const patchTaskStatus = (task: Task, update: string) => {
-  updateTask({ ...task, ...{ status: update } }).then(() => {
-    revalidateTag("tasks");
-  });
+  return updateTask({ ...task, ...{ status: update } });
 };
 
 const getTasks = async () => {
@@ -45,54 +57,109 @@ const getTasks = async () => {
   return [];
 };
 
-const register = async (body: Object): Promise<TokenResponse | ErrorResponse> => {
-  return fetchApi("/auth/register/", { method: "POST", body: JSON.stringify(body) }).then(
-    (res) => res as TokenResponse | ErrorResponse,
-  );
-};
+const register = async (body: unknown) => {
+  const isValid = signInSchema.safeParse(body);
 
-const login = async (formData: FormData, rememberMe: boolean = false): Promise<ErrorResponse> => {
-  const body = LoginSchema.parse({
-    username: formData.get("username"),
-    password: formData.get("password"),
-    rememberMe,
-  });
-  const response = await fetchApi<TokenResponse | ErrorResponse>("/auth/login/", {
+  if (!isValid.success) {
+    const { error } = isValid;
+
+    // todo: Resolve errors
+    if (error.name) return { status: 401, name: "name", message: error.name };
+    // if (error.email) return { status: 401, name: "name", message: error.name };
+    // if (error.password) return { status: 401, name: "name", message: error.name };
+    // if (error.secondPassword) return { status: 401, name: "name", message: error.name };
+    return { status: 404, name: "secondPassword", message: "Something went wrong." };
+  }
+
+  const response = await fetchServer<TokenResponse | ErrorResponse>("/auth/register/", {
     method: "POST",
     body: JSON.stringify(body),
   });
 
-  if (response.status === 200) {
-    const tokenResponse = response as TokenResponse;
-    const expires = rememberMe ? Date.now() + 30 * 86400000 : Date.now() + 86400000;
-
-    cookies().set("authToken", tokenResponse.token, { expires });
-    return redirect("/summary", RedirectType.push);
+  if (response.status === 201) {
+    cookies().set("authToken", (response as TokenResponse).token, { expires: new Date(Date.now() + 86400000) });
+    return response as TokenResponse;
+  }
+  if ("message" in response) {
+    switch (response.message) {
+      case "Email already in use":
+        return { status: response.status, name: "email", message: response.message };
+      case "Name already in use":
+        return { status: response.status, name: "name", message: response.message };
+      default:
+        return { status: response.status, name: "secondPassword", message: response.message };
+    }
   }
 
-  return { status: response.status, message: "Ups! Wrong password. Try again." };
+  return { detail: "Invalid token." };
 };
 
-const createTask = async (
-  formData: FormData,
-  priority: "low" | "medium" | "high" = "low",
-): Promise<Task | ErrorResponse> => {
-  const body = AddTaskSchema.parse({
-    title: formData.get("title"),
-    description: formData.get("description"),
-    assignee: formData.get("assignee"),
-    due_date: formData.get("due_date"),
-    category: formData.get("category"),
-    priority,
+const login = async (fieldValues: unknown, rememberMe: boolean = false) => {
+  const isValid = loginSchema.safeParse(fieldValues);
+
+  if (isValid.success) {
+    const response = await fetchServer<TokenResponse | ErrorResponse>("/auth/login/", {
+      method: "POST",
+      body: JSON.stringify(isValid.data),
+    });
+
+    if (response.status === 200) {
+      const expires = new Date(rememberMe ? Date.now() + 30 * 86400000 : Date.now() + 86400000);
+      cookies().set("authToken", (response as TokenResponse).token, { expires });
+      redirect("/summary", RedirectType.push);
+    }
+  }
+
+  return { status: 401, message: "Ups! Wrong password. Try again." } as ErrorResponse;
+};
+
+const createTask = async (body: unknown) => {
+  const isValid = taskSchema.safeParse(body);
+
+  if (!isValid.success) {
+    // const { error } = isValid;
+
+    // todo: Resolve errors
+    // if (error.title) return { status: 401, name: "name", message: error.name };
+    // if (error.email) return { status: 401, name: "name", message: error.name };
+    // if (error.password) return { status: 401, name: "name", message: error.name };
+    // if (error.secondPassword) return { status: 401, name: "name", message: error.name };
+    return { status: 404, message: "Couldn't create the Task" } as ErrorResponse;
+  }
+
+  const response = await fetchServer<Task | ErrorResponse>("/tasks/", {
+    method: "POST",
+    body: JSON.stringify(isValid.data),
   });
 
-  const response = await fetchApi<Task | ErrorResponse>("/tasks/", { method: "POST", body: JSON.stringify(body) });
   if ("id" in response) {
-    revalidatePath("/board");
-    return response;
+    revalidateTag("tasks");
+    return redirect("/board", RedirectType.push);
   }
 
-  return { status: response.status, message: "Error while creating the Task" } as ErrorResponse;
+  return { status: response.status, message: "Couldn't create the Task" } as ErrorResponse;
 };
 
-export { getTasks, isUserLoggedIn, patchTaskStatus, login, register, createTask, logout };
+const getCurrentUser = () => {
+  return fetchServer<{ username: string; email: string }>("/contacts/currentUser");
+};
+
+const deleteTask = (id: number) => {
+  fetchServer(`/tasks/${id}/`, { method: "DELETE" }).then(() => {
+    revalidateTag("tasks");
+    return redirect("/board");
+  });
+};
+
+export {
+  createTask,
+  getTasks,
+  updateTask,
+  patchTaskStatus,
+  deleteTask,
+  login,
+  register,
+  isUserLoggedIn,
+  logout,
+  getCurrentUser,
+};

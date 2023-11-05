@@ -1,54 +1,55 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Contact } from "../../../types";
+import { FieldValues, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import clsx from "clsx";
+import { Contact, PrioType, Task } from "../../../types";
 import DefaultInput from "../../inputs/Default";
 import Textarea from "../../inputs/Textarea";
 import Prio from "../../Prio";
+import { taskSchema } from "../../../schemas";
 import { createTask } from "../../../helper/serverActions";
-import SubmitButton from "../SubmitButton";
+import BigButton from "../../buttons/BigButton";
 
-const AddTaskFormMobile = ({ contacts }: { contacts: Contact[] }) => {
-  const router = useRouter();
-  const [prio, setPrio] = useState<"high" | "medium" | "low" | undefined>();
-  const [error, setError] = useState<boolean>(false);
-  const [trigger, setTrigger] = useState<boolean>(false);
-  const submitHandler = async (formData: FormData) => {
-    setError(false);
-    await createTask(formData, prio).then((res) => {
-      if ("id" in res) {
-        setTrigger(!trigger);
-        setTimeout(() => {
-          router.push("board");
-        }, 2000);
-      } else {
-        setError(true);
-      }
-    });
+const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Task }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm({ resolver: zodResolver(taskSchema) });
+  const [prio, setPrio] = useState<PrioType | undefined>(task ? task.priority : undefined);
+  const [serverError, setServerError] = useState<string>();
+
+  const onSubmit = async (fieldValues: FieldValues) => {
+    const response = await createTask({ ...fieldValues, ...{ priority: prio || "low" } });
+    if (response) setServerError(response.message);
   };
 
   return (
-    <form action={submitHandler} className="flex flex-col gap-4 mb-16 lg:hidden">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 mb-16 lg:hidden">
+      {serverError && <p className="text-red">{serverError}</p>}
       <DefaultInput
         type="text"
         name="title"
-        required
-        maxLength={50}
+        register={register}
         placeholder="Enter a title"
         block
-        isError={error}
+        defaultValue={task ? task.title : undefined}
+        isError={!!errors.title}
+        errorText={errors.title?.message as string}
         label="Title"
       />
       <Textarea
         name="description"
         placeholder="Enter a description"
         block
-        required
-        maxLength={100}
-        isError={error}
+        register={register}
+        isError={!!errors.description}
+        errorText={errors.description?.message as string}
         label="Description"
         className="h-20"
+        defaultValue={task ? task.description : undefined}
       />
       <div className="flex flex-col gap-1">
         <p>Priority</p>
@@ -58,15 +59,23 @@ const AddTaskFormMobile = ({ contacts }: { contacts: Contact[] }) => {
           <Prio prio="low" active={prio === "low"} setPrio={setPrio} />
         </div>
       </div>
-      <DefaultInput type="date" required name="due_date" isError={error} block label="Due Date" />
+      <DefaultInput
+        type="date"
+        name="due_date"
+        register={register}
+        defaultValue={task ? task.due_date : undefined}
+        isError={!!errors.due_date}
+        errorText={errors.due_date?.message as string}
+        block
+        label="Due Date"
+      />
       <div className="flex flex-col gap-1">
         <p>Category</p>
         <select
-          name="category"
-          required
-          className={`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5 ${
-            error ? "border-red" : ""
-          }`}
+          {...register("category", { value: task ? task.category : undefined })}
+          className={clsx(`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5`, {
+            "border-red": !!errors.category,
+          })}
         >
           <option value="">Select task category</option>
           <option value="backoffice">Backoffice</option>
@@ -75,15 +84,15 @@ const AddTaskFormMobile = ({ contacts }: { contacts: Contact[] }) => {
           <option value="sales">Sales</option>
           <option value="media">Media</option>
         </select>
+        {errors.category && <p className="text-xs text-red">{errors.category.message as string}</p>}
       </div>
       <div className="flex flex-col gap-1">
         <p>Assignee</p>
         <select
-          name="assignee"
-          required
-          className={`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5 ${
-            error ? "border-red" : ""
-          }`}
+          {...register("assignee", { value: task ? task.assignee : undefined })}
+          className={clsx(`border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5`, {
+            "border-red": !!errors.assigeee,
+          })}
         >
           <option value="">Select Assignee</option>
           {contacts.map((contact) => {
@@ -94,8 +103,9 @@ const AddTaskFormMobile = ({ contacts }: { contacts: Contact[] }) => {
             );
           })}
         </select>
+        {errors.assignee && <p className="text-xs text-red">{errors.assignee.message as string}</p>}
       </div>
-      <SubmitButton text="Create Task" icon="check" className="fixed bottom-24 right-4" />
+      <BigButton text="Create" icon="check" loading={isSubmitting} className="fixed bottom-24 right-4" />
     </form>
   );
 };

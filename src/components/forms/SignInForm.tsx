@@ -1,33 +1,114 @@
 "use client";
 
+import { FieldValues, useForm } from "react-hook-form";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import DefaultInput from "../inputs/Default";
 import Password from "../inputs/Password";
+import Notification from "../Notification";
 import BigButton from "../buttons/BigButton";
 import Checkbox from "../Checkbox";
-import { register } from "../../helper/serverActions";
+import { register as registerFetch } from "../../helper/serverActions";
+import { signInSchema } from "../../schemas";
 
 const SignInForm = () => {
+  const { push } = useRouter();
+  const {
+    setError,
+    formState: { errors, isSubmitting },
+    handleSubmit,
+    register,
+  } = useForm({ resolver: zodResolver(signInSchema) });
+  const [privacyError, setPrivacyError] = useState<boolean>(false);
+  const [isPrivacyChecked, setIsPrivacyChecked] = useState<boolean>(false);
+  const [trigger, setTrigger] = useState<boolean>(false);
+
+  const onSubmit = async (fieldValues: FieldValues) => {
+    setPrivacyError(false);
+    if (!isPrivacyChecked) setPrivacyError(true);
+    else {
+      const isValid = signInSchema.safeParse(fieldValues);
+
+      if (!isValid.success) {
+        const { error } = isValid;
+
+        // todo: Resolve errors
+        if (error.name) setError("name", { message: error.name });
+        // if (error.email) setError("email", { message: error.email });
+        // if (error.password) setError("password", { message: error.password });
+        // if (error.secondPassword) setError("secondPassword", { message: error.secondPassword });
+        else setError("secondPassword", { message: "Something went wrong." });
+      } else {
+        const response = await registerFetch(fieldValues);
+
+        if (response.status === 201) {
+          setTrigger(!trigger);
+          setTimeout(() => push("/summary"));
+        } else if ("name" in response) {
+          setError(response.name!, { message: response.message });
+        }
+      }
+    }
+  };
+
   return (
     <>
-      <form action={register} className="flex flex-col gap-4 items-center justify-start">
-        {/* {error.general && <p className="text-xs text-red text-left w-full">Oops, something went wrong!</p>} */}
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 items-center justify-start">
         <DefaultInput
           type="text"
           name="name"
+          register={register}
           block
+          isError={!!errors.name}
           icon="person"
           placeholder="Name"
-          errorText="Username already in use"
+          // errorText="Username already in use"
+          errorText={errors.name?.message as string}
         />
-        <DefaultInput type="text" name="email" block icon="mail" placeholder="Email" errorText="Email already in use" />
-        <Password name="password" placeholder="Password" block errorText="Passwords don't match" />
-        <DefaultInput type="password" name="secondPassword" placeholder="Confirm password" block icon="lock" />
+        <DefaultInput
+          type="text"
+          register={register}
+          name="email"
+          block
+          icon="mail"
+          placeholder="Email"
+          isError={!!errors.email}
+          // errorText="Email already in use"
+          errorText={errors.email?.message as string}
+        />
+        <Password
+          name="password"
+          register={register}
+          placeholder="Password"
+          block
+          isError={!!errors.password}
+          errorText={errors.password?.message as string}
+          // errorText="Passwords don't match"
+        />
+        <DefaultInput
+          type="password"
+          register={register}
+          name="secondPassword"
+          placeholder="Confirm password"
+          block
+          icon="lock"
+          isError={!!errors.secondPassword}
+          errorText={errors.secondPassword?.message as string}
+        />
         <div className="w-full text-left">
-          <Checkbox name="privacy" text="I accept the Privacy Policy" errorText="Pls accept the Privacy Policy" />
+          <Checkbox
+            name="privacy"
+            isError={privacyError}
+            onChange={setIsPrivacyChecked}
+            text="I accept the Privacy Policy"
+            errorText="Pls accept the Privacy Policy"
+          />
         </div>
-        <BigButton text="Sign up" />
+        <BigButton text="Sign up" loading={isSubmitting} disabled={!isPrivacyChecked} />
       </form>
-      {/* {trigger && <Notification text="You Signed Up successfully" trigger={trigger} />} */}
+      {trigger && <Notification text="You Signed Up successfully" trigger={trigger} />}
     </>
   );
 };

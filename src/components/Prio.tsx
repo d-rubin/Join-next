@@ -15,6 +15,7 @@ const Prio = (props: PrioProps) => {
   if (prio === "urgent")
     return (
       <button
+        type="button"
         className={`w-full justify-center flex flex-row items-center gap-2 outline-none border-2 focus:shadow-md hover:shadow-lg transition-all rounded-lg p-2 cursor-pointer ${
           active ? "bg-red border-red" : "bg-white border-grey"
         }`}
@@ -32,6 +33,7 @@ const Prio = (props: PrioProps) => {
   if (prio === "medium")
     return (
       <button
+        type="button"
         className={`w-full justify-center flex flex-row items-center gap-2 outline-none border-2 focus:shadow-md hover:shadow-lg transition-all rounded-lg p-2 cursor-pointer ${
           active ? "bg-orange border-orange" : "bg-white border-grey"
         }`}
@@ -48,6 +50,7 @@ const Prio = (props: PrioProps) => {
 
   return (
     <button
+      type="button"
       className={`w-full justify-center flex flex-row items-center gap-2 outline-none border-2 focus:shadow-md hover:shadow-lg transition-all rounded-lg p-2 cursor-pointer ${
         active ? "bg-green border-green" : "bg-white border-grey"
       }`}

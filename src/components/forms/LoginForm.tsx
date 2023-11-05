@@ -1,51 +1,46 @@
 "use client";
 
+import { FieldValues, useForm } from "react-hook-form";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 import DefaultInput from "../inputs/Default";
 import Password from "../inputs/Password";
 import Checkbox from "../Checkbox";
 
 import { login } from "../../helper/serverActions";
-import SubmitButton from "./SubmitButton";
+import BigButton from "../buttons/BigButton";
+import { loginSchema } from "../../schemas";
+import { ErrorResponse } from "../../helper/fetchApi";
 
 const LoginForm = () => {
+  const {
+    register,
+    formState: { isSubmitting },
+    reset,
+    handleSubmit,
+  } = useForm({ resolver: zodResolver(loginSchema) });
   const [error, setError] = useState<string>();
-  // Todo: checkboxRef not working
-  const checkboxRef = useRef<HTMLInputElement>(null);
+  const rememberMeRef = useRef<HTMLInputElement>(null);
 
-  const submit = (formData: FormData) => {
-    setError(undefined);
-    login(formData).then((res) => {
-      if (res?.status !== 200) setError(res?.message);
-    });
+  const onSubmit = async (fieldValues: FieldValues) => {
+    const response = await login(fieldValues, rememberMeRef.current?.checked);
+
+    if (response) {
+      setError((response as ErrorResponse).message);
+      reset();
+    }
   };
 
   return (
-    <form action={submit} className="flex flex-col gap-4 items-center justify-start">
-      <DefaultInput
-        maxLength={30}
-        required
-        type="text"
-        name="username"
-        placeholder="Username"
-        isError={!!error}
-        icon="mail"
-        block
-      />
-      <Password
-        minLength={8}
-        required
-        name="password"
-        placeholder="Password"
-        block
-        isError={!!error}
-        errorText={error}
-      />
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 items-center justify-start">
+      <DefaultInput register={register} type="text" name="username" placeholder="Username" icon="mail" block />
+      <Password register={register} name="password" placeholder="Password" block isError={!!error} errorText={error} />
       <div className="w-full">
-        <Checkbox name="rememberMe" text="Remember me" ref={checkboxRef} />
+        <Checkbox name="rememberMe" text="Remember me" ref={rememberMeRef} />
       </div>
       <div className="w-full flex justify-center">
-        <SubmitButton text="Login" />
+        <BigButton text="Login" loading={isSubmitting} />
       </div>
     </form>
   );

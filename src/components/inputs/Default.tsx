@@ -1,17 +1,17 @@
 import clsx from "clsx";
+import { FieldValues, UseFormRegister } from "react-hook-form";
 import Icon from "../Icon";
 
 export type DefaultInputProps = {
   type: string;
+  register: UseFormRegister<FieldValues>;
   name: string;
   block?: boolean;
   errorText?: string;
+  defaultValue?: string;
   isError?: boolean;
   disabled?: boolean;
   icon?: string;
-  required?: boolean;
-  maxLength?: number;
-  minLength?: number;
   placeholder?: string;
   label?: string;
   onIconClick?: () => void;
@@ -21,17 +21,16 @@ export type DefaultInputProps = {
 const DefaultInput = (props: DefaultInputProps) => {
   const {
     type,
+    register,
     name,
+    block,
+    errorText,
+    defaultValue,
+    isError = false,
+    disabled,
     icon,
     placeholder,
     label,
-    disabled,
-    block,
-    errorText,
-    required,
-    maxLength,
-    minLength,
-    isError = false,
     onIconClick,
     className,
   } = props;
@@ -48,13 +47,11 @@ const DefaultInput = (props: DefaultInputProps) => {
         )}
       >
         <input
-          name={name}
+          {...register(name)}
           type={type}
-          required={required}
-          maxLength={maxLength}
-          minLength={minLength}
           aria-disabled={disabled}
           placeholder={placeholder}
+          defaultValue={defaultValue}
           className={clsx(`bg-transparent outline-0 placeholder-grey`, { "w-full": block }, { className })}
         />
         {icon && (
