@@ -39,7 +39,7 @@ const updateTask = async (task: unknown): Promise<ErrorResponse | null> => {
     return { status: 404, message: "Couldn't update the Task." } as ErrorResponse;
   }
 
-  revalidatePath("/board", "layout");
+  revalidateTag("tasks");
   return null;
 };
 
