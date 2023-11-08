@@ -29,8 +29,9 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
 
   const onSubmit = async (fieldValues: FieldValues) => {
     await updateTask({ ...fieldValues, ...{ priority: prio || "low" } }).then((res) => {
-      if ("id" in res) {
+      if (!res) {
         setDialogOpen(false);
+        setEditTask(false);
       }
     });
   };
@@ -58,6 +59,7 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
           <div className="z-10 w-fit h-fit bg-white rounded-3xl p-4 min-w-[20rem] shadow-2xl">
             {editTask ? (
               <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 relative">
+                <input type="number" {...register("id", { value: task.id })} hidden />
                 <Icon
                   icon="arrowLeft"
                   className="hover:stroke-underline hover:fill-underline absolute right-0 top-0"
@@ -137,7 +139,7 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                       },
                     )}
                   >
-                    <option value="">Select Assignee</option>
+                    <option>Select Assignee</option>
                     {contacts.map((contact) => {
                       return (
                         <option value={contact.id} key={contact.email}>

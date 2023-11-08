@@ -1,18 +1,19 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import BoardTask from "./BoardTask";
 import { Contact, Task } from "../types";
 import { DnDContext } from "../contexts/DnD.context";
-import { getTasks, patchTaskStatus } from "../helper/serverActions";
-import { getContacts } from "../helper/fetchApi";
+import { patchTaskStatus } from "../helper/serverActions";
 
-const DropArea = ({ status }: { status: string }) => {
+const DropArea = ({ status, tasks, contacts }: { status: string; tasks: Task[]; contacts: Contact[] }) => {
   const { task } = useContext(DnDContext);
-  const [tasksMatchingStatus, setTasksMatchingStatus] = useState<Task[]>();
-  const [contacts, setContacts] = useState<Contact[]>();
+
   const handleDrop = () => {
-    if (task) patchTaskStatus(task, status);
+    if (task)
+      patchTaskStatus(task, status).then((res) => {
+        if (res) console.error(res.message);
+      });
   };
 
   const getText = () => {
@@ -28,14 +29,7 @@ const DropArea = ({ status }: { status: string }) => {
     }
   };
 
-  useEffect(() => {
-    Promise.all([getTasks(), getContacts()]).then(([taskArray, contactArray]) => {
-      setContacts(contactArray);
-      setTasksMatchingStatus(taskArray.filter((item) => item.status === status));
-    });
-  }, [status, task]);
-
-  if (tasksMatchingStatus?.length === 0)
+  if (tasks.length === 0)
     return (
       <div className="w-full h-full" onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
         <span className="w-full flex flex-row items-center justify-center bg-gray-200 border-gray-500 text-gray-500 border-dotted border-2 rounded-xl p-2">
@@ -44,11 +38,11 @@ const DropArea = ({ status }: { status: string }) => {
       </div>
     );
 
-  if (tasksMatchingStatus && contacts && tasksMatchingStatus.length > 0)
+  if (tasks && contacts && tasks.length > 0)
     return (
       <div className="w-full overflow-x-auto h-full" onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
         <div className="flex flex-row lg:flex-col gap-4 w-fit lg:w-full">
-          {tasksMatchingStatus.map((item) => (
+          {tasks.map((item) => (
             <BoardTask key={item.id} task={item} contacts={contacts} />
           ))}
         </div>
