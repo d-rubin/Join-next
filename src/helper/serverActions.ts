@@ -26,7 +26,7 @@ const isUserLoggedIn = (): boolean => {
   return !!cookies().get("authToken");
 };
 
-const updateTask = async (task: unknown): Promise<Task | ErrorResponse> => {
+const updateTask = async (task: unknown): Promise<ErrorResponse | null> => {
   let response: Task | ErrorResponse | null = null;
 
   if (task && typeof task === "object" && "id" in task)
@@ -35,12 +35,12 @@ const updateTask = async (task: unknown): Promise<Task | ErrorResponse> => {
       body: JSON.stringify(task),
     });
 
-  if (response && "id" in response) {
-    revalidateTag("tasks");
-    return response as Task;
+  if (!response) {
+    return { status: 404, message: "Couldn't update the Task." } as ErrorResponse;
   }
 
-  return { status: 404, message: "Ups! Wrong password. Try again." } as ErrorResponse;
+  revalidatePath("/board", "layout");
+  return null;
 };
 
 const patchTaskStatus = (task: Task, update: string) => {
