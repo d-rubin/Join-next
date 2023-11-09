@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Link from "next/link";
 import PagePadding from "../../../components/PagePadding";
 
 export const metadata: Metadata = {
@@ -14,7 +15,9 @@ const LegalNoticePage = () => {
           <p>Address: Sportplatzstraße 4 84051</p>
           <p>Owner: Daniel Rubin</p>
           <p>Tel: +49 160 671 2187</p>
-          <p>Email: contact@daniel-rubin.de</p>
+          <p>
+            Email: <Link href="mailto:contact@daniel-rubin.de">contact@daniel-rubin.de</Link>
+          </p>
         </div>
         <section>
           <h3 className="text-2xl font-bold cursor-default">Acceptance of terms</h3>

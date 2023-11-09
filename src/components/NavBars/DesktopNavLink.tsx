@@ -19,7 +19,7 @@ const DesktopNavLink = ({
     <Link
       href={path}
       target={target}
-      className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white cursor-pointer hover:bg-secondary ${
+      className={`w-full py-2.5 pl-10 flex flex-row items-center gap-2.5 text-white stroke-white fill-white cursor-pointer hover:bg-secondary outline-none focus:bg-underline ${
         pathname === `/${path}` ? "bg-secondary" : ""
       }`}
     >

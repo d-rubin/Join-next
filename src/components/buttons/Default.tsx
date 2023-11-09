@@ -29,10 +29,10 @@ const DefaultButton = (props: DefaultButtonProps) => {
     bold,
   } = props;
   const defaultButtonStyling: string =
-    " text-white bg-primary hover:bg-underline focus:bg-secondary focus:outline-none";
+    " text-white bg-primary hover:bg-underline focus:bg-secondary outline-none group-focus:bg-secondary";
   const defaultIconStyling: string = "stroke-white fill-white";
   const outlinedButtonStyling: string =
-    "text-primary bg-white border-[2px] border-primary hover:border-underline hover:text-underline focus:text-secondary focus:outline-secondary ";
+    "text-primary bg-white border-[2px] border-primary hover:border-underline hover:text-underline focus-within:text-underline focus-within:outline-underline ";
   const outlinedIconStyling: string =
     "stroke-primary group-hover:stroke-underline group-hover:fill-underline group-focus:fill-underline group-focus:stroke-underline";
 
@@ -52,6 +52,7 @@ const DefaultButton = (props: DefaultButtonProps) => {
     return (
       <button
         aria-disabled={disabled}
+        tabIndex={-1}
         className={`border-[2px] text-gray-500 bg-gray-200 cursor-default pointer-events-none stroke-gray-500 fill-gray-500 rounded-xl py-0.5 px-7 flex flex-row items-center justify-center ${
           block ? "w-full" : "w-fit"
         }

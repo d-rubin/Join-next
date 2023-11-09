@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, KeyboardEvent } from "react";
 import Link from "next/link";
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
@@ -17,12 +17,22 @@ const Profile = ({ letters, size = "h-10 w-10" }: { letters: string; size?: stri
     cookieStore.remove("authToken");
     push("/");
   };
+  const handleLogoutKeyDown = (event: KeyboardEvent<HTMLSpanElement>) => {
+    if (event.key === "Enter") handleLogout();
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLSpanElement>) => {
+    if (event.key === "Enter") setOpenOptions(!openOptions);
+  };
 
   return (
     <>
       <span
+        //  eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={0}
+        onKeyDown={(e) => handleKeyDown(e)}
         onClick={() => setOpenOptions(!openOptions)}
-        className={`cursor-pointer relative rounded-full border-2 border-secondary text-underline flex items-center justify-center font-semibold text-2xl ${size}`}
+        className={`cursor-pointer relative rounded-full border-2 border-secondary text-underline flex items-center justify-center font-semibold text-2xl focus:bg-grey hover:bg-grey ${size}`}
       >
         {letters.toUpperCase()}
         <div
@@ -30,10 +40,16 @@ const Profile = ({ letters, size = "h-10 w-10" }: { letters: string; size?: stri
             openOptions ? "flex" : "hidden"
           }`}
         >
-          <Link href="legal-notice" className="hover:bg-secondary p-4 rounded-tl-3xl">
+          <Link href="legal-notice" className="hover:bg-secondary focus:bg-secondary outline-none p-4 rounded-tl-3xl">
             Legal Notice
           </Link>
-          <span onClick={handleLogout} className="hover:bg-secondary p-4 rounded-b-3xl">
+          <span
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+            tabIndex={0}
+            onKeyDown={(e) => handleLogoutKeyDown(e)}
+            onClick={handleLogout}
+            className="hover:bg-secondary focus:bg-secondary outline-none p-4 rounded-b-3xl"
+          >
             Log out
           </span>
         </div>

@@ -18,7 +18,7 @@ const LoginPage = () => {
       </div>
       <div className="flex flex-row items-center justify-center gap-4 md:absolute md:right-4 md:top-4">
         <Text text="Not a Join user?" className="cursor-default" />
-        <Link href="register">
+        <Link href="register" className="outline-none group">
           <BigButton text="Sign up" />
         </Link>
       </div>

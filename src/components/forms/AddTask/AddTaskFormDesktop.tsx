@@ -15,7 +15,7 @@ import { createTask } from "../../../helper/serverActions";
 const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
   const {
     reset,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitting, errors, isValid },
     register,
     handleSubmit,
   } = useForm({ resolver: zodResolver(taskSchema) });
@@ -115,7 +115,7 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
         </div>
         <div className="flex w-full flex-row gap-4 absolute -bottom-20 right-0 justify-between">
           <BigButton type="reset" text="Clear" outlined icon="x" onClick={reset} />
-          <BigButton text="Create" icon="check" loading={isSubmitting} />
+          <BigButton text="Create" icon="check" loading={isSubmitting} disabled={!isValid} />
         </div>
       </div>
     </form>
