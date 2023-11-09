@@ -8,7 +8,7 @@ import DesktopNavLink from "./DesktopNavLink";
 const DesktopNav = ({ children }: { children: ReactNode }) => {
   return (
     <main className="flex flex-row max-w-screen-2xl mr-auto">
-      <nav className="hidden relative bg-primary h-screen w-56 py-10 items-center lg:flex flex flex-col gap-10">
+      <nav className="hidden relative bg-primary h-screen w-56 py-10 items-center lg:flex flex-col gap-10">
         <div className="relative object-cover h-36 w-24">
           <Image src={logoLight} alt="Logo" priority fill />
         </div>
@@ -23,7 +23,7 @@ const DesktopNav = ({ children }: { children: ReactNode }) => {
           </DesktopNavLink>
           <DesktopNavLink path="add-task">
             <Icon icon="addTask" />
-            <Text text="Add Tasks" className="text-lg" />
+            <Text text="Add Task" className="text-lg" />
           </DesktopNavLink>
           {/* <Link */}
           {/*  href="contacts" */}
