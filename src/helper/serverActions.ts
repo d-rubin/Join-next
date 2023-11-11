@@ -18,8 +18,8 @@ const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T> =>
 
 const logout = () => {
   cookies().delete("authToken");
-  revalidatePath("/");
-  redirect("/", RedirectType.push);
+  revalidatePath("/", "layout");
+  redirect("/logout", RedirectType.replace);
 };
 
 const isUserLoggedIn = (): boolean => {

@@ -7,6 +7,11 @@ export function middleware(request: NextRequest) {
   const response = NextResponse;
   const newHeaders = new Headers(request.headers);
 
+  // if (request.nextUrl.pathname === "/logout") {
+  //   request.cookies.delete("authToken");
+  //   return response.redirect(new URL("/", request.url));
+  // }
+
   if (request.cookies.get("authToken")) {
     if (request.nextUrl.pathname === "/") return response.redirect(new URL("/summary", request.url));
   } else if (!request.cookies.get("authToken") && authRoutes.includes(request.nextUrl.pathname)) {

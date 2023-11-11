@@ -4,6 +4,7 @@ import { useState, KeyboardEvent } from "react";
 import Link from "next/link";
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
+import { revalidatePath } from "next/cache";
 // import { logout } from "../helper/serverActions";
 
 const Profile = ({ letters, size = "h-10 w-10" }: { letters: string; size?: string }) => {
@@ -13,8 +14,9 @@ const Profile = ({ letters, size = "h-10 w-10" }: { letters: string; size?: stri
 
   const handleLogout = () => {
     setOpenOptions(false);
-    // logout();
     cookieStore.remove("authToken");
+    revalidatePath("/", "layout");
+    // logout();
     push("/");
   };
   const handleLogoutKeyDown = (event: KeyboardEvent<HTMLSpanElement>) => {

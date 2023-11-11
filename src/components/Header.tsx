@@ -11,8 +11,6 @@ const Header = async () => {
 
   const getLetter = (user: { username: string; email: string }) => {
     if ("username" in user) return user.username.charAt(0).toUpperCase();
-
-    console.error("Could not fetch user");
     return "-";
   };
 
