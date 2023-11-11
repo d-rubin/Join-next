@@ -34,7 +34,7 @@ const taskSchema = z.object({
   assignee: z.string().min(1, "Please select person to assign"),
   due_date: z.string().min(1, "Please add the date the task is scheduled"),
   category: z.string().min(3, "Select a category"),
-  status: z.string(),
+  status: z.string().optional(),
 });
 
 export { loginSchema, signInSchema, taskSchema };
