@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
 import LoginForm from "../../components/forms/LoginForm";
 import Text from "../../components/Text";
 import BigButton from "../../components/buttons/BigButton";
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 const LoginPage = () => {
+  revalidatePath("/", "layout");
   return (
     <div className="flex flex-col gap-8 w-full items-center">
       <div className="bg-white sm:w-[25rem] rounded-3xl px-8 py-8 gap-4 flex flex-col items-center shadow-md">
