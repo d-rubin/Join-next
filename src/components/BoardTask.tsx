@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useContext, useState } from "react";
+import { Fragment, useContext, useState, KeyboardEvent } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
@@ -28,7 +28,6 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
   const [prio, setPrio] = useState<PrioType | undefined>(task ? task.priority : undefined);
 
   const onSubmit = async (fieldValues: FieldValues) => {
-    console.log(fieldValues);
     await updateTask({ ...fieldValues, ...{ priority: prio || "low" } }).then((res) => {
       if (!res) {
         setDialogOpen(false);
@@ -43,14 +42,21 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
     return <Icon iconSize="h-4 w-4" icon="urgent" className="stroke-red fill-red" />;
   };
 
+  const handleTaskKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter") setDialogOpen(true);
+  };
+
   return (
     <Fragment key={task.id}>
       <div
-        className="p-4 min-w-40 w-52 bg-white rounded-3xl flex flex-col justify-start gap-2 lg:h-fit lg:w-full cursor-pointer"
+        className="focus:bg-grey outline-none p-4 min-w-40 w-52 bg-white rounded-3xl flex flex-col justify-start gap-2 lg:h-fit lg:w-full cursor-pointer"
         draggable
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={0}
         onDragStart={() => updateDraggedTask(task)}
         onDragEnd={() => updateDraggedTask(null)}
         onClick={() => setDialogOpen(true)}
+        onKeyDown={(e) => handleTaskKeyDown(e)}
       >
         <p
           className="text-white px-4 py-1 w-fit rounded-lg"
@@ -70,7 +76,8 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                 <span className="w-full flex justify-end items-center">
                   <Icon
                     icon="arrowLeft"
-                    className="hover:stroke-underline hover:fill-underline"
+                    className="hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
+                    focusable
                     onClick={() => setEditTask(false)}
                   />
                 </span>
@@ -198,8 +205,9 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                   </p>
                   <Icon
                     icon="x"
-                    className="hover:border-underline hover:stroke-underline hover:fill-underline"
+                    className="outline-none border-none hover:stroke-underline hover:fill-underline focus:stroke-underline focus:fill-underline"
                     onClick={() => setDialogOpen(false)}
+                    focusable
                   />
                 </span>
                 <div className="flex flex-col gap-2">
@@ -229,21 +237,23 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                   </span>
                 </div>
                 <span className="flex flex-row items-center gap-1 w-full justify-end">
-                  <span
+                  <button
+                    type="button"
                     onClick={() => setEditTask(true)}
-                    className="flex cursor-pointer flex-row gap-1 hover:text-underline transition-all hover:border-underline hover:stroke-underline hover:fill-underline"
+                    className="flex cursor-pointer flex-row gap-1  outline-none transition-all hover:text-underline hover:stroke-underline hover:fill-underline focus:text-underline focus:stroke-underline focus:fill-underline"
                   >
                     <Icon icon="pencil" />
                     <Text text="Edit" />
-                  </span>
+                  </button>
                   <span className="h-5 border-l-2 border-grey" />
-                  <span
+                  <button
+                    type="button"
                     onClick={() => (task.id ? deleteTask(task.id) : undefined)}
-                    className="flex cursor-pointer flex-row gap-1 hover:text-underline transition-all hover:border-underline hover:stroke-underline hover:fill-underline"
+                    className="flex cursor-pointer flex-row gap-1  outline-none transition-all hover:text-underline hover:stroke-underline hover:fill-underline focus:text-underline focus:stroke-underline focus:fill-underline"
                   >
                     <Icon icon="trash" />
                     <Text text="Delete" />
-                  </span>
+                  </button>
                 </span>
               </div>
             )}

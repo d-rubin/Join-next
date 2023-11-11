@@ -14,7 +14,7 @@ export type IconProps = {
 
 const Icon = ({ icon, iconSize = "h-6 w-6", onClick, className, focusable = false }: IconProps) => {
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === " ") {
+    if (event.key === "Enter") {
       onClick && onClick();
     }
   };
@@ -26,7 +26,6 @@ const Icon = ({ icon, iconSize = "h-6 w-6", onClick, className, focusable = fals
         viewBox={`0 0 ${iconLib[icon].viewBoxWidth || "0"} ${iconLib[icon].viewBoxHeight || "0"}`}
         className={clsx(
           `transition-all ${iconSize} ${className}`,
-          { "outline-underline": focusable },
           { "outline-none": !focusable },
           { "fill-none": noFill },
           {
