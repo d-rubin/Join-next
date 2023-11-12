@@ -23,12 +23,8 @@ const fetchApi = async <T>(url: string, options?: RequestInit): Promise<T> => {
   }).then((res) => res.json() as T);
 };
 
-const getUser = async (token: string) => {
-  return fetchApi("/contacts/user/", { method: "GET", headers: { Authorization: `Token ${token}` } });
-};
-
 const getContacts = async (): Promise<Contact[]> => {
   return fetchApi<Contact[]>("/contacts/", { method: "GET" }).then((res) => res);
 };
 
-export { fetchApi, getUser, getContacts };
+export { fetchApi, getContacts };

@@ -39,7 +39,7 @@ const DefaultButton = (props: DefaultButtonProps) => {
   if (loading)
     return (
       <button
-        className={`animate-pulse rounded-xl py-0.5 px-7 bg-gray-500 text-gray-500 flex flex-row items-center justify-center focus:outline-none ${
+        className={`animate-pulse rounded-xl py-0.5 px-7 bg-gray-400 text-gray-400 flex flex-row items-center justify-center focus:outline-none ${
           block ? "w-full" : "w-fit"
         } ${className}`}
       >
