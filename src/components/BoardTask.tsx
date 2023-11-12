@@ -75,7 +75,7 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
       </div>
       <dialog className="fixed top-0 left-0 w-screen h-full bg-transparent" open={dialogOpen}>
         <div className="flex items-center justify-center w-full h-full bg-transparent">
-          <div className="z-10 w-fit h-fit bg-white rounded-3xl p-4 min-w-[17rem] max-w-[25rem] shadow-2xl">
+          <div className="z-10 w-fit h-fit max-h-[75%] lg:max-h-none bg-white rounded-3xl p-4 min-w-[17rem] max-w-[25rem] shadow-2xl overflow-y-auto">
             {editTask ? (
               <div className="flex flex-col max-h-full">
                 <span className="w-full flex justify-end items-center">
