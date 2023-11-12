@@ -46,6 +46,11 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
     if (event.key === "Enter") setDialogOpen(true);
   };
 
+  const handleDeleteTask = (id: number) => {
+    setDialogOpen(false);
+    deleteTask(id);
+  };
+
   return (
     <Fragment key={task.id}>
       <div
@@ -248,7 +253,7 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
                   <span className="h-5 border-l-2 border-grey" />
                   <button
                     type="button"
-                    onClick={() => (task.id ? deleteTask(task.id) : undefined)}
+                    onClick={() => (task.id ? handleDeleteTask(task.id) : undefined)}
                     className="flex cursor-pointer flex-row gap-1  outline-none transition-all hover:text-underline hover:stroke-underline hover:fill-underline focus:text-underline focus:stroke-underline focus:fill-underline"
                   >
                     <Icon icon="trash" />

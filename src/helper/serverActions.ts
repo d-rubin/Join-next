@@ -129,7 +129,7 @@ const createTask = async (body: unknown) => {
 
   const response = await fetchServer<Task | ErrorResponse>("/tasks/", {
     method: "POST",
-    body: JSON.stringify(isValid.data),
+    body: JSON.stringify(body),
   });
 
   if ("id" in response) {

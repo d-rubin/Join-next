@@ -28,7 +28,7 @@ const taskSchema = z.object({
   id: z.number().optional(),
   title: z
     .string()
-    .min(4, "The title must have at least 4 characters")
+    .min(3, "The title must have at least 3 characters")
     .max(50, "The title can have at most 50 characters"),
   description: z.string().min(1, "A description is required").max(100, "The description can be at most 100 characters"),
   assignee: z.string().min(1, "Please select person to assign"),
