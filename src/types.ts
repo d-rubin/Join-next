@@ -12,6 +12,12 @@ type Task = {
   assignee: number;
 };
 
+type Subtask = {
+  is_done: boolean;
+  label: string;
+  task: number;
+};
+
 type Contact = {
   id: number;
   username: string;
@@ -24,4 +30,4 @@ type TTaskSchema = z.infer<typeof taskSchema>;
 
 type PrioType = "high" | "medium" | "low";
 
-export type { PrioType, TTaskSchema, TLoginSchema, TSignInSchema, Contact, Task };
+export type { PrioType, TTaskSchema, TLoginSchema, TSignInSchema, Contact, Task, Subtask };

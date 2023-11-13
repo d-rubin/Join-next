@@ -4,7 +4,7 @@ import { Fragment, useContext, useState, KeyboardEvent } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import { Contact, PrioType, Task } from "../types";
+import { Contact, PrioType, Subtask, Task } from "../types";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../helper/generalHelper";
 import { DnDContext } from "../contexts/DnD.context";
 import Icon from "./Icon";
@@ -16,13 +16,14 @@ import { taskSchema } from "../schemas";
 import { deleteTask, updateTask } from "../helper/serverActions";
 import BigButton from "./buttons/BigButton";
 
-const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
+const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact[]; subtasks: Subtask[] }) => {
   const { updateDraggedTask } = useContext(DnDContext);
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm({ resolver: zodResolver(taskSchema) });
+  const [subTasks, setSubTasks] = useState<Subtask[]>(subtasks.filter((item) => item.task === task.id) || []);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<boolean>(false);
   const [prio, setPrio] = useState<PrioType | undefined>(task ? task.priority : undefined);
@@ -51,6 +52,14 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
     deleteTask(id);
   };
 
+  const getDoneSubtasks = (): number => {
+    let count = 0;
+    subTasks.forEach((item) => {
+      if (item.is_done) count++;
+    });
+    return count;
+  };
+
   return (
     <Fragment key={task.id}>
       <div
@@ -71,7 +80,20 @@ const BoardTask = ({ task, contacts }: { task: Task; contacts: Contact[] }) => {
         </p>
         <p className="text-lg font-bold">{task.title}</p>
         <p className="text-gray-500">{task.description}</p>
-        <span className="w-full flex align-bottom justify-end">{getIconForPriority(task.priority)}</span>
+        <div className="w-full flex justify-between gap-4 items-center">
+          <span className="flex flex-row gap-2 w-full items-center">
+            <span className="bg-gray-200 block rounded-md w-full h-3">
+              <span
+                style={{ width: `${(getDoneSubtasks() / subtasks.length) * 100}%` }}
+                className="block bg-underline rounded-md h-3"
+              />
+            </span>
+            <p>
+              {getDoneSubtasks()}/{subTasks.length}
+            </p>
+          </span>
+          <span className="w-fit flex align-bottom justify-end">{getIconForPriority(task.priority)}</span>
+        </div>
       </div>
       <dialog className="fixed top-0 left-0 w-screen h-full bg-transparent" open={dialogOpen}>
         <div className="flex items-center justify-center w-full h-full bg-transparent">

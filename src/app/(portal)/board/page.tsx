@@ -5,7 +5,7 @@ import BigButton from "../../../components/buttons/BigButton";
 import Icon from "../../../components/Icon";
 import DropArea from "../../../components/DropArea";
 import { DnDContextProvider } from "../../../contexts/DnD.context";
-import { getTasks } from "../../../helper/serverActions";
+import { getSubtasks, getTasks } from "../../../helper/serverActions";
 import { getContacts } from "../../../helper/fetchApi";
 
 export const metadata: Metadata = {
@@ -13,8 +13,7 @@ export const metadata: Metadata = {
 };
 
 const BoardPage = async () => {
-  const [tasks, contacts] = await Promise.all([getTasks(), getContacts()]);
-
+  const [tasks, contacts, subtasks] = await Promise.all([getTasks(), getContacts(), getSubtasks()]);
   return (
     <PagePadding>
       <div className="flex flex-col gap-4">
@@ -35,7 +34,12 @@ const BoardPage = async () => {
                   </span>
                 </Link>
               </div>
-              <DropArea contacts={contacts} status="toDo" tasks={tasks.filter((item) => item.status === "toDo")} />
+              <DropArea
+                contacts={contacts}
+                status="toDo"
+                tasks={tasks.filter((item) => item.status === "toDo")}
+                subtasks={subtasks}
+              />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
               <div className="flex flex-row justify-between items-center gap-2">
@@ -49,6 +53,7 @@ const BoardPage = async () => {
               <DropArea
                 status="inProgress"
                 tasks={tasks.filter((item) => item.status === "inProgress")}
+                subtasks={subtasks}
                 contacts={contacts}
               />
             </div>
@@ -67,6 +72,7 @@ const BoardPage = async () => {
                 status="awaitingFeedback"
                 tasks={tasks.filter((item) => item.status === "awaitingFeedback")}
                 contacts={contacts}
+                subtasks={subtasks}
               />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
@@ -78,7 +84,12 @@ const BoardPage = async () => {
                   </span>{" "}
                 </Link>
               </div>
-              <DropArea status="done" tasks={tasks.filter((item) => item.status === "done")} contacts={contacts} />
+              <DropArea
+                status="done"
+                tasks={tasks.filter((item) => item.status === "done")}
+                contacts={contacts}
+                subtasks={subtasks}
+              />
             </div>
           </div>
         </DnDContextProvider>

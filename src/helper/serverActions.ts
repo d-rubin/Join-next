@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
-import { Task } from "../types";
+import { Subtask, Task } from "../types";
 import { ErrorResponse, TokenResponse } from "./fetchApi";
 import { loginSchema, signInSchema, taskSchema } from "../schemas";
 
@@ -151,12 +151,38 @@ const deleteTask = (id: number) => {
   });
 };
 
+const getSubtasks = async () => {
+  return fetchServer<Subtask[] | []>("/tasks/subtasks");
+};
+
+const createSubtask = async (taskId: number, subtask: Subtask) => {
+  return fetchServer<Subtask | ErrorResponse>(`/tasks/${taskId}/subtasks/create`, {
+    method: "POST",
+    body: JSON.stringify(subtask),
+  });
+};
+
+const updateSubtask = async (subtaskId: number, update: { [key: string]: string | boolean }) => {
+  return fetchServer<Subtask | ErrorResponse>(`/tasks/subtasks/${subtaskId}`, {
+    method: "PATCH",
+    body: JSON.stringify(update),
+  });
+};
+
+const deleteSubtask = async (subtaskId: number) => {
+  return fetchServer<Subtask | ErrorResponse>(`/tasks/subtasks/${subtaskId}`);
+};
+
 export {
   createTask,
   getTasks,
   updateTask,
   patchTaskStatus,
   deleteTask,
+  getSubtasks,
+  createSubtask,
+  updateSubtask,
+  deleteSubtask,
   login,
   register,
   isUserLoggedIn,

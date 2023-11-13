@@ -2,11 +2,21 @@
 
 import { useContext } from "react";
 import BoardTask from "./BoardTask";
-import { Contact, Task } from "../types";
+import { Contact, Subtask, Task } from "../types";
 import { DnDContext } from "../contexts/DnD.context";
 import { patchTaskStatus } from "../helper/serverActions";
 
-const DropArea = ({ status, tasks, contacts }: { status: string; tasks: Task[]; contacts: Contact[] }) => {
+const DropArea = ({
+  status,
+  tasks,
+  contacts,
+  subtasks,
+}: {
+  status: string;
+  tasks: Task[];
+  contacts: Contact[];
+  subtasks: Subtask[];
+}) => {
   const { task } = useContext(DnDContext);
 
   const handleDrop = () => {
@@ -43,7 +53,7 @@ const DropArea = ({ status, tasks, contacts }: { status: string; tasks: Task[]; 
       <div className="w-full overflow-x-auto h-full" onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
         <div className="flex flex-row lg:flex-col gap-4 w-fit lg:w-full">
           {tasks.map((item) => (
-            <BoardTask key={item.id} task={item} contacts={contacts} />
+            <BoardTask key={item.id} task={item} contacts={contacts} subtasks={subtasks} />
           ))}
         </div>
       </div>
