@@ -23,6 +23,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm({ resolver: zodResolver(taskSchema) });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [subTasks, setSubTasks] = useState<Subtask[]>(subtasks.filter((item) => item.task === task.id) || []);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<boolean>(false);
