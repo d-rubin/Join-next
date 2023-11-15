@@ -22,7 +22,7 @@ const DropArea = ({
   const handleDrop = () => {
     if (task)
       patchTaskStatus(task, status).then((res) => {
-        if (res) console.error(res.message);
+        if (res && "message" in res) console.error(res.message);
       });
   };
 
