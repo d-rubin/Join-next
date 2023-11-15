@@ -1,10 +1,10 @@
 "use client";
 
-import { Fragment, useContext, useState, KeyboardEvent } from "react";
+import { Fragment, useContext, useState, KeyboardEvent, useRef } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
-import { Contact, PrioType, Subtask, Task } from "../types";
+import { Contact, PrioType, TSubtask, Task } from "../types";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../helper/generalHelper";
 import { DnDContext } from "../contexts/DnD.context";
 import Icon from "./Icon";
@@ -13,10 +13,11 @@ import DefaultInput from "./inputs/Default";
 import Textarea from "./inputs/Textarea";
 import Prio from "./Prio";
 import { taskSchema } from "../schemas";
-import { deleteTask, updateTask } from "../helper/serverActions";
+import { createSubtask, deleteTask, updateTask } from "../helper/serverActions";
 import BigButton from "./buttons/BigButton";
+import Checkbox from "./Checkbox";
 
-const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact[]; subtasks: Subtask[] }) => {
+const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact[]; subtasks: TSubtask[] }) => {
   const { updateDraggedTask } = useContext(DnDContext);
   const {
     register,
@@ -24,18 +25,27 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
     formState: { isSubmitting, errors },
   } = useForm({ resolver: zodResolver(taskSchema) });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [subTasks, setSubTasks] = useState<Subtask[]>(subtasks.filter((item) => item.task === task.id) || []);
+  const [subTasks, setSubTasks] = useState<TSubtask[]>(subtasks.filter((item) => item.task === task.id) || []);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<boolean>(false);
   const [prio, setPrio] = useState<PrioType | undefined>(task ? task.priority : undefined);
+  const subTaskInputRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = async (fieldValues: FieldValues) => {
-    await updateTask({ ...fieldValues, ...{ priority: prio || "low" } }).then((res) => {
-      if (!res) {
-        setDialogOpen(false);
-        setEditTask(false);
-      }
-    });
+    const response = await updateTask({ ...fieldValues, priority: prio || "low" });
+    if ("message" in response) console.error(response);
+    else {
+      await Promise.all(
+        subTasks.map(async (t) => {
+          if (!t.id && task.id) {
+            console.log(t);
+            await createSubtask(t);
+          }
+        }),
+      );
+      setDialogOpen(false);
+      setEditTask(false);
+    }
   };
 
   const getIconForPriority = (priority: PrioType) => {
@@ -59,6 +69,20 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
       if (item.is_done) count++;
     });
     return count;
+  };
+
+  const addSubtask = () => {
+    if (subTaskInputRef.current && subTaskInputRef.current?.value.length && task.id) {
+      setSubTasks([...subTasks, { label: subTaskInputRef.current.value, is_done: false, task: task.id }]);
+      subTaskInputRef.current.value = "";
+    }
+  };
+
+  const handleSubtaskClick = (isDone: boolean, id?: number) => {
+    if (id) {
+      const subtaskIndex = subTasks.findIndex((s) => s.id === id);
+      setSubTasks(subTasks.map((t, index) => (index === subtaskIndex ? { ...t, is_done: isDone } : t)));
+    }
   };
 
   return (
@@ -86,7 +110,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
             <span className="bg-gray-200 block rounded-md w-full h-3">
               <span
                 style={{ width: `${(getDoneSubtasks() / subtasks.length) * 100}%` }}
-                className="block bg-underline rounded-md h-3"
+                className="block bg-underline rounded-md h-3 transition-all"
               />
             </span>
             <p>
@@ -204,7 +228,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                     {errors.assignee && <p className="text-xs text-red">{errors.assignee.message as string}</p>}
                   </div>
                   <div className="flex flex-col gap-1">
-                    <p>Status:</p>
+                    <p>Status</p>
                     <select
                       required
                       {...register("status", { value: task ? task.status : undefined })}
@@ -216,6 +240,33 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                       <option value="awaitingFeedback">awaiting Feedback</option>
                       <option value="done">Done</option>
                     </select>
+                  </div>
+                  <div className="flex flex-col justify-start gap-1 w-full">
+                    <label>
+                      Subtasks
+                      <div className="flex flex-row flex-nowrap items-center bg-white rounded-lg px-2 py-1.5 border-2 border-grey focus-within:border-underline">
+                        <input
+                          ref={subTaskInputRef}
+                          name="subtaskInput"
+                          id="subtaskInput"
+                          type="text"
+                          placeholder="Add new Subtask"
+                          className="bg-transparent outline-0 placeholder-grey w-full"
+                        />
+                        <Icon icon="plus" focusable onClick={addSubtask} className="stroke-1 h-5 w-5" />
+                      </div>
+                    </label>
+                  </div>
+                  <div>
+                    {subTasks.map((subtask) => (
+                      <Checkbox
+                        key={subtask.label}
+                        name={subtask.label}
+                        text={subtask.label}
+                        value={subtask.is_done}
+                        onChange={(value) => handleSubtaskClick(value, subtask.id)}
+                      />
+                    ))}
                   </div>
                   <span className="w-full flex justify-end">
                     <BigButton text="Ok" icon="check" loading={isSubmitting} />

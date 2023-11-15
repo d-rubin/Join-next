@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
-import { Subtask, Task } from "../types";
+import { TSubtask, Task } from "../types";
 import { ErrorResponse, TokenResponse } from "./fetchApi";
 import { loginSchema, signInSchema, taskSchema } from "../schemas";
 
@@ -26,7 +26,7 @@ const isUserLoggedIn = (): boolean => {
   return !!cookies().get("authToken");
 };
 
-const updateTask = async (task: unknown): Promise<ErrorResponse | null> => {
+const updateTask = async (task: unknown): Promise<ErrorResponse | Task> => {
   let response: Task | ErrorResponse | null = null;
 
   if (task && typeof task === "object" && "id" in task)
@@ -40,7 +40,7 @@ const updateTask = async (task: unknown): Promise<ErrorResponse | null> => {
   }
 
   revalidateTag("tasks");
-  return null;
+  return response;
 };
 
 const patchTaskStatus = (task: Task, update: string) => {
@@ -152,25 +152,25 @@ const deleteTask = (id: number) => {
 };
 
 const getSubtasks = async () => {
-  return fetchServer<Subtask[] | []>("/tasks/subtasks");
+  return fetchServer<TSubtask[] | []>("/tasks/subtasks");
 };
 
-const createSubtask = async (taskId: number, subtask: Subtask) => {
-  return fetchServer<Subtask | ErrorResponse>(`/tasks/${taskId}/subtasks/create`, {
+const createSubtask = async (subtask: TSubtask) => {
+  return fetchServer<TSubtask | ErrorResponse>(`/tasks/subtasks/create/`, {
     method: "POST",
     body: JSON.stringify(subtask),
   });
 };
 
 const updateSubtask = async (subtaskId: number, update: { [key: string]: string | boolean }) => {
-  return fetchServer<Subtask | ErrorResponse>(`/tasks/subtasks/${subtaskId}`, {
+  return fetchServer<TSubtask | ErrorResponse>(`/tasks/subtasks/${subtaskId}`, {
     method: "PATCH",
     body: JSON.stringify(update),
   });
 };
 
 const deleteSubtask = async (subtaskId: number) => {
-  return fetchServer<Subtask | ErrorResponse>(`/tasks/subtasks/${subtaskId}`);
+  return fetchServer<TSubtask | ErrorResponse>(`/tasks/subtasks/${subtaskId}`);
 };
 
 export {

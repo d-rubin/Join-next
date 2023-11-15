@@ -2,7 +2,7 @@
 
 import { useContext } from "react";
 import BoardTask from "./BoardTask";
-import { Contact, Subtask, Task } from "../types";
+import { Contact, TSubtask, Task } from "../types";
 import { DnDContext } from "../contexts/DnD.context";
 import { patchTaskStatus } from "../helper/serverActions";
 
@@ -15,7 +15,7 @@ const DropArea = ({
   status: string;
   tasks: Task[];
   contacts: Contact[];
-  subtasks: Subtask[];
+  subtasks: TSubtask[];
 }) => {
   const { task } = useContext(DnDContext);
 
