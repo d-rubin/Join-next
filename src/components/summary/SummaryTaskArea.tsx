@@ -105,21 +105,23 @@ const SummaryTaskArea = async () => {
         </div>
         <Link href="board" className="block outline-none group">
           <Card className="flex flex-row justify-around gap-2 h-32 p-4 transition-all group-hover:bg-primary group-hover:scale-105 group-focus:bg-primary group-focus:scale-105">
-            <span className="rounded-full w-12 h-12 bg-red flex items-center justify-center transition-all group-hover:scale-105 group-focus:scale-105">
-              <Icon
-                icon="urgent"
-                className="stroke-white fill-white transition-all group-hover:scale-105 group-focus:scale-105"
-                iconSize="h-8 w-8"
-              />
+            <span className="flex flex-row justify-evenly gap-2 w-1/2">
+              <span className="rounded-full w-12 h-12 bg-red flex items-center justify-center transition-all group-hover:scale-105 group-focus:scale-105">
+                <Icon
+                  icon="urgent"
+                  className="stroke-white fill-white transition-all group-hover:scale-105 group-focus:scale-105"
+                  iconSize="h-8 w-8"
+                />
+              </span>
+              <div className="flex flex-col items-center">
+                <p className="text-4xl font-semibold transition-all group-hover:text-white group-focus:text-white">
+                  {getCounts(tasks).urgent}
+                </p>
+                <p className="transition-all group-hover:text-white group-focus:text-white">Urgent</p>
+              </div>
             </span>
-            <div className="flex flex-col items-center">
-              <p className="text-4xl font-semibold transition-all group-hover:text-white group-focus:text-white">
-                {getCounts(tasks).urgent}
-              </p>
-              <p className="transition-all group-hover:text-white group-focus:text-white">Urgent</p>
-            </div>
             <div className="h-4/5 border-grey border-l-2" />
-            <div>
+            <div className="w-1/2 text-center">
               <p className="text-lg font-semibold transition-all group-hover:text-white group-focus:text-white">
                 {getNextDeadline(tasks)}
               </p>
