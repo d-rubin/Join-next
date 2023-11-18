@@ -162,11 +162,13 @@ const createSubtask = async (subtask: TSubtask) => {
   });
 };
 
-const updateSubtask = async (subtaskId: number, update: { [key: string]: string | boolean }) => {
-  return fetchServer<TSubtask | ErrorResponse>(`/tasks/subtasks/${subtaskId}`, {
-    method: "PATCH",
-    body: JSON.stringify(update),
-  });
+const updateSubtask = async (subtask: TSubtask): Promise<TSubtask | ErrorResponse> => {
+  if (subtask.id)
+    return fetchServer<TSubtask | ErrorResponse>(`/tasks/subtasks/edit/${subtask.id}`, {
+      method: "PATCH",
+      body: JSON.stringify(subtask),
+    });
+  return { message: "Subtask has no id", status: 400 };
 };
 
 const deleteSubtask = async (subtaskId: number) => {

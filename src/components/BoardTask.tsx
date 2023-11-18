@@ -4,6 +4,7 @@ import { Fragment, useContext, useState, KeyboardEvent, useRef } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
+import _ from "lodash";
 import { Contact, PrioType, TSubtask, Task } from "../types";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../helper/generalHelper";
 import { DnDContext } from "../contexts/DnD.context";
@@ -13,7 +14,7 @@ import DefaultInput from "./inputs/Default";
 import Textarea from "./inputs/Textarea";
 import Prio from "./Prio";
 import { taskSchema } from "../schemas";
-import { createSubtask, deleteTask, updateTask } from "../helper/serverActions";
+import { createSubtask, deleteTask, updateSubtask, updateTask } from "../helper/serverActions";
 import BigButton from "./buttons/BigButton";
 import Checkbox from "./Checkbox";
 
@@ -24,23 +25,36 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
     handleSubmit,
     formState: { isSubmitting, errors },
   } = useForm({ resolver: zodResolver(taskSchema) });
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [subTasks, setSubTasks] = useState<TSubtask[]>(subtasks.filter((item) => item.task === task.id) || []);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<boolean>(false);
   const [prio, setPrio] = useState<PrioType | undefined>(task ? task.priority : undefined);
   const subTaskInputRef = useRef<HTMLInputElement>(null);
 
+  const getMutatedSubtasks = (original: TSubtask[], mutated: TSubtask[]) => {
+    const mutatedSubtasks: Array<TSubtask> = [];
+    if (original && mutated) {
+      mutated.forEach((item) => {
+        const originalItem = original.find((originalSubtask) => originalSubtask.id === item.id);
+        if (originalItem) {
+          if (!_.isEqual(originalItem, item)) mutatedSubtasks.push(item);
+        }
+        if (!originalItem) mutatedSubtasks.push(item);
+      });
+    }
+    return mutatedSubtasks;
+  };
+
   const onSubmit = async (fieldValues: FieldValues) => {
+    const mutatedSubtasks = getMutatedSubtasks(subtasks, subTasks);
     const response = await updateTask({ ...fieldValues, priority: prio || "low" });
     if ("message" in response) console.error(response);
     else {
       await Promise.all(
-        subTasks.map(async (t) => {
-          if (!t.id && task.id) {
-            console.log(t);
-            await createSubtask(t);
-          }
+        mutatedSubtasks.map(async (t) => {
+          if (t.id) {
+            await updateSubtask(t);
+          } else if (task.id) await createSubtask(t);
         }),
       );
       setDialogOpen(false);
@@ -85,6 +99,18 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
     }
   };
 
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+    setEditTask(false);
+  };
+
+  const handleDeleteSubtask = (s: TSubtask) => {
+    const index = subTasks.findIndex((subtask) => subtask.label === s.label);
+    const newSubtasks = subTasks;
+    newSubtasks.splice(index, 1);
+    setSubTasks(newSubtasks);
+  };
+
   return (
     <Fragment key={task.id}>
       <div
@@ -122,15 +148,15 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
       </div>
       <dialog className="fixed top-0 left-0 w-screen h-full bg-transparent" open={dialogOpen}>
         <div className="flex items-center justify-center w-full h-full bg-transparent">
-          <div className="z-10 w-fit h-fit max-h-[75%] lg:max-h-none bg-white rounded-3xl p-4 min-w-[17rem] max-w-[25rem] shadow-2xl overflow-y-auto">
+          <div className="z-10 w-fit h-fit max-h-[75%] lg:max-h-[80%] overscroll-x-none bg-white rounded-3xl p-4 min-w-[17rem] max-w-[25rem] shadow-2xl overflow-y-auto">
             {editTask ? (
               <div className="flex flex-col max-h-full">
                 <span className="w-full flex justify-end items-center">
                   <Icon
-                    icon="arrowLeft"
+                    icon="x"
                     className="hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
                     focusable
-                    onClick={() => setEditTask(false)}
+                    onClick={handleCloseDialog}
                   />
                 </span>
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -253,19 +279,31 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                           placeholder="Add new Subtask"
                           className="bg-transparent outline-0 placeholder-grey w-full"
                         />
-                        <Icon icon="plus" focusable onClick={addSubtask} className="stroke-1 h-5 w-5" />
+                        <Icon
+                          icon="plus"
+                          className="stroke-1 h-5 w-5 hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
+                          focusable
+                          onClick={addSubtask}
+                        />
                       </div>
                     </label>
                   </div>
                   <div>
                     {subTasks.map((subtask) => (
-                      <Checkbox
-                        key={subtask.label}
-                        name={subtask.label}
-                        text={subtask.label}
-                        value={subtask.is_done}
-                        onChange={(value) => handleSubtaskClick(value, subtask.id)}
-                      />
+                      <span key={subtask.label} className="flex flex-row gap-2">
+                        <Checkbox
+                          name={subtask.label}
+                          text={subtask.label}
+                          value={subtask.is_done}
+                          onChange={(value) => handleSubtaskClick(value, subtask.id)}
+                        />
+                        <Icon
+                          icon="x"
+                          onClick={() => handleDeleteSubtask(subtask)}
+                          focusable
+                          className="hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
+                        />
+                      </span>
                     ))}
                   </div>
                   <span className="w-full flex justify-end">
@@ -285,7 +323,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                   <Icon
                     icon="x"
                     className="outline-none border-none hover:stroke-underline hover:fill-underline focus:stroke-underline focus:fill-underline"
-                    onClick={() => setDialogOpen(false)}
+                    onClick={handleCloseDialog}
                     focusable
                   />
                 </span>
