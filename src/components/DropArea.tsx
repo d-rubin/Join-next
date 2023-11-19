@@ -1,6 +1,7 @@
 "use client";
 
 import { useContext } from "react";
+import { v4 as uuidv4 } from "uuid";
 import BoardTask from "./BoardTask";
 import { Contact, TSubtask, Task } from "../types";
 import { DnDContext } from "../contexts/DnD.context";
@@ -53,7 +54,7 @@ const DropArea = ({
       <div className="w-full overflow-x-auto h-full" onDrop={handleDrop} onDragOver={(e) => e.preventDefault()}>
         <div className="flex flex-row lg:flex-col gap-4 w-fit lg:w-full">
           {tasks.map((item) => (
-            <BoardTask key={item.id} task={item} contacts={contacts} subtasks={subtasks} />
+            <BoardTask key={uuidv4()} task={item} contacts={contacts} subtasks={subtasks} />
           ))}
         </div>
       </div>

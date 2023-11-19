@@ -134,7 +134,7 @@ const createTask = async (body: unknown) => {
 
   if ("id" in response) {
     revalidateTag("tasks");
-    return redirect("/board", RedirectType.push);
+    return response;
   }
 
   return { status: response.status, message: "Couldn't create the Task" } as ErrorResponse;

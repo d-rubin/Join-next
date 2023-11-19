@@ -2,6 +2,7 @@
 
 import { ForwardedRef, forwardRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../helper/generalHelper";
 import { Task, Contact } from "../types";
 import Icon from "./Icon";
@@ -140,7 +141,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
               >
                 {contacts.map((contact) => {
                   return (
-                    <option value={contact.id} key={contact.email}>
+                    <option value={contact.id} key={uuidv4()}>
                       {contact.username}
                     </option>
                   );

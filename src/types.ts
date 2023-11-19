@@ -15,7 +15,7 @@ type Task = {
 type TSubtask = {
   is_done: boolean;
   label: string;
-  task: number;
+  task?: number;
   id?: number;
 };
 

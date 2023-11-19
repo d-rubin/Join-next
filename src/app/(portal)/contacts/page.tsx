@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { getContacts } from "../../../helper/fetchApi";
 import { Contact } from "../../../types";
 import PagePadding from "../../../components/PagePadding";
@@ -28,7 +29,7 @@ const SummaryPage = () => {
       contacts.map((contact) => {
         return (
           <div
-            key={contact.id}
+            key={uuidv4()}
             className="cursor-pointer hover:bg-primary hover:text-white transition-all p-4 rounded-xl"
           >
             <span className="text-xl">{contact.username}</span>

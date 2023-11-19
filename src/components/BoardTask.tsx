@@ -5,6 +5,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import _ from "lodash";
+import { v4 as uuidv4 } from "uuid";
 import { Contact, PrioType, TSubtask, Task } from "../types";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../helper/generalHelper";
 import { DnDContext } from "../contexts/DnD.context";
@@ -112,7 +113,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
   };
 
   return (
-    <Fragment key={task.id}>
+    <Fragment key={uuidv4()}>
       <div
         className="focus:bg-grey outline-none p-4 min-w-40 w-52 bg-white rounded-3xl flex flex-col justify-start gap-2 lg:h-fit lg:w-full cursor-pointer"
         draggable
@@ -148,7 +149,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
       </div>
       <dialog className="fixed top-0 left-0 w-screen h-full bg-transparent" open={dialogOpen}>
         <div className="flex items-center justify-center w-full h-full bg-transparent">
-          <div className="z-10 w-fit h-fit max-h-[75%] lg:max-h-[80%] overscroll-x-none bg-white rounded-3xl p-4 min-w-[17rem] max-w-[25rem] shadow-2xl overflow-y-auto">
+          <div className="z-10 w-fit h-fit max-h-[75%] lg:max-h-[80%] overflow-x-hidden bg-white rounded-3xl p-4 min-w-[17rem] max-w-[25rem] shadow-2xl overflow-y-auto">
             {editTask ? (
               <div className="flex flex-col max-h-full">
                 <span className="w-full flex justify-end items-center">
@@ -239,13 +240,13 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                       {contacts.map((contact) => {
                         if (contact.id === task.assignee)
                           return (
-                            <option value={contact.id} selected key={contact.email}>
+                            <option value={contact.id} selected key={uuidv4()}>
                               {contact.username}
                             </option>
                           );
 
                         return (
-                          <option value={contact.id} key={contact.email}>
+                          <option value={contact.id} key={uuidv4()}>
                             {contact.username}
                           </option>
                         );
@@ -288,24 +289,22 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                       </div>
                     </label>
                   </div>
-                  <div>
-                    {subTasks.map((subtask) => (
-                      <span key={subtask.label} className="flex flex-row gap-2">
-                        <Checkbox
-                          name={subtask.label}
-                          text={subtask.label}
-                          value={subtask.is_done}
-                          onChange={(value) => handleSubtaskClick(value, subtask.id)}
-                        />
-                        <Icon
-                          icon="x"
-                          onClick={() => handleDeleteSubtask(subtask)}
-                          focusable
-                          className="hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
-                        />
-                      </span>
-                    ))}
-                  </div>
+                  {subTasks.map((subtask) => (
+                    <span key={uuidv4()} className="flex flex-row gap-2">
+                      <Checkbox
+                        name={subtask.label}
+                        text={subtask.label}
+                        value={subtask.is_done}
+                        onChange={(value) => handleSubtaskClick(value, subtask.id)}
+                      />
+                      <Icon
+                        icon="x"
+                        onClick={() => handleDeleteSubtask(subtask)}
+                        focusable
+                        className="hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
+                      />
+                    </span>
+                  ))}
                   <span className="w-full flex justify-end">
                     <BigButton text="Ok" icon="check" loading={isSubmitting} />
                   </span>

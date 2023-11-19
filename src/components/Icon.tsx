@@ -2,6 +2,7 @@
 
 import { KeyboardEvent } from "react";
 import clsx from "clsx";
+import { v4 as uuidv4 } from "uuid";
 import { iconLib } from "../iconlib/iconLib";
 
 export type IconProps = {
@@ -39,7 +40,7 @@ const Icon = ({ icon, iconSize = "h-6 w-6", onClick, className, focusable = fals
         tabIndex={focusable ? 0 : -1}
       >
         {iconLib[icon].path.map((path) => {
-          return <path key={path} d={path} />;
+          return <path key={uuidv4()} d={path} />;
         })}
       </svg>
     );
