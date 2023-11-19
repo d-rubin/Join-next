@@ -92,7 +92,7 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
             <option value="">Select Assignee</option>
             {contacts.map((contact) => {
               return (
-                <option value={contact.id} key={uuidv4}>
+                <option value={contact.id} key={uuidv4()}>
                   {contact.username}
                 </option>
               );
