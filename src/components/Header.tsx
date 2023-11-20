@@ -31,7 +31,7 @@ const Header = async () => {
             iconSize="h-8 w-8"
           />
         </Link>
-        <Profile letters={getLetter(currentUser)} />
+        <Profile letters={getLetter(currentUser as { username: string; email: string })} />
       </div>
     </div>
   );

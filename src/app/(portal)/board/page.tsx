@@ -7,6 +7,7 @@ import DropArea from "../../../components/DropArea";
 import { DnDContextProvider } from "../../../contexts/DnD.context";
 import { getSubtasks, getTasks } from "../../../helper/serverActions";
 import { getContacts } from "../../../helper/fetchApi";
+import { TSubtask } from "../../../types";
 
 export const metadata: Metadata = {
   title: "Board",
@@ -38,7 +39,7 @@ const BoardPage = async () => {
                 contacts={contacts}
                 status="toDo"
                 tasks={tasks.filter((item) => item.status === "toDo")}
-                subtasks={subtasks}
+                subtasks={subtasks as TSubtask[]}
               />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
@@ -53,7 +54,7 @@ const BoardPage = async () => {
               <DropArea
                 status="inProgress"
                 tasks={tasks.filter((item) => item.status === "inProgress")}
-                subtasks={subtasks}
+                subtasks={subtasks as TSubtask[]}
                 contacts={contacts}
               />
             </div>
@@ -72,7 +73,7 @@ const BoardPage = async () => {
                 status="awaitingFeedback"
                 tasks={tasks.filter((item) => item.status === "awaitingFeedback")}
                 contacts={contacts}
-                subtasks={subtasks}
+                subtasks={subtasks as TSubtask[]}
               />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
@@ -88,7 +89,7 @@ const BoardPage = async () => {
                 status="done"
                 tasks={tasks.filter((item) => item.status === "done")}
                 contacts={contacts}
-                subtasks={subtasks}
+                subtasks={subtasks as TSubtask[]}
               />
             </div>
           </div>

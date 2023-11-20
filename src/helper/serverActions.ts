@@ -7,13 +7,13 @@ import { TSubtask, Task } from "../types";
 import { ErrorResponse, TokenResponse } from "./fetchApi";
 import { loginSchema, signInSchema, taskSchema } from "../schemas";
 
-const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T> => {
+const fetchServer = async <T>(url: string, options?: RequestInit, raw: boolean = false): Promise<T | Response> => {
   const authToken = cookies().get("authToken")?.value;
 
   return fetch(`${process.env.API_URL}${url}`, {
     ...options,
     headers: { "Content-Type": "application/json", ...(authToken ? { Authorization: `Token ${authToken}` } : {}) },
-  }).then((res) => res.json() as T);
+  }).then((res) => (raw ? res : (res.json() as T)));
 };
 
 const logout = () => {
@@ -26,8 +26,8 @@ const isUserLoggedIn = (): boolean => {
   return !!cookies().get("authToken");
 };
 
-const updateTask = async (task: unknown): Promise<ErrorResponse | Task> => {
-  let response: Task | ErrorResponse | null = null;
+const updateTask = async (task: unknown): Promise<ErrorResponse | Task | Response> => {
+  let response: Response | Task | ErrorResponse | null = null;
 
   if (task && typeof task === "object" && "id" in task)
     response = await fetchServer<Task | ErrorResponse>(`/tasks/${task.id}/`, {
@@ -144,15 +144,16 @@ const getCurrentUser = () => {
   return fetchServer<{ username: string; email: string }>("/contacts/currentUser");
 };
 
-const deleteTask = (id: number) => {
+const deleteTask = async (id: number) => {
   fetchServer(`/tasks/${id}/`, { method: "DELETE" }).then(() => {
     revalidateTag("tasks");
-    return redirect("/board");
+    revalidateTag("subtasks");
+    redirect("/board");
   });
 };
 
 const getSubtasks = async () => {
-  return fetchServer<TSubtask[] | []>("/tasks/subtasks");
+  return fetchServer<TSubtask[] | []>("/tasks/subtasks", { next: { tags: ["subtasks"] } });
 };
 
 const createSubtask = async (subtask: TSubtask) => {
@@ -162,7 +163,7 @@ const createSubtask = async (subtask: TSubtask) => {
   });
 };
 
-const updateSubtask = async (subtask: TSubtask): Promise<TSubtask | ErrorResponse> => {
+const updateSubtask = async (subtask: TSubtask): Promise<TSubtask | ErrorResponse | Response> => {
   if (subtask.id)
     return fetchServer<TSubtask | ErrorResponse>(`/tasks/subtasks/edit/${subtask.id}`, {
       method: "PATCH",
@@ -172,7 +173,28 @@ const updateSubtask = async (subtask: TSubtask): Promise<TSubtask | ErrorRespons
 };
 
 const deleteSubtask = async (subtaskId: number) => {
-  return fetchServer<TSubtask | ErrorResponse>(`/tasks/subtasks/${subtaskId}`);
+  await fetchServer(
+    `/tasks/subtasks/edit/${subtaskId}`,
+    {
+      method: "DELETE",
+    },
+    true,
+  );
+};
+
+const handleMutateSubtasks = async (mutatedSubtasks: TSubtask[], taskId?: number) => {
+  await Promise.all(
+    mutatedSubtasks.map(async (subtask) => {
+      if (subtask.id) {
+        if (subtask.toDelete) {
+          await deleteSubtask(subtask.id);
+        } else {
+          await updateSubtask(subtask);
+        }
+      } else if (taskId) await createSubtask(subtask);
+    }),
+  );
+  revalidateTag("subtasks");
 };
 
 export {
@@ -185,6 +207,7 @@ export {
   createSubtask,
   updateSubtask,
   deleteSubtask,
+  handleMutateSubtasks,
   login,
   register,
   isUserLoggedIn,

@@ -15,7 +15,7 @@ import DefaultInput from "./inputs/Default";
 import Textarea from "./inputs/Textarea";
 import Prio from "./Prio";
 import { taskSchema } from "../schemas";
-import { createSubtask, deleteTask, updateSubtask, updateTask } from "../helper/serverActions";
+import { deleteTask, handleMutateSubtasks, updateTask } from "../helper/serverActions";
 import BigButton from "./buttons/BigButton";
 import Checkbox from "./Checkbox";
 
@@ -38,7 +38,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
       mutated.forEach((item) => {
         const originalItem = original.find((originalSubtask) => originalSubtask.id === item.id);
         if (originalItem) {
-          if (!_.isEqual(originalItem, item)) mutatedSubtasks.push(item);
+          if (!_.isEqual(originalItem, item) || item.toDelete) mutatedSubtasks.push(item);
         }
         if (!originalItem) mutatedSubtasks.push(item);
       });
@@ -51,13 +51,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
     const response = await updateTask({ ...fieldValues, priority: prio || "low" });
     if ("message" in response) console.error(response);
     else {
-      await Promise.all(
-        mutatedSubtasks.map(async (t) => {
-          if (t.id) {
-            await updateSubtask(t);
-          } else if (task.id) await createSubtask(t);
-        }),
-      );
+      await handleMutateSubtasks(mutatedSubtasks, task.id);
       setDialogOpen(false);
       setEditTask(false);
     }
@@ -107,8 +101,8 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
 
   const handleDeleteSubtask = (s: TSubtask) => {
     const index = subTasks.findIndex((subtask) => subtask.label === s.label);
-    const newSubtasks = subTasks;
-    newSubtasks.splice(index, 1);
+    const newSubtasks = [...subTasks];
+    newSubtasks[index].toDelete = true;
     setSubTasks(newSubtasks);
   };
 
@@ -289,22 +283,25 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                       </div>
                     </label>
                   </div>
-                  {subTasks.map((subtask) => (
-                    <span key={uuidv4()} className="flex flex-row gap-2">
-                      <Checkbox
-                        name={subtask.label}
-                        text={subtask.label}
-                        value={subtask.is_done}
-                        onChange={(value) => handleSubtaskClick(value, subtask.id)}
-                      />
-                      <Icon
-                        icon="x"
-                        onClick={() => handleDeleteSubtask(subtask)}
-                        focusable
-                        className="hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
-                      />
-                    </span>
-                  ))}
+                  {subTasks.map((subtask) => {
+                    if (subtask.toDelete) return null;
+                    return (
+                      <span key={uuidv4()} className="flex flex-row gap-2">
+                        <Checkbox
+                          name={subtask.label}
+                          text={subtask.label}
+                          value={subtask.is_done}
+                          onChange={(value) => handleSubtaskClick(value, subtask.id)}
+                        />
+                        <Icon
+                          icon="x"
+                          onClick={() => handleDeleteSubtask(subtask)}
+                          focusable
+                          className="hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
+                        />
+                      </span>
+                    );
+                  })}
                   <span className="w-full flex justify-end">
                     <BigButton text="Ok" icon="check" loading={isSubmitting} />
                   </span>

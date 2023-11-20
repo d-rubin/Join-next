@@ -13,10 +13,11 @@ type Task = {
 };
 
 type TSubtask = {
-  is_done: boolean;
   label: string;
+  is_done: boolean;
   task?: number;
   id?: number;
+  toDelete?: boolean;
 };
 
 type Contact = {

@@ -170,7 +170,9 @@ const SummaryTaskArea = async () => {
       </div>
       <span className="w-fit flex-col gap-2 hidden xl:flex">
         <p className="text-4xl font-semibold">Good morning,</p>
-        <p className="text-5xl font-semibold text-underline">{user.username}</p>
+        <p className="text-5xl font-semibold text-underline">
+          {(user as { username: string; email: string }).username}
+        </p>
       </span>
     </div>
   );
