@@ -9,12 +9,12 @@ const SummaryTaskArea = async () => {
   const user = await getCurrentUser();
 
   const getNextDeadline = (items: Array<Task>) => {
-    let nextDeadline: Date = new Date(0);
+    let nextDeadline: number = new Date().getTime();
 
     if (Array.isArray(items)) {
       tasks.forEach((task) => {
-        const deadline = new Date(task.due_date);
-        if (deadline > nextDeadline) nextDeadline = deadline;
+        const deadline = new Date(task.due_date).getTime();
+        if (deadline < nextDeadline) nextDeadline = deadline;
       });
     } else {
       return "No Deadline";

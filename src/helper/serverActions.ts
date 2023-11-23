@@ -7,13 +7,21 @@ import { TSubtask, Task } from "../types";
 import { ErrorResponse, TokenResponse } from "./fetchApi";
 import { loginSchema, signInSchema, taskSchema } from "../schemas";
 
-const fetchServer = async <T>(url: string, options?: RequestInit, raw: boolean = false): Promise<T | Response> => {
+const fetchServer = async <T>(
+  url: string,
+  options?: RequestInit,
+  raw: boolean = false,
+): Promise<T | ErrorResponse | Response> => {
   const authToken = cookies().get("authToken")?.value;
 
   return fetch(`${process.env.API_URL}${url}`, {
     ...options,
     headers: { "Content-Type": "application/json", ...(authToken ? { Authorization: `Token ${authToken}` } : {}) },
-  }).then((res) => (raw ? res : (res.json() as T)));
+  })
+    .then((res) => (raw ? res : (res.json() as T)))
+    .catch((err) => {
+      return { status: 500, message: "Could not fetch. ERROR: ", err } as ErrorResponse;
+    });
 };
 
 const logout = () => {
