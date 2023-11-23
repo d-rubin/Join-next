@@ -130,7 +130,11 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
           <span className="flex flex-row gap-2 w-full items-center">
             <span className="bg-gray-200 block rounded-md w-full h-3">
               <span
-                style={{ width: `${(getDoneSubtasks() / subtasks.length) * 100}%` }}
+                style={{
+                  width: `${
+                    !Number.isNaN(getDoneSubtasks() / subTasks.length) ? (getDoneSubtasks() / subTasks.length) * 100 : 0
+                  }%`,
+                }}
                 className="block bg-underline rounded-md h-3 transition-all"
               />
             </span>
