@@ -9,13 +9,13 @@ const Footer = () => {
       <Link href="legal-notice" target="_blank" className="focus:outline-none group">
         <Text
           text="Legal notice"
-          className="text-gray-400 hover:text-underline transition-all group-focus:text-underline"
+          className="text-gray-400 dark:text-gray-100 hover:text-underline transition-all group-focus:text-underline"
         />
       </Link>
       <Link href="privacy-policy" target="_blank" className="focus:outline-none group">
         <Text
           text="Privacy Policy"
-          className="text-gray-400 hover:text-underline transition-all group-focus:text-underline"
+          className="text-gray-400 dark:text-gray-100 hover:text-underline transition-all group-focus:text-underline"
         />
       </Link>
     </div>

@@ -14,7 +14,7 @@ const LoginPage = () => {
   return (
     <div className="flex flex-col gap-8 w-full items-center">
       <div className="bg-white sm:w-[25rem] rounded-3xl px-8 py-8 gap-4 flex flex-col items-center shadow-md">
-        <h1 className="text-4xl font-bold cursor-default">Log in</h1>
+        <h1 className="text-4xl font-bold cursor-default dark:text-textDark">Log in</h1>
         <div className="border-underline border-b-[3px] h-0 w-24 rounded-full" />
         <LoginForm />
       </div>

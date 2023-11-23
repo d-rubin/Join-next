@@ -5,6 +5,7 @@ import Profile from "./Profile";
 import Icon from "./Icon";
 import Text from "./Text";
 import { getCurrentUser } from "../helper/serverActions";
+import DarkMode from "./DarkMode";
 
 const Header = async () => {
   const currentUser = await getCurrentUser();
@@ -24,6 +25,7 @@ const Header = async () => {
         className="hidden h-16 min-h-16 lg:flex items-center cursor-default"
       />
       <div className="flex gap-4 items-center">
+        <DarkMode />
         <Link href="help" className="hidden outline-none lg:flex h-fit group items-center justify-center">
           <Icon
             icon="help"

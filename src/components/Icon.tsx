@@ -24,7 +24,9 @@ const Icon = ({ icon, iconSize = "h-6 w-6", onClick, className, focusable = fals
     const noFill = iconLib[icon].noFill || false;
     return (
       <svg
-        viewBox={`0 0 ${iconLib[icon].viewBoxWidth || "0"} ${iconLib[icon].viewBoxHeight || "0"}`}
+        viewBox={`0 ${iconLib[icon].minY || "0"} ${iconLib[icon].viewBoxWidth || "0"} ${
+          iconLib[icon].viewBoxHeight || "0"
+        }`}
         className={clsx(
           `transition-all ${iconSize} ${className}`,
           { "outline-none": !focusable },
