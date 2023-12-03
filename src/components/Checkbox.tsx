@@ -40,7 +40,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
           className="stroke-black peer-focus:outline-underline peer-focus:outline-2 rounded-sm"
           iconSize="1rem"
         />
-        <Text text={text} />
+        <Text text={text} className="dark:text-textDark" />
       </span>
       {isError && errorText && <p className="text-xs text-red">{errorText}</p>}
     </>
