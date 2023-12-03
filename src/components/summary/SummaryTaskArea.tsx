@@ -71,7 +71,7 @@ const SummaryTaskArea = async () => {
               <span className="rounded-full w-12 h-12 bg-primary flex items-center justify-center transition-all group-hover:scale-105 group-hover:bg-white group-focus:scale-105 group-focus:bg-white">
                 <Icon
                   icon="pencil"
-                  className="stroke-white fill-white transition-all group-hover:scale-105 group-hover:fill-primary group-hover:stroke-primary group-focus:scale-105 group-focus:fill-primary group-focus:stroke-primary"
+                  className="stroke-white fill-white dark:stfill-textDark dark:fill-textDark transition-all group-hover:scale-105 group-hover:fill-primary group-hover:stroke-primary group-focus:scale-105 group-focus:fill-primary group-focus:stroke-primary"
                   iconSize="h-8 w-8"
                 />
               </span>
@@ -169,7 +169,7 @@ const SummaryTaskArea = async () => {
         </div>
       </div>
       <span className="w-fit flex-col gap-2 hidden xl:flex">
-        <p className="text-4xl font-semibold">Good morning,</p>
+        <p className="text-4xl font-semibold dark:text-textDark">Good morning,</p>
         <p className="text-5xl font-semibold text-underline">
           {(user as { username: string; email: string }).username}
         </p>

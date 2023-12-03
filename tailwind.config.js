@@ -1,12 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./stories/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    darkMode: "class",
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -29,9 +29,10 @@ module.exports = {
         marketing: "#0038FF",
         media: "#FFC701",
         defaultColor: "#F6F7F8",
-        defaultColorDark: "#323233",
+        defaultColorDark: "#252525",
         grey: "#D1D1D1",
-        textDark: "#a9a9a9",
+        textDark: "#d5d5d5",
+        bgDark: "#414141",
       },
     },
   },
