@@ -12,7 +12,7 @@ const AddTaskPage = async () => {
   const contacts = await getContacts();
 
   return (
-    <PagePadding className="flex flex-col gap-4 relative h-full">
+    <PagePadding className="flex flex-col gap-4 relative h-full dark:text-textDark">
       <h1 className="text-5xl font-bold">Add Task</h1>
       <AddTaskFormMobile contacts={contacts} />
       <AddTaskFormDesktop contacts={contacts} />

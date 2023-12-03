@@ -83,7 +83,7 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
           <select
             {...register("assignee")}
             className={clsx(
-              `border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5`,
+              `border-2 border-outline w-full dark:bg-bgDark rounded-lg px-3 focus:border-underline outline-none py-1.5`,
               {
                 "border-red": !!errors.assignee,
               },
@@ -125,7 +125,7 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
           <select
             {...register("category")}
             className={clsx(
-              `border-2 border-outline w-full rounded-lg px-3 focus:border-underline outline-none py-1.5`,
+              `border-2 border-outline w-full dark:bg-bgDark rounded-lg px-3 focus:border-underline outline-none py-1.5`,
               {
                 "border-red": !!errors.category,
               },
@@ -143,7 +143,7 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
         <div className="flex flex-col justify-start gap-1 w-full">
           <label>
             Subtasks
-            <div className="flex flex-row flex-nowrap items-center bg-white rounded-lg px-2 py-1.5 border-2 border-grey focus-within:border-underline">
+            <div className="flex flex-row flex-nowrap dark:bg-bgDark items-center bg-white rounded-lg px-2 py-1.5 border-2 border-grey focus-within:border-underline">
               <input
                 ref={subTaskInputRef}
                 name="subtaskInput"

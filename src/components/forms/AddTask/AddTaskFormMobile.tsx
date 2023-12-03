@@ -108,7 +108,7 @@ const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Tas
         <select
           {...register("category", { value: task ? task.category : undefined })}
           className={clsx(
-            `border-2 border-outline w-full rounded-lg px-1.5 focus:border-underline outline-none py-1.5 bg-white`,
+            `border-2 border-outline w-full dark:bg-bgDark rounded-lg px-1.5 focus:border-underline outline-none py-1.5 bg-white`,
             {
               "border-red": !!errors.category,
             },
@@ -128,7 +128,7 @@ const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Tas
         <select
           {...register("assignee", { value: task ? task.assignee : undefined })}
           className={clsx(
-            `border-2 border-outline w-full rounded-lg px-1.5 focus:border-underline outline-none py-1.5 bg-white`,
+            `border-2 border-outline w-full dark:bg-bgDark rounded-lg px-1.5 focus:border-underline outline-none py-1.5 bg-white`,
             {
               "border-red": !!errors.assigeee,
             },
@@ -148,7 +148,7 @@ const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Tas
       <div className="flex flex-col justify-start gap-1 w-full">
         <label>
           Subtasks
-          <div className="flex flex-row flex-nowrap items-center bg-white rounded-lg px-2 py-1.5 border-2 border-grey focus-within:border-underline">
+          <div className="flex flex-row flex-nowrap dark:bg-bgDark items-center bg-white rounded-lg px-2 py-1.5 border-2 border-grey focus-within:border-underline">
             <input
               ref={subTaskInputRef}
               name="subtaskInput"
@@ -182,7 +182,7 @@ const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Tas
           {/* /> */}
         </span>
       ))}
-      <BigButton text="Create" icon="check" loading={isSubmitting} className="fixed bottom-24 right-4" />
+      <BigButton text="Create" icon="check" loading={isSubmitting} className="fixed bottom-24 right-8" />
     </form>
   );
 };
