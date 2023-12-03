@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 const PrivacyPage = () => {
   return (
     <PagePadding>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 dark:text-textDark">
         <h2 className="text-4xl font-bold cursor-default mb-2">Privacy Policy</h2>
         <p>Last updated: October 13, 2023</p>
         <p>
