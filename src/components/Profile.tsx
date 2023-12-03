@@ -32,7 +32,7 @@ const Profile = ({ letters, size = "h-10 w-10" }: { letters: string; size?: stri
         tabIndex={0}
         onKeyDown={(e) => handleKeyDown(e)}
         onClick={() => setOpenOptions(!openOptions)}
-        className={`cursor-pointer relative rounded-full border-2 border-secondary text-underline flex items-center justify-center font-semibold text-2xl focus:bg-grey hover:bg-grey ${size}`}
+        className={`cursor-pointer relative rounded-full border-2 border-secondary text-underline flex items-center justify-center font-semibold text-2xl transition-all focus:bg-grey hover:bg-grey dark:focus:bg-textDark dark:hover:bg-textDark${size}`}
       >
         {letters.toUpperCase()}
         <div

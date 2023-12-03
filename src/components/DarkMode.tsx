@@ -20,7 +20,7 @@ const DarkMode = () => {
       onClick={toggleDarkMode}
       iconSize="h-8 w-8"
       focusable
-      className="fill-gray-300 stroke-gray-300 outline-none hover:fill-underline hover:stroke-underline focus:fill-underline focus:stroke-underline"
+      className="fill-gray-300 stroke-gray-300 outline-none hover:fill-gray-400 hover:stroke-gray-400 focus:fill-gray-400 focus:stroke-gray-400"
     />
   );
 };

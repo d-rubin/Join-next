@@ -16,7 +16,7 @@ const Header = async () => {
   };
 
   return (
-    <div className="w-full h-16 min-h-16 bg-white shadow-xl flex items-center px-4 justify-between lg:pl-16 2xl:rounded-r-3xl">
+    <div className="w-full h-16 min-h-16 bg-white dark:bg-bgDark dark:text-textDark shadow-xl flex items-center px-4 justify-between lg:pl-16 2xl:rounded-r-3xl">
       <Link className="outline-none focus:bg-grey px-2 flex items-center justify-center h-16 lg:hidden" href="/summary">
         <Image className="h-8 w-fit object-cover" src={LogoDark} alt="Logo" />
       </Link>
