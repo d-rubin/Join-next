@@ -9,7 +9,7 @@ const SummaryTaskArea = async () => {
   const user = await getCurrentUser();
 
   const getNextDeadline = (items: Array<Task>) => {
-    let nextDeadline: number = new Date().getTime();
+    let nextDeadline: number = new Date("01-01-3000").getTime();
 
     if (Array.isArray(items)) {
       tasks.forEach((task) => {
