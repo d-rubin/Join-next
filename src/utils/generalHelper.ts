@@ -1,11 +1,13 @@
+import { twMerge } from "tw-merge";
+import clsx, { ClassValue } from "clsx";
 import { Contact } from "../types";
 
-export const generalHelper = (string: string) => {
+const generalHelper = (string: string) => {
   if (!string) return "";
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
-export const getBackgroundForCategory = (category: string) => {
+const getBackgroundForCategory = (category: string) => {
   switch (category) {
     case "media":
       return "var(--color-media)";
@@ -24,3 +26,7 @@ export const getAssignee = (assignee: number, contacts: Contact[]) => {
   const assignedPerson = contacts?.find((user) => user.id === assignee);
   return assignedPerson?.username || "-";
 };
+
+const cn = (...classNames: ClassValue[]) => twMerge(clsx(classNames));
+
+export { generalHelper, getBackgroundForCategory, cn };

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { getContacts } from "../../../helper/fetchApi";
+import { getContacts } from "../../../utils/fetchApi";
 import { Contact } from "../../../types";
 import PagePadding from "../../../components/PagePadding";
 
@@ -30,7 +30,7 @@ const SummaryPage = () => {
         return (
           <div
             key={uuidv4()}
-            className="cursor-pointer hover:bg-primary hover:text-white transition-all p-4 rounded-xl"
+            className="cursor-pointer rounded-xl p-4 transition-all hover:bg-primary hover:text-white"
           >
             <span className="text-xl">{contact.username}</span>
             <br />
@@ -44,7 +44,7 @@ const SummaryPage = () => {
   return (
     <div className="flex flex-row overflow-hidden">
       <dialog ref={dialogRef} />
-      <div className="w-full lg:max-w-[30rem] bg-white p-8 flex flex-col gap-4border-t-2 min-h-full overflow-y-auto overflow-x-hidden">
+      <div className="gap-4border-t-2 flex min-h-full w-full flex-col overflow-y-auto overflow-x-hidden bg-white p-8 lg:max-w-[30rem]">
         {contacts && renderContacts()}
       </div>
       <PagePadding>

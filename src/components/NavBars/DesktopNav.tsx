@@ -1,18 +1,18 @@
 import Image from "next/image";
 import { ReactNode } from "react";
 import logoLight from "../../iconlib/logo-light.svg";
-import Icon from "../Icon";
-import Text from "../Text";
+import Icon from "../Basics/Icon";
+import Text from "../Basics/Text";
 import DesktopNavLink from "./DesktopNavLink";
 
 const DesktopNav = ({ children }: { children: ReactNode }) => {
   return (
-    <main className="flex flex-row max-w-screen-2xl mr-auto">
-      <nav className="hidden relative bg-primary h-screen w-56 py-10 items-center lg:flex flex-col gap-10">
-        <div className="relative object-cover h-36 w-24">
+    <main className="mr-auto flex max-w-screen-2xl flex-row">
+      <nav className="relative hidden h-screen w-56 flex-col items-center gap-10 bg-primary py-10 lg:flex">
+        <div className="relative h-36 w-24 object-cover">
           <Image src={logoLight} alt="Logo" priority fill />
         </div>
-        <div className="flex flex-col w-full gap-4">
+        <div className="flex w-full flex-col gap-4">
           <DesktopNavLink path="summary">
             <Icon icon="summary" />
             <Text text="Summary" className="text-lg" />
@@ -35,7 +35,7 @@ const DesktopNav = ({ children }: { children: ReactNode }) => {
           {/*  <Text text="Contacts" className="text-lg" /> */}
           {/* </Link> */}
         </div>
-        <div className="w-full absolute bottom-10">
+        <div className="absolute bottom-10 w-full">
           <DesktopNavLink path="privacy-policy" target="_blank">
             Privacy Policy
           </DesktopNavLink>

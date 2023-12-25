@@ -1,5 +1,5 @@
 import { Meta } from "@storybook/react";
-import Text from "../components/Text";
+import Text from "../components/Basics/Text";
 
 const meta: Meta = {
   component: Text,

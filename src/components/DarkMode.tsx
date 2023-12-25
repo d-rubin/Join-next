@@ -2,7 +2,7 @@
 
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
-import Icon from "./Icon";
+import Icon from "./Basics/Icon";
 
 const DarkMode = () => {
   const darkMode = new Cookies().get("darkMode") === "true";
@@ -19,7 +19,6 @@ const DarkMode = () => {
       icon={darkMode ? "lightMode" : "darkMode"}
       onClick={toggleDarkMode}
       iconSize="h-8 w-8"
-      focusable
       className="fill-gray-300 stroke-gray-300 outline-none hover:fill-gray-400 hover:stroke-gray-400 focus:fill-gray-400 focus:stroke-gray-400"
     />
   );

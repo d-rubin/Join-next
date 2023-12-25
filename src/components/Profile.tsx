@@ -4,7 +4,8 @@ import { useState, KeyboardEvent } from "react";
 import Link from "next/link";
 import Cookies from "universal-cookie";
 import { useRouter } from "next/navigation";
-// import { logout } from "../helper/serverActions";
+import { cn } from "../utils/generalHelper";
+// import { logout } from "../utils/serverActions";
 
 const Profile = ({ letters, size = "h-10 w-10" }: { letters: string; size?: string }) => {
   const [openOptions, setOpenOptions] = useState<boolean>(false);
@@ -32,15 +33,18 @@ const Profile = ({ letters, size = "h-10 w-10" }: { letters: string; size?: stri
         tabIndex={0}
         onKeyDown={(e) => handleKeyDown(e)}
         onClick={() => setOpenOptions(!openOptions)}
-        className={`cursor-pointer relative rounded-full border-2 border-secondary text-underline flex items-center justify-center font-semibold text-2xl transition-all focus:bg-grey hover:bg-grey dark:focus:bg-textDark dark:hover:bg-textDark${size}`}
+        className={cn(
+          "relative flex cursor-pointer items-center justify-center rounded-full border-2 border-secondary text-2xl font-semibold text-underline transition-all hover:bg-grey focus:bg-grey dark:hover:bg-textDark dark:focus:bg-textDark",
+          size,
+        )}
       >
         {letters.toUpperCase()}
         <div
-          className={`absolute z-20 w-36 h-fit -left-32 rounded-b-3xl rounded-tl-3xl bg-primary top-12 text-base text-grey font-normal flex flex-col ${
+          className={`absolute -left-32 top-12 z-20 flex h-fit w-36 flex-col rounded-b-3xl rounded-tl-3xl bg-primary text-base font-normal text-grey ${
             openOptions ? "flex" : "hidden"
           }`}
         >
-          <Link href="legal-notice" className="hover:bg-secondary focus:bg-secondary outline-none p-4 rounded-tl-3xl">
+          <Link href="legal-notice" className="rounded-tl-3xl p-4 outline-none hover:bg-secondary focus:bg-secondary">
             Legal Notice
           </Link>
           <span
@@ -48,7 +52,7 @@ const Profile = ({ letters, size = "h-10 w-10" }: { letters: string; size?: stri
             tabIndex={0}
             onKeyDown={(e) => handleLogoutKeyDown(e)}
             onClick={handleLogout}
-            className="hover:bg-secondary focus:bg-secondary outline-none p-4 rounded-b-3xl"
+            className="rounded-b-3xl p-4 outline-none hover:bg-secondary focus:bg-secondary"
           >
             Log out
           </span>
@@ -56,7 +60,7 @@ const Profile = ({ letters, size = "h-10 w-10" }: { letters: string; size?: stri
       </span>
       <div
         onClick={() => setOpenOptions(false)}
-        className={`z-10 fixed left-0 bottom-0 top-0 right-0 ${openOptions ? "block" : "hidden"}`}
+        className={`fixed bottom-0 left-0 right-0 top-0 z-10 ${openOptions ? "block" : "hidden"}`}
       />
     </>
   );

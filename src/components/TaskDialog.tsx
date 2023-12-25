@@ -3,10 +3,10 @@
 import { ForwardedRef, forwardRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-import { generalHelper, getAssignee, getBackgroundForCategory } from "../helper/generalHelper";
+import { generalHelper, getAssignee, getBackgroundForCategory } from "../utils/generalHelper";
 import { Task, Contact } from "../types";
-import Icon from "./Icon";
-import { updateTask } from "../helper/serverActions";
+import Icon from "./Basics/Icon";
+import { updateTask } from "../utils/serverActions";
 
 type TaskDialogProps = {
   task: Task;
@@ -40,14 +40,14 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
         }
       }}
       id="dialog"
-      className="outline-0 rounded-2xl shadow-2xl"
+      className="rounded-2xl shadow-2xl outline-0"
     >
       <div className="flex flex-col gap-2">
         {!editTask ? (
           // @ts-ignore
           <div className="flex flex-col gap-2">
             <p
-              className="text-white px-4 py-1 w-fit rounded-lg"
+              className="w-fit rounded-lg px-4 py-1 text-white"
               style={{ backgroundColor: getBackgroundForCategory(category) }}
             >
               {generalHelper(category)}
@@ -72,7 +72,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
                 type="text"
                 {...register("title", { required: true, maxLength: 30, value: title })}
                 placeholder="Enter a title"
-                className="border-2 border-outline h-8 rounded-lg px-2"
+                className="h-8 rounded-lg border-2 border-outline px-2"
               />
             </label>
             <label htmlFor="description" className="flex flex-col gap-2">
@@ -80,7 +80,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
               <textarea
                 {...register("description", { required: true, maxLength: 100, value: description })}
                 placeholder="Enter a description"
-                className="border-2 border-outline h-32 rounded-lg px-2"
+                className="h-32 rounded-lg border-2 border-outline px-2"
               />
             </label>
             <div className="flex flex-col gap-2">
@@ -89,7 +89,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
                 <button
                   onClick={() => setPrio("high")}
                   type="button"
-                  className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-outline border-2 items-center"
+                  className="flex w-1/3 items-center justify-around gap-2 rounded-lg border-2 border-outline bg-white p-2 shadow-xl"
                 >
                   <span>Urgent</span>
                   <Icon icon="urgent" />
@@ -97,7 +97,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
                 <button
                   onClick={() => setPrio("medium")}
                   type="button"
-                  className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-outline border-2 items-center"
+                  className="flex w-1/3 items-center justify-around gap-2 rounded-lg border-2 border-outline bg-white p-2 shadow-xl"
                 >
                   <span>Medium</span>
                   <Icon icon="medium" />
@@ -105,7 +105,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
                 <button
                   onClick={() => setPrio("low")}
                   type="button"
-                  className="flex w-1/3 justify-around gap-2 rounded-lg p-2 bg-white shadow-xl border-outline border-2 items-center"
+                  className="flex w-1/3 items-center justify-around gap-2 rounded-lg border-2 border-outline bg-white p-2 shadow-xl"
                 >
                   <span>Low</span>
                   <Icon icon="low" />
@@ -117,14 +117,14 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
               <input
                 type="date"
                 {...register("due_date", { required: true, value: due_date })}
-                className="border-2 border-outline h-8 w-full rounded-lg px-2"
+                className="h-8 w-full rounded-lg border-2 border-outline px-2"
               />
             </label>
             <div className="flex flex-col gap-2">
               <p>Category</p>
               <select
                 {...register("category", { value: category })}
-                className="border-2 border-outline h-8 w-full rounded-lg px-2"
+                className="h-8 w-full rounded-lg border-2 border-outline px-2"
               >
                 <option value="backoffice">Backoffice</option>
                 <option value="design">Design</option>
@@ -137,7 +137,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
               <p>Assignee</p>
               <select
                 {...register("assignee", { value: assignee })}
-                className="border-2 border-outline h-8 w-full rounded-lg px-2"
+                className="h-8 w-full rounded-lg border-2 border-outline px-2"
               >
                 {contacts.map((contact) => {
                   return (
@@ -152,7 +152,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
               <p>Status</p>
               <select
                 {...register("status", { value: status })}
-                className="border-2 border-outline h-8 w-full rounded-lg px-2"
+                className="h-8 w-full rounded-lg border-2 border-outline px-2"
               >
                 <option value="inProgress">In Progress</option>
                 <option value="toDo">To do</option>
@@ -160,10 +160,10 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
                 <option value="done">Done</option>
               </select>
             </div>
-            <div className="w-full flex justify-end">
+            <div className="flex w-full justify-end">
               <button
                 type="submit"
-                className="w-fit h-12 px-4 bg-primary rounded-lg text-white text-xl flex items-center gap-2"
+                className="flex h-12 w-fit items-center gap-2 rounded-lg bg-primary px-4 text-xl text-white"
               >
                 {/* <Image src={checkImage} alt="Create" /> */}
               </button>

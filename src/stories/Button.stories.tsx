@@ -1,52 +1,58 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import DefaultButton from "../components/buttons/Default";
+import ButtonComponent from "../components/Basics/Button";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-const meta = {
-  title: "Buttons/DefaultButton",
-  component: DefaultButton,
+const meta: Meta<typeof ButtonComponent> = {
+  title: "Stories/Button",
+  component: ButtonComponent,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
     // layout: "centered",
   },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-} satisfies Meta<typeof DefaultButton>;
+  args: {
+    children: "Button",
+  },
+};
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof ButtonComponent>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default: Story = {
-  args: {
-    text: "Button",
-  },
+  args: {},
 };
 
 export const Outlined: Story = {
   args: {
-    text: "Button",
     outlined: true,
   },
 };
 
 export const FullWidth: Story = {
   args: {
-    text: "Button",
     block: true,
   },
 };
 
 export const Loading: Story = {
   args: {
-    text: "Button",
     loading: true,
   },
 };
 
 export const WithIcon: Story = {
   args: {
-    text: "Button",
     icon: "check",
   },
+};
+
+export const Dark: Story = {
+  args: { disabled: false },
+  render: (args) => (
+    <div className="dark">
+      <div className="p-8 dark:bg-defaultColorDark">
+        <ButtonComponent {...args} />
+      </div>
+    </div>
+  ),
 };

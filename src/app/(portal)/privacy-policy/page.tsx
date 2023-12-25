@@ -10,7 +10,7 @@ const PrivacyPage = () => {
   return (
     <PagePadding>
       <div className="flex flex-col gap-4 dark:text-textDark">
-        <h2 className="text-4xl font-bold cursor-default mb-2">Privacy Policy</h2>
+        <h2 className="mb-2 cursor-default text-4xl font-bold">Privacy Policy</h2>
         <p>Last updated: October 13, 2023</p>
         <p>
           This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your
@@ -25,13 +25,13 @@ const PrivacyPage = () => {
           </Link>
           .
         </p>
-        <h2 className="text-3xl font-bold cursor-default mb-2">Interpretation and Definitions</h2>
-        <h3 className="text-2xl font-bold cursor-default mb-2">Interpretation</h3>
+        <h2 className="mb-2 cursor-default text-3xl font-bold">Interpretation and Definitions</h2>
+        <h3 className="mb-2 cursor-default text-2xl font-bold">Interpretation</h3>
         <p>
           The words of which the initial letter is capitalized have meanings defined under the following conditions. The
           following definitions shall have the same meaning regardless of whether they appear in singular or in plural.
         </p>
-        <h3 className="text-2xl font-bold cursor-default mb-2">Definitions</h3>
+        <h3 className="mb-2 cursor-default text-2xl font-bold">Definitions</h3>
         <p>For the purposes of this Privacy Policy:</p>
         <ul style={{ listStyleType: "circle", listStylePosition: "inside" }}>
           <li>
@@ -105,9 +105,9 @@ const PrivacyPage = () => {
             </p>
           </li>
         </ul>
-        <h2 className="text-3xl font-bold cursor-default mb-2">Collecting and Using Your Personal Data</h2>
-        <h3 className="text-2xl font-bold cursor-default mb-2">Types of Data Collected</h3>
-        <h4 className="text-xl font-bold cursor-default mb-2">Personal Data</h4>
+        <h2 className="mb-2 cursor-default text-3xl font-bold">Collecting and Using Your Personal Data</h2>
+        <h3 className="mb-2 cursor-default text-2xl font-bold">Types of Data Collected</h3>
+        <h4 className="mb-2 cursor-default text-xl font-bold">Personal Data</h4>
         <p>
           While using Our Service, We may ask You to provide Us with certain personally identifiable information that
           can be used to contact or identify You. Personally identifiable information may include, but is not limited
@@ -118,7 +118,7 @@ const PrivacyPage = () => {
           <li>First name and last name</li>
           <li>Usage Data</li>
         </ul>
-        <h4 className="text-xl font-bold cursor-default mb-2">Usage Data</h4>
+        <h4 className="mb-2 cursor-default text-xl font-bold">Usage Data</h4>
         <p>Usage Data is collected automatically when using the Service.</p>
         <p>
           Usage Data may include information such as Your Device's Internet Protocol address (e.g. IP address), browser
@@ -135,7 +135,7 @@ const PrivacyPage = () => {
           We may also collect information that Your browser sends whenever You visit our Service or when You access the
           Service by or through a mobile device.
         </p>
-        <h4 className="text-xl font-bold cursor-default mb-2">Tracking Technologies and Cookies</h4>
+        <h4 className="mb-2 cursor-default text-xl font-bold">Tracking Technologies and Cookies</h4>
         <p>
           We use Cookies and similar tracking technologies to track the activity on Our Service and store certain
           information. Tracking technologies used are beacons, tags, and scripts to collect and track information and to
@@ -202,7 +202,7 @@ const PrivacyPage = () => {
           For more information about the cookies we use and your choices regarding cookies, please visit our Cookies
           Policy or the Cookies section of our Privacy Policy.
         </p>
-        <h3 className="text-2xl font-bold cursor-default mb-2">Use of Your Personal Data</h3>
+        <h3 className="mb-2 cursor-default text-2xl font-bold">Use of Your Personal Data</h3>
         <p>The Company may use Personal Data for the following purposes:</p>
         <ul style={{ listStyleType: "circle", listStylePosition: "inside" }}>
           <li>
@@ -220,7 +220,7 @@ const PrivacyPage = () => {
           </li>
         </ul>
         <p>We may share Your personal information in the following situations:</p>
-        <h3 className="text-2xl font-bold cursor-default mb-2">Retention of Your Personal Data</h3>
+        <h3 className="mb-2 cursor-default text-2xl font-bold">Retention of Your Personal Data</h3>
         <p>
           The Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this
           Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal
@@ -232,7 +232,7 @@ const PrivacyPage = () => {
           shorter period of time, except when this data is used to strengthen the security or to improve the
           functionality of Our Service, or We are legally obligated to retain this data for longer time periods.
         </p>
-        <h3 className="text-2xl font-bold cursor-default mb-2">Transfer of Your Personal Data</h3>
+        <h3 className="mb-2 cursor-default text-2xl font-bold">Transfer of Your Personal Data</h3>
         <p>
           Your information, including Personal Data, is processed at the Company's operating offices and in any other
           places where the parties involved in the processing are located. It means that this information may be
@@ -249,7 +249,7 @@ const PrivacyPage = () => {
           or a country unless there are adequate controls in place including the security of Your data and other
           personal information.
         </p>
-        <h3 className="text-2xl font-bold cursor-default mb-2">Delete Your Personal Data</h3>
+        <h3 className="mb-2 cursor-default text-2xl font-bold">Delete Your Personal Data</h3>
         <p>
           You have the right to delete or request that We assist in deleting the Personal Data that We have collected
           about You.
@@ -264,13 +264,13 @@ const PrivacyPage = () => {
           Please note, however, that We may need to retain certain information when we have a legal obligation or lawful
           basis to do so.
         </p>
-        <h3 className="text-2xl font-bold cursor-default mb-2">Disclosure of Your Personal Data</h3>
-        <h4 className="text-xl font-bold cursor-default mb-2">Law enforcement</h4>
+        <h3 className="mb-2 cursor-default text-2xl font-bold">Disclosure of Your Personal Data</h3>
+        <h4 className="mb-2 cursor-default text-xl font-bold">Law enforcement</h4>
         <p>
           Under certain circumstances, the Company may be required to disclose Your Personal Data if required to do so
           by law or in response to valid requests by public authorities (e.g. a court or a government agency).
         </p>
-        <h4 className="text-xl font-bold cursor-default mb-2">Other legal requirements</h4>
+        <h4 className="mb-2 cursor-default text-xl font-bold">Other legal requirements</h4>
         <p>The Company may disclose Your Personal Data in the good faith belief that such action is necessary to:</p>
         <ul style={{ listStyleType: "circle", listStylePosition: "inside" }}>
           <li>Comply with a legal obligation</li>
@@ -279,13 +279,13 @@ const PrivacyPage = () => {
           <li>Protect the personal safety of Users of the Service or the public</li>
           <li>Protect against legal liability</li>
         </ul>
-        <h3 className="text-2xl font-bold cursor-default mb-2">Security of Your Personal Data</h3>
+        <h3 className="mb-2 cursor-default text-2xl font-bold">Security of Your Personal Data</h3>
         <p>
           The security of Your Personal Data is important to Us, but remember that no method of transmission over the
           Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means
           to protect Your Personal Data, We cannot guarantee its absolute security.
         </p>
-        <h2 className="text-3xl font-bold cursor-default mb-2">Children's Privacy</h2>
+        <h2 className="mb-2 cursor-default text-3xl font-bold">Children's Privacy</h2>
         <p>
           Our Service does not address anyone under the age of 13. We do not knowingly collect personally identifiable
           information from anyone under the age of 13. If You are a parent or guardian and You are aware that Your child
@@ -297,7 +297,7 @@ const PrivacyPage = () => {
           If We need to rely on consent as a legal basis for processing Your information and Your country requires
           consent from a parent, We may require Your parent's consent before We collect and use that information.
         </p>
-        <h2 className="text-3xl font-bold cursor-default mb-2">Links to Other Websites</h2>
+        <h2 className="mb-2 cursor-default text-3xl font-bold">Links to Other Websites</h2>
         <p>
           Our Service may contain links to other websites that are not operated by Us. If You click on a third party
           link, You will be directed to that third party's site. We strongly advise You to review the Privacy Policy of
@@ -307,7 +307,7 @@ const PrivacyPage = () => {
           We have no control over and assume no responsibility for the content, privacy policies or practices of any
           third party sites or services.
         </p>
-        <h2 className="text-3xl font-bold cursor-default mb-2">Changes to this Privacy Policy</h2>
+        <h2 className="mb-2 cursor-default text-3xl font-bold">Changes to this Privacy Policy</h2>
         <p>
           We may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new
           Privacy Policy on this page.
@@ -320,7 +320,7 @@ const PrivacyPage = () => {
           You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are
           effective when they are posted on this page.
         </p>
-        <h2 className="text-3xl font-bold cursor-default mb-2">Contact Us</h2>
+        <h2 className="mb-2 cursor-default text-3xl font-bold">Contact Us</h2>
         <p>If you have any questions about this Privacy Policy, You can contact us:</p>
         <ul>
           <li>By email: contact@daniel-rubin.de</li>

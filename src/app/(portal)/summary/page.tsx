@@ -5,13 +5,13 @@ import TaskAreaSkeletons from "../../../components/summary/TaskAreaSkeletons";
 
 const SummaryPage = async () => {
   return (
-    <PagePadding className="gap-6 flex flex-col items-center xl:items-start">
-      <div className="flex flex-col w-full max-w-screen-sm gap-2 lg:gap-4 lg:flex-row items-center justify-start cursor-default">
+    <PagePadding className="flex flex-col items-center gap-6 xl:items-start">
+      <div className="flex w-full max-w-screen-sm cursor-default flex-col items-center justify-start gap-2 lg:flex-row lg:gap-4">
         <h1 className="text-5xl font-bold dark:text-textDark">Join 360</h1>
-        <p className="lg:hidden dark:text-textDark">Key Metrics at a Glance</p>
-        <div className="border-b-2 border-underline w-20 lg:hidden" />
-        <div className="border-l-2 border-underline h-10 hidden lg:block" />
-        <p className="hidden lg:block text-xl dark:text-textDark">Key Metrics at a Glance</p>
+        <p className="dark:text-textDark lg:hidden">Key Metrics at a Glance</p>
+        <div className="w-20 border-b-2 border-underline lg:hidden" />
+        <div className="hidden h-10 border-l-2 border-underline lg:block" />
+        <p className="hidden text-xl dark:text-textDark lg:block">Key Metrics at a Glance</p>
       </div>
       <Suspense fallback={<TaskAreaSkeletons />}>
         <SummaryTaskArea />

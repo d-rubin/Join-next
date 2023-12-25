@@ -1,9 +1,9 @@
-import Skeleton from "../Skeleton";
+import Skeleton from "../Basics/Skeleton";
 
 const TaskAreaSkeletons = () => {
   return (
-    <div className="flex flex-col gap-8 w-full max-w-screen-sm">
-      <div className="flex flex-row gap-4 w-full h-32">
+    <div className="flex w-full max-w-screen-sm flex-col gap-8">
+      <div className="flex h-32 w-full flex-row gap-4">
         <div className="w-1/2">
           <Skeleton className="rounded-3xl" />
         </div>
@@ -14,7 +14,7 @@ const TaskAreaSkeletons = () => {
       <div className="block h-32">
         <Skeleton className="rounded-3xl" />
       </div>
-      <div className="flex flex-row gap-4 h-32">
+      <div className="flex h-32 flex-row gap-4">
         <div className="w-1/3">
           <Skeleton className="rounded-3xl" />
         </div>

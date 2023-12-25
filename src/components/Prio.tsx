@@ -1,7 +1,7 @@
 "use client";
 
-import Text from "./Text";
-import Icon from "./Icon";
+import Text from "./Basics/Text";
+import Icon from "./Basics/Icon";
 
 type PrioProps = {
   prio: "urgent" | "medium" | "low";
@@ -16,15 +16,15 @@ const Prio = (props: PrioProps) => {
     return (
       <button
         type="button"
-        className={`w-full justify-center flex flex-row items-center gap-2 outline-none border-2 focus:shadow-md hover:shadow-lg transition-all rounded-lg p-2 cursor-pointer ${
-          active ? "bg-red border-red" : "bg-white border-grey  dark:bg-bgDark"
+        className={`flex w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-lg border-2 p-2 outline-none transition-all hover:shadow-lg focus:shadow-md ${
+          active ? "border-red bg-red" : "border-grey bg-white  dark:bg-bgDark"
         }`}
         onClick={() => setPrio("high")}
       >
         <Text text="Urgent" className={active ? "text-white" : ""} />
         <Icon
           icon="urgent"
-          className={`${active ? "stroke-white fill-white" : "stroke-red fill-red"}`}
+          className={`${active ? "fill-white stroke-white" : "fill-red stroke-red"}`}
           iconSize="h-4 w-4"
         />
       </button>
@@ -34,15 +34,15 @@ const Prio = (props: PrioProps) => {
     return (
       <button
         type="button"
-        className={`w-full justify-center flex flex-row items-center gap-2 outline-none border-2 focus:shadow-md hover:shadow-lg transition-all rounded-lg p-2 cursor-pointer ${
-          active ? "bg-orange border-orange" : "bg-white border-grey  dark:bg-bgDark"
+        className={`flex w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-lg border-2 p-2 outline-none transition-all hover:shadow-lg focus:shadow-md ${
+          active ? "border-orange bg-orange" : "border-grey bg-white  dark:bg-bgDark"
         }`}
         onClick={() => setPrio("medium")}
       >
         <Text text="Medium" className={active ? "text-white" : ""} />
         <Icon
           icon="urgent"
-          className={`${active ? "stroke-white fill-white" : "stroke-orange fill-orange"}`}
+          className={`${active ? "fill-white stroke-white" : "fill-orange stroke-orange"}`}
           iconSize="h-4 w-4"
         />
       </button>
@@ -51,15 +51,15 @@ const Prio = (props: PrioProps) => {
   return (
     <button
       type="button"
-      className={`w-full justify-center flex flex-row items-center gap-2 outline-none border-2 focus:shadow-md hover:shadow-lg transition-all rounded-lg p-2 cursor-pointer ${
-        active ? "bg-green border-green" : "bg-white border-grey dark:bg-bgDark"
+      className={`flex w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-lg border-2 p-2 outline-none transition-all hover:shadow-lg focus:shadow-md ${
+        active ? "border-green bg-green" : "border-grey bg-white dark:bg-bgDark"
       }`}
       onClick={() => setPrio("low")}
     >
       <Text text="Low" className={active ? "text-white" : ""} />
       <Icon
         icon="urgent"
-        className={`${active ? "stroke-white fill-white" : "stroke-green fill-green"}`}
+        className={`${active ? "fill-white stroke-white" : "fill-green stroke-green"}`}
         iconSize="h-4 w-4"
       />
     </button>

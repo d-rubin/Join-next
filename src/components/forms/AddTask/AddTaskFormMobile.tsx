@@ -11,10 +11,10 @@ import DefaultInput from "../../inputs/Default";
 import Textarea from "../../inputs/Textarea";
 import Prio from "../../Prio";
 import { taskSchema } from "../../../schemas";
-import { createSubtask, createTask } from "../../../helper/serverActions";
-import BigButton from "../../buttons/BigButton";
-import Checkbox from "../../Checkbox";
-import Icon from "../../Icon";
+import { createSubtask, createTask } from "../../../utils/serverActions";
+import Button from "../../Basics/Button";
+import Checkbox from "../../Basics/Checkbox";
+import Icon from "../../Basics/Icon";
 
 const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Task }) => {
   const { push } = useRouter();
@@ -108,7 +108,7 @@ const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Tas
         <select
           {...register("category", { value: task ? task.category : undefined })}
           className={clsx(
-            `border-2 border-outline w-full dark:bg-bgDark rounded-lg px-1.5 focus:border-underline outline-none py-1.5 bg-white`,
+            `w-full rounded-lg border-2 border-outline bg-white px-1.5 py-1.5 outline-none focus:border-underline dark:bg-bgDark`,
             {
               "border-red": !!errors.category,
             },
@@ -128,7 +128,7 @@ const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Tas
         <select
           {...register("assignee", { value: task ? task.assignee : undefined })}
           className={clsx(
-            `border-2 border-outline w-full dark:bg-bgDark rounded-lg px-1.5 focus:border-underline outline-none py-1.5 bg-white`,
+            `w-full rounded-lg border-2 border-outline bg-white px-1.5 py-1.5 outline-none focus:border-underline dark:bg-bgDark`,
             {
               "border-red": !!errors.assigeee,
             },
@@ -145,22 +145,21 @@ const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Tas
         </select>
         {errors.assignee && <p className="text-xs text-red">{errors.assignee.message as string}</p>}
       </div>
-      <div className="flex flex-col justify-start gap-1 w-full">
+      <div className="flex w-full flex-col justify-start gap-1">
         <label>
           Subtasks
-          <div className="flex flex-row flex-nowrap dark:bg-bgDark items-center bg-white rounded-lg px-2 py-1.5 border-2 border-grey focus-within:border-underline">
+          <div className="flex flex-row flex-nowrap items-center rounded-lg border-2 border-grey bg-white px-2 py-1.5 focus-within:border-underline dark:bg-bgDark">
             <input
               ref={subTaskInputRef}
               name="subtaskInput"
               id="subtaskInput"
               type="text"
               placeholder="Add new Subtask"
-              className="bg-transparent outline-0 w-full"
+              className="w-full bg-transparent outline-0"
             />
             <Icon
               icon="plus"
-              className="stroke-1 h-5 w-5 hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
-              focusable
+              className="h-5 w-5 stroke-1 outline-none hover:fill-underline hover:stroke-underline focus:fill-underline focus:stroke-underline"
               onClick={addSubtask}
             />
           </div>
@@ -174,15 +173,11 @@ const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Tas
             value={subtask.is_done}
             onChange={(value) => handleSubtaskClick(subtask.label, value)}
           />
-          {/* <Icon */}
-          {/*  icon="x" */}
-          {/*  onClick={() => handleDeleteSubtask(subtask)} */}
-          {/*  focusable */}
-          {/*  className="hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline" */}
-          {/* /> */}
         </span>
       ))}
-      <BigButton text="Create" icon="check" loading={isSubmitting} className="fixed bottom-24 right-8" />
+      <Button icon="check" loading={isSubmitting} className="fixed bottom-24 right-8">
+        Create
+      </Button>
     </form>
   );
 };

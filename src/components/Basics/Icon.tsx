@@ -1,19 +1,18 @@
 "use client";
 
 import { KeyboardEvent } from "react";
-import clsx from "clsx";
 import { v4 as uuidv4 } from "uuid";
-import { iconLib } from "../iconlib/iconLib";
+import { iconLib } from "../../iconlib/iconLib";
+import { cn } from "../../utils/generalHelper";
 
 export type IconProps = {
   icon: string;
   iconSize?: string;
-  onClick?: () => void;
+  onClick?: (() => void) | false;
   className?: string;
-  focusable?: boolean;
 };
 
-const Icon = ({ icon, iconSize = "h-6 w-6", onClick, className, focusable = false }: IconProps) => {
+const Icon = ({ icon, iconSize = "h-6 w-6", onClick = false, className }: IconProps) => {
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Enter") {
       onClick && onClick();
@@ -27,19 +26,21 @@ const Icon = ({ icon, iconSize = "h-6 w-6", onClick, className, focusable = fals
         viewBox={`0 ${iconLib[icon].minY || "0"} ${iconLib[icon].viewBoxWidth || "0"} ${
           iconLib[icon].viewBoxHeight || "0"
         }`}
-        className={clsx(
-          `transition-all ${iconSize} ${className}`,
-          { "outline-none": !focusable },
+        className={cn(
+          "rounded-md stroke-none outline-none outline-offset-4 transition-all dark:fill-textDark",
           { "fill-none": noFill },
           {
-            "cursor-pointer": !!onClick,
+            "cursor-pointer hover:fill-underline focus-visible:outline-underline dark:fill-textDark dark:hover:fill-underline":
+              !!onClick,
           },
+          iconSize,
+          className,
         )}
         width={iconSize || undefined}
         height={iconSize || undefined}
-        onClick={onClick}
+        onClick={onClick || undefined}
         onKeyDown={handleKeyDown}
-        tabIndex={focusable ? 0 : -1}
+        tabIndex={onClick ? 0 : -1}
       >
         {iconLib[icon].path.map((path) => {
           return <path key={uuidv4()} d={path} />;

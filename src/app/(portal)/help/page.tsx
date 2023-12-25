@@ -10,14 +10,14 @@ const HelpPage = () => {
     <PagePadding>
       <div className="flex flex-col gap-4">
         <section>
-          <h2 className="text-4xl font-bold cursor-default">Help</h2>
+          <h2 className="cursor-default text-4xl font-bold">Help</h2>
           <p>
             Welcome to the help page for Join, your guide to using our kanban project management tool. Here, we'll
             provide an overview of what Join is, how it can benefit you, and how to use it.
           </p>
         </section>
         <section>
-          <h3 className="text-3xl font-bold cursor-default">What is Join?</h3>
+          <h3 className="cursor-default text-3xl font-bold">What is Join?</h3>
           <p>
             Join is a kanban-based project management tool designed and built by Daniel Rubin as part of his web
             development bootcamp at the Developer Akademie.
@@ -34,18 +34,18 @@ const HelpPage = () => {
           </p>
         </section>
         <section>
-          <h3 className="text-3xl font-bold cursor-default">How to use it</h3>
+          <h3 className="cursor-default text-3xl font-bold">How to use it</h3>
           <p>Here is a step-by-step guide on how to use Join:</p>
         </section>
         <section>
-          <h3 className="text-2xl font-bold cursor-default">1. Exploring the Board</h3>
+          <h3 className="cursor-default text-2xl font-bold">1. Exploring the Board</h3>
           <p>
             When you log in to Join, you'll find a default board. This board represents your project and contains four
             default lists: "To Do", "In Progress", “Await feedback” and "Done".
           </p>
         </section>
         <section>
-          <h3 className="text-2xl font-bold cursor-default">2. Create Contacts</h3>
+          <h3 className="cursor-default text-2xl font-bold">2. Create Contacts</h3>
           <p>
             In Join, you can add contacts to collaborate on your projects. Go to the "Contacts" section, click on "New
             contact", and fill in the required information. Once added, these contacts can be assigned tasks and they
@@ -53,20 +53,20 @@ const HelpPage = () => {
           </p>
         </section>
         <section>
-          <h3 className="text-2xl font-bold cursor-default">3. Adding Cards</h3>
+          <h3 className="cursor-default text-2xl font-bold">3. Adding Cards</h3>
           <p>
             Now that you've added your contacts, you can start adding cards. Cards represent individual tasks. Click the
             "+" button under the appropriate list to create a new card. Fill in the task details in the card, like task
             name, description, due date, assignees, etc.
           </p>
         </section>
-        <h3 className="text-2xl font-bold cursor-default">4. Moving Cards</h3>
+        <h3 className="cursor-default text-2xl font-bold">4. Moving Cards</h3>
         <p>
           As the task moves from one stage to another, you can reflect that on the board by dragging and dropping the
           card from one list to another.
         </p>
         <section>
-          <h3 className="text-2xl font-bold cursor-default">5. Deleting Cards</h3>
+          <h3 className="cursor-default text-2xl font-bold">5. Deleting Cards</h3>
           <p>
             Once a task is completed, you can either move it to the "Done" list or delete it. Deleting a card will
             permanently remove it from the board. Please exercise caution when deleting cards, as this action is

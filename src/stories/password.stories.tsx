@@ -2,16 +2,25 @@ import { Meta, StoryObj } from "@storybook/react";
 import Password from "../components/inputs/Password";
 
 const meta: Meta = {
-  title: "DataEntry/Password",
+  title: "Stories/Password",
   component: Password,
-};
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const Default: Story = {
   args: {
     placeholder: "Test placeholder",
     name: "password",
     required: true,
   },
+};
+export default meta;
+type Story = StoryObj<typeof Password>;
+
+export const Default: Story = {};
+
+export const Dark: Story = {
+  render: (args) => (
+    <div className="dark">
+      <div className="p-8 dark:bg-defaultColorDark">
+        <Password {...args} />
+      </div>
+    </div>
+  ),
 };

@@ -10,8 +10,8 @@ const LegalNoticePage = () => {
   return (
     <PagePadding>
       <div className="flex flex-col gap-4 dark:text-textDark">
-        <div className="gap-2 flex flex-col">
-          <h2 className="text-4xl font-bold cursor-default mb-2">Imprint</h2>
+        <div className="flex flex-col gap-2">
+          <h2 className="mb-2 cursor-default text-4xl font-bold">Imprint</h2>
           <p>Address: Sportplatzstraße 4 84051</p>
           <p>Owner: Daniel Rubin</p>
           <p>Tel: +49 160 671 2187</p>
@@ -20,7 +20,7 @@ const LegalNoticePage = () => {
           </p>
         </div>
         <section>
-          <h3 className="text-2xl font-bold cursor-default">Acceptance of terms</h3>
+          <h3 className="cursor-default text-2xl font-bold">Acceptance of terms</h3>
           <p>
             By accessing and using Join (Product), you acknowledge and agree to the following terms and conditions, and
             any policies, guidelines, or amendments thereto that may be presented to you from time to time. I may update
@@ -28,7 +28,7 @@ const LegalNoticePage = () => {
           </p>
         </section>
         <section>
-          <h3 className="text-2xl font-bold cursor-default">Scope and ownership of the product</h3>
+          <h3 className="cursor-default text-2xl font-bold">Scope and ownership of the product</h3>
           <p>
             Join has been developed as part of my web development bootcamp at the Developer Akademie GmbH. It has an
             educational purpose and is not intended for extensive personal & business usage. As such, we cannot
@@ -38,14 +38,14 @@ const LegalNoticePage = () => {
           </p>
         </section>
         <section>
-          <h3 className="text-2xl font-bold cursor-default">Proprietary rights</h3>
+          <h3 className="cursor-default text-2xl font-bold">Proprietary rights</h3>
           <p>
             Proprietary rights Aside from the design owned by Developer Akademie GmbH, I retain all proprietary rights
             in Join, including any associated copyrighted material, trademarks, and other proprietary information.
           </p>
         </section>
         <section>
-          <h3 className="text-2xl font-bold cursor-default">Use of the product</h3>
+          <h3 className="cursor-default text-2xl font-bold">Use of the product</h3>
           <p>
             Join is intended to be used for lawful purposes only, in accordance with all applicable laws and
             regulations. Any use of Join for illegal activities, or to harass, harm, threaten, or intimidate another
@@ -53,7 +53,7 @@ const LegalNoticePage = () => {
           </p>
         </section>
         <section>
-          <h3 className="text-2xl font-bold cursor-default">Disclaimer of warranties and limitation of liability</h3>
+          <h3 className="cursor-default text-2xl font-bold">Disclaimer of warranties and limitation of liability</h3>
           <p>
             Join is provided "as is" without warranty of any kind, whether express or implied, including but not limited
             to the implied warranties of merchantability, fitness for a particular purpose, and non-infringement. In no
@@ -64,7 +64,7 @@ const LegalNoticePage = () => {
           </p>
         </section>
         <section>
-          <h3 className="text-2xl font-bold cursor-default">Indemnity</h3>
+          <h3 className="cursor-default text-2xl font-bold">Indemnity</h3>
           <p>
             You agree to indemnify, defend and hold harmless us, the listed students, the Developer Akademie, and our
             affiliates, partners, officers, directors, agents, and employees, from and against any claim, demand, loss,

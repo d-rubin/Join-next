@@ -2,7 +2,7 @@
 
 // @ts-ignore
 import { useFormStatus } from "react-dom";
-import BigButton from "../buttons/BigButton";
+import Button from "../Basics/Button";
 
 const SubmitButton = ({
   text,
@@ -17,7 +17,11 @@ const SubmitButton = ({
 }) => {
   const { pending } = useFormStatus();
 
-  return <BigButton text={text} className={`px-12 ${className}`} loading={pending} icon={icon} iconSize={iconSize} />;
+  return (
+    <Button className={`px-12 ${className}`} loading={pending} icon={icon} iconSize={iconSize}>
+      {text}
+    </Button>
+  );
 };
 
 export default SubmitButton;

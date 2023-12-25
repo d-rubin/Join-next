@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import PagePadding from "../../../components/PagePadding";
-import BigButton from "../../../components/buttons/BigButton";
-import Icon from "../../../components/Icon";
+import Button from "../../../components/Basics/Button";
+import Icon from "../../../components/Basics/Icon";
 import DropArea from "../../../components/DropArea";
 import { DnDContextProvider } from "../../../contexts/DnD.context";
-import { getSubtasks, getTasks } from "../../../helper/serverActions";
-import { getContacts } from "../../../helper/fetchApi";
+import { getSubtasks, getTasks } from "../../../utils/serverActions";
+import { getContacts } from "../../../utils/fetchApi";
 import { TSubtask } from "../../../types";
 
 export const metadata: Metadata = {
@@ -18,21 +18,21 @@ const BoardPage = async () => {
   return (
     <PagePadding>
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between w-full">
+        <div className="flex w-full justify-between">
           <h1 className="text-5xl font-bold dark:text-textDark">Add Task</h1>
           <Link href="add-task" className="group outline-none">
-            <BigButton text="" icon="plus" />
+            <Button icon="plus" />
           </Link>
         </div>
         <DnDContextProvider>
           <div className="flex flex-col gap-4 lg:flex-row">
-            <div className="flex flex-col gap-4 lg:w-1/4 overflow-x-hidden">
-              <div className="flex flex-row justify-between items-center gap-2">
-                <h2 className="text-2xl dark:text-textDark font-semibold text-ellipsis whitespace-nowrap overflow-hidden">
+            <div className="flex flex-col gap-4 overflow-x-hidden lg:w-1/4">
+              <div className="flex flex-row items-center justify-between gap-2">
+                <h2 className="overflow-hidden text-ellipsis whitespace-nowrap text-2xl font-semibold dark:text-textDark">
                   To do
                 </h2>
                 <Link href="add-task" className="group outline-none">
-                  <span className="block w-fit h-fit border-primary dark:border-textDark dark:stroke-textDark dark:fill-textDark border-2 rounded-xl p-1 bg-white dark:bg-defaultColorDark fill-primary group-hover:stroke-underline group-hover:fill-underline group-hover:border-underline group-focus:stroke-underline group-focus:fill-underline group-focus:border-underline">
+                  <span className="block h-fit w-fit rounded-xl border-2 border-primary bg-white fill-primary p-1 group-hover:border-underline group-hover:fill-underline group-hover:stroke-underline group-focus:border-underline group-focus:fill-underline group-focus:stroke-underline dark:border-textDark dark:bg-defaultColorDark dark:fill-textDark dark:stroke-textDark">
                     <Icon icon="plus" />
                   </span>
                 </Link>
@@ -45,12 +45,12 @@ const BoardPage = async () => {
               />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
-              <div className="flex flex-row justify-between items-center gap-2">
-                <h2 className="text-2xl dark:text-textDark font-semibold text-ellipsis whitespace-nowrap overflow-hidden">
+              <div className="flex flex-row items-center justify-between gap-2">
+                <h2 className="overflow-hidden text-ellipsis whitespace-nowrap text-2xl font-semibold dark:text-textDark">
                   In progress
                 </h2>
                 <Link href="add-task" className="group outline-none">
-                  <span className="block w-fit h-fit border-primary dark:border-textDark dark:stroke-textDark dark:fill-textDark border-2 rounded-xl p-1 bg-white dark:bg-defaultColorDark fill-primary group-hover:stroke-underline group-hover:fill-underline group-hover:border-underline group-focus:stroke-underline group-focus:fill-underline group-focus:border-underline">
+                  <span className="block h-fit w-fit rounded-xl border-2 border-primary bg-white fill-primary p-1 group-hover:border-underline group-hover:fill-underline group-hover:stroke-underline group-focus:border-underline group-focus:fill-underline group-focus:stroke-underline dark:border-textDark dark:bg-defaultColorDark dark:fill-textDark dark:stroke-textDark">
                     <Icon icon="plus" />
                   </span>{" "}
                 </Link>
@@ -63,12 +63,12 @@ const BoardPage = async () => {
               />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
-              <div className="flex flex-row justify-between items-center gap-2">
-                <h2 className="text-2xl dark:text-textDark font-semibold text-ellipsis whitespace-nowrap overflow-hidden">
+              <div className="flex flex-row items-center justify-between gap-2">
+                <h2 className="overflow-hidden text-ellipsis whitespace-nowrap text-2xl font-semibold dark:text-textDark">
                   Awaiting feedback
                 </h2>
                 <Link href="add-task" className="group outline-none">
-                  <span className="block w-fit h-fit border-primary dark:border-textDark dark:stroke-textDark dark:fill-textDark border-2 rounded-xl p-1 bg-white dark:bg-defaultColorDark fill-primary group-hover:stroke-underline group-hover:fill-underline group-hover:border-underline group-focus:stroke-underline group-focus:fill-underline group-focus:border-underline">
+                  <span className="block h-fit w-fit rounded-xl border-2 border-primary bg-white fill-primary p-1 group-hover:border-underline group-hover:fill-underline group-hover:stroke-underline group-focus:border-underline group-focus:fill-underline group-focus:stroke-underline dark:border-textDark dark:bg-defaultColorDark dark:fill-textDark dark:stroke-textDark">
                     <Icon icon="plus" />
                   </span>{" "}
                 </Link>
@@ -81,12 +81,12 @@ const BoardPage = async () => {
               />
             </div>
             <div className="flex flex-col gap-4 lg:w-1/4">
-              <div className="flex flex-row justify-between items-center gap-2">
-                <h2 className="text-2xl dark:text-textDark font-semibold text-ellipsis whitespace-nowrap overflow-hidden">
+              <div className="flex flex-row items-center justify-between gap-2">
+                <h2 className="overflow-hidden text-ellipsis whitespace-nowrap text-2xl font-semibold dark:text-textDark">
                   Done
                 </h2>
                 <Link href="add-task" className="group outline-none">
-                  <span className="block w-fit h-fit border-primary dark:border-textDark dark:stroke-textDark dark:fill-textDark border-2 rounded-xl p-1 bg-white dark:bg-defaultColorDark fill-primary group-hover:stroke-underline group-hover:fill-underline group-hover:border-underline group-focus:stroke-underline group-focus:fill-underline group-focus:border-underline">
+                  <span className="block h-fit w-fit rounded-xl border-2 border-primary bg-white fill-primary p-1 group-hover:border-underline group-hover:fill-underline group-hover:stroke-underline group-focus:border-underline group-focus:fill-underline group-focus:stroke-underline dark:border-textDark dark:bg-defaultColorDark dark:fill-textDark dark:stroke-textDark">
                     <Icon icon="plus" />
                   </span>{" "}
                 </Link>

@@ -25,22 +25,22 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
 
   return (
     <>
-      <span onClick={handleClick} className="flex flex-row gap-2 items-center cursor-pointer">
+      <span onClick={handleClick} className="flex cursor-pointer flex-row items-center gap-2">
         <input
           name={name}
           required={required}
           ref={ref}
           type="checkbox"
-          onChange={handleClick}
+          onClick={handleClick}
           checked={checked}
-          className="w-0 h-0 peer"
+          className="peer/checkbox h-0 w-0"
         />
         <Icon
           icon={checked ? "checkboxChecked" : "checkboxUnchecked"}
-          className="stroke-black peer-focus:outline-underline peer-focus:outline-2 rounded-sm"
+          className="rounded-sm stroke-black peer-focus-visible/checkbox:outline-underline dark:fill-transparent dark:stroke-textDark dark:stroke-2"
           iconSize="1rem"
         />
-        <Text text={text} className="dark:text-textDark" />
+        <Text text={text} />
       </span>
       {isError && errorText && <p className="text-xs text-red">{errorText}</p>}
     </>

@@ -8,9 +8,9 @@ import { useRouter } from "next/navigation";
 import DefaultInput from "../inputs/Default";
 import Password from "../inputs/Password";
 import Notification from "../Notification";
-import BigButton from "../buttons/BigButton";
-import Checkbox from "../Checkbox";
-import { register as registerFetch } from "../../helper/serverActions";
+import Button from "../Basics/Button";
+import Checkbox from "../Basics/Checkbox";
+import { register as registerFetch } from "../../utils/serverActions";
 import { signInSchema } from "../../schemas";
 
 const SignInForm = () => {
@@ -55,7 +55,7 @@ const SignInForm = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 items-center justify-start">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-start gap-4">
         <DefaultInput
           type="text"
           name="name"
@@ -106,7 +106,9 @@ const SignInForm = () => {
             errorText="Pls accept the Privacy Policy"
           />
         </div>
-        <BigButton text="Sign up" loading={isSubmitting} disabled={!isPrivacyChecked} />
+        <Button loading={isSubmitting} disabled={!isPrivacyChecked}>
+          Sign up
+        </Button>
       </form>
       {trigger && <Notification text="You Signed Up successfully" trigger={trigger} />}
     </>

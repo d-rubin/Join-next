@@ -6,12 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 import DefaultInput from "../inputs/Default";
 import Password from "../inputs/Password";
-import Checkbox from "../Checkbox";
+import Checkbox from "../Basics/Checkbox";
 
-import { login } from "../../helper/serverActions";
-import BigButton from "../buttons/BigButton";
+import { login } from "../../utils/serverActions";
+import Button from "../Basics/Button";
 import { loginSchema } from "../../schemas";
-import { ErrorResponse } from "../../helper/fetchApi";
+import { ErrorResponse } from "../../utils/fetchApi";
 
 const LoginForm = () => {
   const {
@@ -33,14 +33,14 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 items-center justify-start">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-start gap-4">
       <DefaultInput register={register} type="text" name="username" placeholder="Username" icon="mail" block />
       <Password register={register} name="password" placeholder="Password" block isError={!!error} errorText={error} />
       <div className="w-full">
         <Checkbox name="rememberMe" text="Remember me" ref={rememberMeRef} />
       </div>
-      <div className="w-full flex justify-center">
-        <BigButton text="Login" loading={isSubmitting} />
+      <div className="flex w-full justify-center">
+        <Button loading={isSubmitting}>Login</Button>
       </div>
     </form>
   );

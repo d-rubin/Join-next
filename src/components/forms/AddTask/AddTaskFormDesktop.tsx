@@ -8,13 +8,13 @@ import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import { Contact, PrioType, TSubtask } from "../../../types";
 import DefaultInput from "../../inputs/Default";
-import BigButton from "../../buttons/BigButton";
+import Button from "../../Basics/Button";
 import Textarea from "../../inputs/Textarea";
 import Prio from "../../Prio";
 import { taskSchema } from "../../../schemas";
-import { createSubtask, createTask } from "../../../helper/serverActions";
-import Icon from "../../Icon";
-import Checkbox from "../../Checkbox";
+import { createSubtask, createTask } from "../../../utils/serverActions";
+import Icon from "../../Basics/Icon";
+import Checkbox from "../../Basics/Checkbox";
 
 const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
   const { push } = useRouter();
@@ -55,8 +55,8 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="hidden lg:flex flex-row gap-8">
-      <div className="flex flex-col gap-4 max-w-screen-md w-full">
+    <form onSubmit={handleSubmit(onSubmit)} className="hidden flex-row gap-8 lg:flex">
+      <div className="flex w-full max-w-screen-md flex-col gap-4">
         {serverError && <p className="text-red">{serverError}</p>}
         <DefaultInput
           type="text"
@@ -83,7 +83,7 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
           <select
             {...register("assignee")}
             className={clsx(
-              `border-2 border-outline w-full dark:bg-bgDark rounded-lg px-3 focus:border-underline outline-none py-1.5`,
+              `w-full rounded-lg border-2 border-outline px-3 py-1.5 outline-none focus:border-underline dark:bg-bgDark`,
               {
                 "border-red": !!errors.assignee,
               },
@@ -101,8 +101,8 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
           {errors.assignee && <p className="text-xs text-red">{errors.assignee.message as string}</p>}
         </div>
       </div>
-      <div className="border-r-2 border-grey h-full" />
-      <div className="flex flex-col gap-4 relative max-w-screen-md w-full">
+      <div className="h-full border-r-2 border-grey" />
+      <div className="relative flex w-full max-w-screen-md flex-col gap-4">
         <DefaultInput
           type="date"
           name="due_date"
@@ -125,7 +125,7 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
           <select
             {...register("category")}
             className={clsx(
-              `border-2 border-outline w-full dark:bg-bgDark rounded-lg px-3 focus:border-underline outline-none py-1.5`,
+              `w-full rounded-lg border-2 border-outline px-3 py-1.5 outline-none focus:border-underline dark:bg-bgDark`,
               {
                 "border-red": !!errors.category,
               },
@@ -140,22 +140,21 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
           </select>
           {errors.category && <p className="text-xs text-red">{errors.category.message as string}</p>}
         </div>
-        <div className="flex flex-col justify-start gap-1 w-full">
+        <div className="flex w-full flex-col justify-start gap-1">
           <label>
             Subtasks
-            <div className="flex flex-row flex-nowrap dark:bg-bgDark items-center bg-white rounded-lg px-2 py-1.5 border-2 border-grey focus-within:border-underline">
+            <div className="flex flex-row flex-nowrap items-center rounded-lg border-2 border-grey bg-white px-2 py-1.5 focus-within:border-underline dark:bg-bgDark">
               <input
                 ref={subTaskInputRef}
                 name="subtaskInput"
                 id="subtaskInput"
                 type="text"
                 placeholder="Add new Subtask"
-                className="bg-transparent outline-0 w-full"
+                className="w-full bg-transparent outline-0"
               />
               <Icon
                 icon="plus"
-                className="stroke-1 h-5 w-5 hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
-                focusable
+                className="h-5 w-5 stroke-1 outline-none hover:fill-underline hover:stroke-underline focus:fill-underline focus:stroke-underline"
                 onClick={addSubtask}
               />
             </div>
@@ -169,17 +168,15 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
               value={subtask.is_done}
               onChange={(value) => handleSubtaskClick(subtask.label, value)}
             />
-            {/* <Icon */}
-            {/*  icon="x" */}
-            {/*  onClick={() => handleDeleteSubtask(subtask)} */}
-            {/*  focusable */}
-            {/*  className="hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline" */}
-            {/* /> */}
           </span>
         ))}
-        <div className="flex w-full flex-row gap-4 absolute -bottom-20 right-0 justify-between">
-          <BigButton type="reset" text="Clear" outlined icon="x" onClick={reset} />
-          <BigButton text="Create" icon="check" loading={isSubmitting} disabled={!isValid} />
+        <div className="absolute -bottom-20 right-0 flex w-full flex-row justify-between gap-4">
+          <Button type="reset" outlined icon="x" onClick={reset}>
+            Clear
+          </Button>
+          <Button icon="check" loading={isSubmitting} disabled={!isValid}>
+            Create
+          </Button>
         </div>
       </div>
     </form>

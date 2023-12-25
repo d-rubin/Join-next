@@ -7,17 +7,17 @@ import clsx from "clsx";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 import { Contact, PrioType, TSubtask, Task } from "../types";
-import { generalHelper, getAssignee, getBackgroundForCategory } from "../helper/generalHelper";
+import { generalHelper, getAssignee, getBackgroundForCategory } from "../utils/generalHelper";
 import { DnDContext } from "../contexts/DnD.context";
-import Icon from "./Icon";
-import Text from "./Text";
+import Icon from "./Basics/Icon";
+import Text from "./Basics/Text";
 import DefaultInput from "./inputs/Default";
 import Textarea from "./inputs/Textarea";
 import Prio from "./Prio";
 import { taskSchema } from "../schemas";
-import { deleteTask, handleMutateSubtasks, updateTask } from "../helper/serverActions";
-import BigButton from "./buttons/BigButton";
-import Checkbox from "./Checkbox";
+import { deleteTask, handleMutateSubtasks, updateTask } from "../utils/serverActions";
+import Button from "./Basics/Button";
+import Checkbox from "./Basics/Checkbox";
 
 const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact[]; subtasks: TSubtask[] }) => {
   const { updateDraggedTask } = useContext(DnDContext);
@@ -49,6 +49,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
   const onSubmit = async (fieldValues: FieldValues) => {
     const mutatedSubtasks = getMutatedSubtasks(subtasks, subTasks);
     const response = await updateTask({ ...fieldValues, priority: prio || "low" });
+    // eslint-disable-next-line no-console
     if ("message" in response) console.error(response);
     else {
       await handleMutateSubtasks(mutatedSubtasks, task.id);
@@ -58,9 +59,9 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
   };
 
   const getIconForPriority = (priority: PrioType) => {
-    if (priority === "low") return <Icon iconSize="h-4 w-4" icon="low" className="stroke-green fill-green" />;
-    if (priority === "medium") return <Icon iconSize="h-4 w-4" icon="medium" className="stroke-orange fill-orange" />;
-    return <Icon iconSize="h-4 w-4" icon="urgent" className="stroke-red fill-red" />;
+    if (priority === "low") return <Icon iconSize="h-4 w-4" icon="low" className="fill-green stroke-green" />;
+    if (priority === "medium") return <Icon iconSize="h-4 w-4" icon="medium" className="fill-orange stroke-orange" />;
+    return <Icon iconSize="h-4 w-4" icon="urgent" className="fill-red stroke-red" />;
   };
 
   const handleTaskKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -109,7 +110,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
   return (
     <Fragment key={uuidv4()}>
       <div
-        className="focus:bg-grey outline-none p-4 min-w-40 w-52 bg-white dark:bg-bgDark rounded-3xl flex flex-col justify-start gap-2 lg:h-fit lg:w-full cursor-pointer"
+        className="min-w-40 flex w-52 cursor-pointer flex-col justify-start gap-2 rounded-3xl bg-white p-4 outline-none focus:bg-grey dark:bg-bgDark lg:h-fit lg:w-full"
         draggable
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
@@ -119,42 +120,41 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
         onKeyDown={(e) => handleTaskKeyDown(e)}
       >
         <p
-          className="text-white px-4 py-1 w-fit rounded-lg"
+          className="w-fit rounded-lg px-4 py-1 text-white"
           style={{ backgroundColor: getBackgroundForCategory(task.category) }}
         >
           {generalHelper(task.category)}
         </p>
         <p className="text-lg font-bold dark:text-textDark">{task.title}</p>
         <p className="text-gray-500 dark:text-gray-400">{task.description}</p>
-        <div className="w-full flex justify-between gap-4 items-center">
-          <span className="flex flex-row gap-2 w-full items-center">
-            <span className="bg-gray-200 dark:bg-gray-400 block rounded-md w-full h-3">
+        <div className="flex w-full items-center justify-between gap-4">
+          <span className="flex w-full flex-row items-center gap-2">
+            <span className="block h-3 w-full rounded-md bg-gray-200 dark:bg-gray-400">
               <span
                 style={{
                   width: `${
                     !Number.isNaN(getDoneSubtasks() / subTasks.length) ? (getDoneSubtasks() / subTasks.length) * 100 : 0
                   }%`,
                 }}
-                className="block bg-underline rounded-md h-3 transition-all"
+                className="block h-3 rounded-md bg-underline transition-all"
               />
             </span>
             <p>
               {getDoneSubtasks()}/{subTasks.length}
             </p>
           </span>
-          <span className="w-fit flex align-bottom justify-end">{getIconForPriority(task.priority)}</span>
+          <span className="flex w-fit justify-end align-bottom">{getIconForPriority(task.priority)}</span>
         </div>
       </div>
-      <dialog className="fixed top-0 left-0 w-screen h-full bg-transparent" open={dialogOpen}>
-        <div className="flex items-center justify-center w-full h-full bg-transparent">
-          <div className="z-10 w-fit h-fit max-h-[75%] lg:max-h-[80%] overflow-x-hidden bg-white dark:text-textDark dark:bg-bgDark dark:border-defaultColorDark dark:border-4 rounded-3xl p-4 min-w-[17rem] max-w-[25rem] shadow-2xl overflow-y-auto">
+      <dialog className="fixed left-0 top-0 h-full w-screen bg-transparent" open={dialogOpen}>
+        <div className="flex h-full w-full items-center justify-center bg-transparent">
+          <div className="z-10 h-fit max-h-[75%] w-fit min-w-[17rem] max-w-[25rem] overflow-y-auto overflow-x-hidden rounded-3xl bg-white p-4 shadow-2xl dark:border-4 dark:border-defaultColorDark dark:bg-bgDark dark:text-textDark lg:max-h-[80%]">
             {editTask ? (
-              <div className="flex flex-col max-h-full">
-                <span className="w-full flex justify-end items-center">
+              <div className="flex max-h-full flex-col">
+                <span className="flex w-full items-center justify-end">
                   <Icon
                     icon="x"
-                    className="dark:fill-textDark dark:stroke-textDark hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
-                    focusable
+                    className="outline-none hover:fill-underline hover:stroke-underline focus:fill-underline focus:stroke-underline dark:fill-textDark dark:stroke-textDark"
                     onClick={handleCloseDialog}
                   />
                 </span>
@@ -207,7 +207,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                       required
                       {...register("category", { value: task ? task.category : undefined })}
                       className={clsx(
-                        `border-2 border-outline w-full rounded-lg px-3 dark:bg-bgDark focus:border-underline outline-none py-1.5`,
+                        `w-full rounded-lg border-2 border-outline px-3 py-1.5 outline-none focus:border-underline dark:bg-bgDark`,
                         {
                           "border-red": !!errors.category,
                         },
@@ -228,7 +228,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                       required
                       {...register("assignee")}
                       className={clsx(
-                        `border-2 border-outline w-full rounded-lg px-3 dark:bg-bgDark focus:border-underline outline-none py-1.5`,
+                        `w-full rounded-lg border-2 border-outline px-3 py-1.5 outline-none focus:border-underline dark:bg-bgDark`,
                         {
                           "border-red": !!errors.assignee,
                         },
@@ -257,7 +257,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                     <select
                       required
                       {...register("status", { value: task ? task.status : undefined })}
-                      className="border-2 border-outline w-full rounded-lg px-3 dark:bg-bgDark  focus:border-underline outline-none py-1.5"
+                      className="w-full rounded-lg border-2 border-outline px-3 py-1.5  outline-none focus:border-underline dark:bg-bgDark"
                     >
                       <option value="">Select task category</option>
                       <option value="inProgress">in Progress</option>
@@ -266,22 +266,21 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                       <option value="done">Done</option>
                     </select>
                   </div>
-                  <div className="flex flex-col justify-start gap-1 w-full">
+                  <div className="flex w-full flex-col justify-start gap-1">
                     <label>
                       Subtasks
-                      <div className="flex flex-row flex-nowrap items-center bg-white rounded-lg px-2 py-1.5 border-2 border-grey dark:bg-bgDark focus-within:border-underline">
+                      <div className="flex flex-row flex-nowrap items-center rounded-lg border-2 border-grey bg-white px-2 py-1.5 focus-within:border-underline dark:bg-bgDark">
                         <input
                           ref={subTaskInputRef}
                           name="subtaskInput"
                           id="subtaskInput"
                           type="text"
                           placeholder="Add new Subtask"
-                          className="bg-transparent outline-0 placeholder-grey w-full"
+                          className="w-full bg-transparent placeholder-grey outline-0"
                         />
                         <Icon
                           icon="plus"
-                          className="stroke-1 h-5 w-5 hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
-                          focusable
+                          className="h-5 w-5 stroke-1 outline-none hover:fill-underline hover:stroke-underline focus:fill-underline focus:stroke-underline"
                           onClick={addSubtask}
                         />
                       </div>
@@ -300,31 +299,31 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                         <Icon
                           icon="x"
                           onClick={() => handleDeleteSubtask(subtask)}
-                          focusable
-                          className="hover:stroke-underline hover:fill-underline outline-none focus:stroke-underline focus:fill-underline"
+                          className="outline-none hover:fill-underline hover:stroke-underline focus:fill-underline focus:stroke-underline"
                         />
                       </span>
                     );
                   })}
-                  <span className="w-full flex justify-end">
-                    <BigButton text="Ok" icon="check" loading={isSubmitting} />
+                  <span className="flex w-full justify-end">
+                    <Button icon="check" loading={isSubmitting}>
+                      Ok
+                    </Button>
                   </span>
                 </form>
               </div>
             ) : (
-              <div className="gap-4 flex flex-col relative">
-                <span className="flex w-full justify-between items-center">
+              <div className="relative flex flex-col gap-4">
+                <span className="flex w-full items-center justify-between">
                   <p
-                    className="text-white px-4 py-1 w-fit rounded-lg"
+                    className="w-fit rounded-lg px-4 py-1 text-white"
                     style={{ backgroundColor: getBackgroundForCategory(task.category) }}
                   >
                     {generalHelper(task.category)}
                   </p>
                   <Icon
                     icon="x"
-                    className="flex cursor-pointer flex-row gap-1  outline-none transition-all dark:text-textDark dark:stfill-textDark dark:fill-textDark hover:text-underline hover:stroke-underline hover:fill-underline focus:text-underline focus:stroke-underline focus:fill-underline"
+                    className="dark:stfill-textDark flex cursor-pointer flex-row  gap-1 outline-none transition-all hover:fill-underline hover:stroke-underline hover:text-underline focus:fill-underline focus:stroke-underline focus:text-underline dark:fill-textDark dark:text-textDark"
                     onClick={handleCloseDialog}
-                    focusable
                   />
                 </span>
                 <div className="flex flex-col gap-2">
@@ -340,7 +339,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                   </span>
                   <span className="flex">
                     <p className="w-5/12 text-gray-400">Priority:</p>
-                    <span className="w-7/12 flex gap-2 items-center">
+                    <span className="flex w-7/12 items-center gap-2">
                       <p>
                         {task.priority.charAt(0).toUpperCase()}
                         {task.priority.slice(1)}
@@ -353,11 +352,11 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                     <p className="w-7/12">{getAssignee(task.assignee, contacts)}</p>
                   </span>
                 </div>
-                <span className="flex flex-row items-center gap-1 w-full justify-end">
+                <span className="flex w-full flex-row items-center justify-end gap-1">
                   <button
                     type="button"
                     onClick={() => setEditTask(true)}
-                    className="flex cursor-pointer flex-row gap-1  outline-none transition-all dark:text-textDark dark:stfill-textDark dark:fill-textDark hover:text-underline hover:stroke-underline hover:fill-underline focus:text-underline focus:stroke-underline focus:fill-underline"
+                    className="dark:stfill-textDark flex cursor-pointer flex-row  gap-1 outline-none transition-all hover:fill-underline hover:stroke-underline hover:text-underline focus:fill-underline focus:stroke-underline focus:text-underline dark:fill-textDark dark:text-textDark"
                   >
                     <Icon icon="pencil" />
                     <Text text="Edit" />
@@ -366,7 +365,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                   <button
                     type="button"
                     onClick={() => (task.id ? handleDeleteTask(task.id) : undefined)}
-                    className="flex cursor-pointer flex-row gap-1  outline-none transition-all dark:text-textDark dark:stfill-textDark dark:fill-textDark hover:text-underline hover:stroke-underline hover:fill-underline focus:text-underline focus:stroke-underline focus:fill-underline"
+                    className="dark:stfill-textDark flex cursor-pointer flex-row  gap-1 outline-none transition-all hover:fill-underline hover:stroke-underline hover:text-underline focus:fill-underline focus:stroke-underline focus:text-underline dark:fill-textDark dark:text-textDark"
                   >
                     <Icon icon="trash" />
                     <Text text="Delete" />
