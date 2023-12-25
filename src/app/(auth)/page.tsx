@@ -20,8 +20,8 @@ const LoginPage = () => {
       </div>
       <div className="flex flex-row items-center justify-center gap-4 md:absolute md:right-4 md:top-4">
         <Text text="Not a Join user?" className="cursor-default dark:text-textDark" />
-        <Link href="register" className="group outline-none">
-          <Button>Sign up</Button>
+        <Link href="register" className="rounded-xl outline-none outline-offset-4 focus-visible:outline-underline">
+          <Button tabIndex={-1}>Sign up</Button>
         </Link>
       </div>
     </div>

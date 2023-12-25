@@ -50,7 +50,7 @@ const Button = (props: DefaultButtonProps) => {
     return (
       <button
         className={cn(
-          "group/button flex h-12 flex-row items-center justify-center gap-2 rounded-xl border-2 border-primary bg-white px-7 py-0.5 text-primary outline-none outline-offset-8 transition-all hover:border-underline hover:text-underline hover:drop-shadow-lg focus-visible:outline-underline active:scale-90 dark:bg-gray-300",
+          "group/button flex h-12 flex-row items-center justify-center gap-2 rounded-xl border-2 border-primary bg-white px-7 py-0.5 text-primary outline-none outline-offset-4 transition-all hover:border-underline hover:text-underline hover:drop-shadow-lg focus-visible:outline-underline active:scale-90 dark:bg-gray-300",
           bold && "font-semibold",
           block ? "w-full" : "w-fit",
           className,
@@ -65,7 +65,7 @@ const Button = (props: DefaultButtonProps) => {
   return (
     <button
       className={cn(
-        "group/button flex h-12 flex-row items-center justify-center gap-2 rounded-xl border-2 border-transparent bg-primary px-7 py-0.5 text-white outline-none outline-offset-8 transition-all hover:bg-underline hover:drop-shadow-lg focus-visible:outline-underline active:scale-90 group-focus/button:bg-secondary",
+        "group/button flex h-12 flex-row items-center justify-center gap-2 rounded-xl border-2 border-transparent bg-primary px-7 py-0.5 text-white outline-none outline-offset-4 transition-all hover:bg-underline hover:drop-shadow-lg focus-visible:outline-underline active:scale-90 group-focus/button:bg-secondary",
         bold && "font-semibold",
         block ? "w-full" : "w-fit",
         className,
