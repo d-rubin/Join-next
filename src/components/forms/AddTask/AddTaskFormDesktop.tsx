@@ -119,7 +119,7 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
           </span>
         ))}
         <div className="absolute -bottom-20 right-0 flex w-full flex-row justify-between gap-4">
-          <Button type="reset" outlined icon="x">
+          <Button type="reset" outlined icon="x" className="">
             Clear
           </Button>
           <Button icon="check">Create</Button>
