@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 const HelpPage = () => {
   return (
     <PagePadding>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 pb-8 dark:text-textDark">
         <section>
           <h2 className="cursor-default text-4xl font-bold">Help</h2>
           <p>

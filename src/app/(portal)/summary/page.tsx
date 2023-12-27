@@ -5,7 +5,7 @@ import TaskAreaSkeletons from "../../../components/summary/TaskAreaSkeletons";
 
 const SummaryPage = async () => {
   return (
-    <PagePadding className="flex flex-col items-center gap-6 xl:items-start">
+    <PagePadding className="flex flex-col items-center gap-4 sm:gap-8 xl:items-start">
       <div className="flex w-full max-w-screen-sm cursor-default flex-col items-center justify-start gap-2 lg:flex-row lg:gap-4">
         <h1 className="text-5xl font-bold dark:text-textDark">Join 360</h1>
         <p className="dark:text-textDark lg:hidden">Key Metrics at a Glance</p>

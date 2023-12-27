@@ -9,6 +9,7 @@ const SummaryTaskArea = async () => {
   const user = await getCurrentUser();
 
   const getNextDeadline = (items: Array<Task>) => {
+    if (!items.length) return "-";
     let nextDeadline: number = new Date("01-01-3000").getTime();
 
     if (Array.isArray(items)) {
@@ -64,14 +65,14 @@ const SummaryTaskArea = async () => {
 
   return (
     <div className="flex w-full items-center justify-center gap-36 xl:justify-start">
-      <div className="flex w-full max-w-screen-sm flex-col gap-8">
+      <div className="flex w-full max-w-screen-sm flex-col gap-4 sm:gap-8">
         <div className="flex w-full flex-row gap-4">
           <Link href="board" className="group w-1/2 outline-none">
             <Card className="flex h-32 flex-row gap-2 p-4 transition-all group-hover:scale-105 group-hover:bg-primary group-focus:scale-105 group-focus:bg-primary">
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary transition-all group-hover:scale-105 group-hover:bg-white group-focus:scale-105 group-focus:bg-white">
                 <Icon
                   icon="pencil"
-                  className="dark:stfill-textDark fill-white stroke-white transition-all group-hover:scale-105 group-hover:fill-primary group-hover:stroke-primary group-focus:scale-105 group-focus:fill-primary group-focus:stroke-primary dark:fill-textDark"
+                  className="fill-white group-hover:scale-105 group-hover:fill-primary group-focus-visible:scale-105 group-focus-visible:fill-primary dark:fill-textDark"
                   iconSize="h-8 w-8"
                 />
               </span>
@@ -90,7 +91,7 @@ const SummaryTaskArea = async () => {
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary transition-all group-hover:scale-105 group-hover:bg-white group-focus:scale-105 group-focus:bg-white">
                 <Icon
                   icon="check"
-                  className="fill-white stroke-white transition-all group-hover:scale-105 group-hover:fill-primary group-hover:stroke-primary group-focus:scale-105 group-focus:fill-primary group-focus:stroke-primary"
+                  className="fill-white group-hover:scale-105 group-hover:fill-primary group-focus-visible:scale-105 group-focus-visible:fill-primary dark:fill-textDark"
                   iconSize="h-8 w-8"
                 />
               </span>
@@ -109,7 +110,7 @@ const SummaryTaskArea = async () => {
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red transition-all group-hover:scale-105 group-focus:scale-105">
                 <Icon
                   icon="urgent"
-                  className="fill-white stroke-white transition-all group-hover:scale-105 group-focus:scale-105"
+                  className="fill-white group-hover:scale-105 group-focus:scale-105 dark:fill-white"
                   iconSize="h-8 w-8"
                 />
               </span>
@@ -168,7 +169,7 @@ const SummaryTaskArea = async () => {
           </Link>
         </div>
       </div>
-      <span className="hidden w-fit flex-col gap-2 xl:flex">
+      <span className="hidden w-fit cursor-default flex-col gap-2 xl:flex">
         <p className="text-4xl font-semibold dark:text-textDark">Good morning,</p>
         <p className="text-5xl font-semibold text-underline">
           {(user as { username: string; email: string }).username}

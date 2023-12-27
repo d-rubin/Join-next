@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 const LegalNoticePage = () => {
   return (
     <PagePadding>
-      <div className="flex flex-col gap-4 dark:text-textDark">
+      <div className="flex flex-col gap-4 pb-8 dark:text-textDark">
         <div className="flex flex-col gap-2">
           <h2 className="mb-2 cursor-default text-4xl font-bold">Imprint</h2>
           <p>Address: Sportplatzstraße 4 84051</p>

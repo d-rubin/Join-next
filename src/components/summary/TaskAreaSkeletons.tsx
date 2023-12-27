@@ -2,7 +2,7 @@ import Skeleton from "../Basics/Skeleton";
 
 const TaskAreaSkeletons = () => {
   return (
-    <div className="flex w-full max-w-screen-sm flex-col gap-8">
+    <div className="flex w-full max-w-screen-sm flex-col gap-4">
       <div className="flex h-32 w-full flex-row gap-4">
         <div className="w-1/2">
           <Skeleton className="rounded-3xl" />
