@@ -1,4 +1,7 @@
+"use client";
+
 import { ButtonHTMLAttributes } from "react";
+import { useFormContext } from "react-hook-form";
 import Icon from "./Icon";
 import { cn } from "../../utils/generalHelper";
 
@@ -14,8 +17,9 @@ export type DefaultButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const Button = (props: DefaultButtonProps) => {
   const { children, className, disabled = false, outlined, block, loading, icon, iconSize, bold, ...restProps } = props;
+  const methods = useFormContext();
 
-  if (loading)
+  if (methods?.formState?.isSubmitting || loading)
     return (
       <button
         className={cn(

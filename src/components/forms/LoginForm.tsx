@@ -1,8 +1,6 @@
 "use client";
 
-import { FieldValues, useForm } from "react-hook-form";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { zodResolver } from "@hookform/resolvers/zod";
+import { FieldValues } from "react-hook-form";
 import { useRef, useState } from "react";
 import DefaultInput from "../inputs/Default";
 import Password from "../inputs/Password";
@@ -12,14 +10,9 @@ import { login } from "../../utils/serverActions";
 import Button from "../Basics/Button";
 import { loginSchema } from "../../schemas";
 import { ErrorResponse } from "../../utils/fetchApi";
+import Form from "../Basics/Form";
 
 const LoginForm = () => {
-  const {
-    register,
-    formState: { isSubmitting },
-    reset,
-    handleSubmit,
-  } = useForm({ resolver: zodResolver(loginSchema) });
   const [error, setError] = useState<string>();
   const rememberMeRef = useRef<HTMLInputElement>(null);
 
@@ -28,21 +21,20 @@ const LoginForm = () => {
 
     if (response) {
       setError((response as ErrorResponse).message);
-      reset();
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-start gap-4">
-      <DefaultInput register={register} type="text" name="username" placeholder="Username" icon="mail" block />
-      <Password register={register} name="password" placeholder="Password" block isError={!!error} errorText={error} />
+    <Form onSubmit={onSubmit} schema={loginSchema} className="flex flex-col items-center justify-start gap-4">
+      <DefaultInput name="username" type="text" placeholder="Username" icon="mail" block />
+      <Password name="password" placeholder="Password" block isError={!!error} errorText={error} />
       <div className="w-full">
         <Checkbox name="rememberMe" text="Remember me" ref={rememberMeRef} />
       </div>
       <div className="flex w-full justify-center">
-        <Button loading={isSubmitting}>Login</Button>
+        <Button>Login</Button>
       </div>
-    </form>
+    </Form>
   );
 };
 

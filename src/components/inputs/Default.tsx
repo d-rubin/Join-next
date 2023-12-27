@@ -1,5 +1,7 @@
-import clsx from "clsx";
+"use client";
+
 import { InputHTMLAttributes } from "react";
+import { useFormContext, UseFormRegister } from "react-hook-form";
 import Icon from "../Basics/Icon";
 import { cn } from "../../utils/generalHelper";
 
@@ -10,6 +12,7 @@ export type DefaultInputProps = InputHTMLAttributes<HTMLInputElement> & {
   disabled?: boolean;
   icon?: string;
   label?: string;
+  register?: UseFormRegister<any>;
   onIconClick?: (() => void) | false;
 };
 
@@ -26,6 +29,7 @@ const DefaultInput = (props: DefaultInputProps) => {
     name,
     ...restProps
   } = props;
+  const { register } = useFormContext();
 
   return (
     <div className={`flex flex-col justify-start gap-1 dark:text-white ${block ? "w-full" : "w-fit"}`}>
@@ -39,6 +43,7 @@ const DefaultInput = (props: DefaultInputProps) => {
         )}
       >
         <input
+          {...(name && register ? register(name) : undefined)}
           aria-disabled={disabled}
           className={cn(`bg-transparent placeholder-grey outline-0 dark:text-white`, { "w-full": block }, className)}
           {...restProps}

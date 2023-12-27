@@ -31,7 +31,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
           required={required}
           ref={ref}
           type="checkbox"
-          onClick={handleClick}
+          onChange={handleClick}
           checked={checked}
           className="peer/checkbox h-0 w-0"
         />

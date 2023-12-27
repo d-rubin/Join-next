@@ -26,6 +26,7 @@ const SignInForm = () => {
   const [trigger, setTrigger] = useState<boolean>(false);
 
   const onSubmit = async (fieldValues: FieldValues) => {
+    console.log(fieldValues);
     setPrivacyError(false);
     if (!isPrivacyChecked) setPrivacyError(true);
     else {
@@ -58,8 +59,7 @@ const SignInForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-start gap-4">
         <DefaultInput
           type="text"
-          name="name"
-          register={register}
+          {...register("name")}
           block
           isError={!!errors.name}
           icon="person"
@@ -69,18 +69,16 @@ const SignInForm = () => {
         />
         <DefaultInput
           type="text"
-          register={register}
+          {...register("email")}
           name="email"
           block
           icon="mail"
           placeholder="Email"
           isError={!!errors.email}
-          // errorText="Email already in use"
           errorText={errors.email?.message as string}
         />
         <Password
-          name="password"
-          register={register}
+          {...register("password")}
           placeholder="Password"
           block
           isError={!!errors.password}
@@ -89,8 +87,7 @@ const SignInForm = () => {
         />
         <DefaultInput
           type="password"
-          register={register}
-          name="secondPassword"
+          {...register("secondPassword")}
           placeholder="Confirm password"
           block
           icon="lock"
