@@ -1,22 +1,14 @@
 "use client";
 
+import { useForm, useFormContext } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { DefaultInputProps } from "./Default";
 
 export type TextareaProps = Omit<DefaultInputProps, "type" | "icon" | "onIconClick">;
 
 const Textarea = (props: TextareaProps) => {
-  const {
-    name,
-    register,
-    disabled,
-    placeholder,
-    label,
-    block,
-    errorText,
-    defaultValue,
-    isError = false,
-    className,
-  } = props;
+  const methods = useFormContext();
+  const { name, disabled, placeholder, label, block, errorText, defaultValue, isError = false, className } = props;
 
   return (
     <div className={`flex flex-col justify-start gap-1 ${block ? "w-full" : "w-fit"}`}>
@@ -27,13 +19,16 @@ const Textarea = (props: TextareaProps) => {
         }`}
       >
         <textarea
-          {...register(name, { value: defaultValue || undefined })}
+          {...(name && methods?.register && methods.register(name, { value: defaultValue || undefined }))}
           placeholder={placeholder}
           aria-disabled={disabled}
           className={`bg-transparent placeholder-grey outline-0 ${block ? "w-full" : ""} ${className}`}
         />
       </div>
-      {isError && errorText && <p className="text-xs text-red">{errorText}</p>}
+      {(isError && errorText) ||
+        (name && methods?.formState?.errors[name] && (
+          <p className="text-xs text-red">{errorText || (methods?.formState?.errors[name]?.message as string)}</p>
+        ))}
     </div>
   );
 };

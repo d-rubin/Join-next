@@ -43,7 +43,7 @@ const DefaultInput = (props: DefaultInputProps) => {
         )}
       >
         <input
-          {...(name && methods.register ? methods.register(name) : undefined)}
+          {...(name && methods?.register ? methods.register(name) : undefined)}
           aria-disabled={disabled}
           className={cn(`bg-transparent placeholder-grey outline-0 dark:text-white`, { "w-full": block }, className)}
           {...restProps}
@@ -53,7 +53,7 @@ const DefaultInput = (props: DefaultInputProps) => {
         )}
       </div>
       {(isError && errorText) ||
-        (name && methods.formState.errors[name] && (
+        (name && methods?.formState?.errors[name] && (
           <p className="text-xs text-red">{errorText || (methods.formState.errors[name]?.message as string)}</p>
         ))}
     </div>

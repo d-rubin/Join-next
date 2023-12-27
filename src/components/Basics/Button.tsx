@@ -16,10 +16,22 @@ export type DefaultButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const Button = (props: DefaultButtonProps) => {
-  const { children, className, disabled = false, outlined, block, loading, icon, iconSize, bold, ...restProps } = props;
+  const {
+    children,
+    onClick,
+    className,
+    disabled = false,
+    outlined,
+    block,
+    loading,
+    icon,
+    iconSize,
+    bold,
+    ...restProps
+  } = props;
   const methods = useFormContext();
 
-  if (methods?.formState?.isSubmitting || loading)
+  if ((props.type !== "reset" && methods?.formState?.isSubmitting) || loading)
     return (
       <button
         className={cn(
@@ -30,11 +42,11 @@ const Button = (props: DefaultButtonProps) => {
         {...restProps}
       >
         {children}
-        {icon && <Icon icon={icon} iconSize={iconSize} className="fill-none" />}
+        {icon && <Icon icon={icon} iconSize={iconSize} className="fill-none dark:fill-none" />}
       </button>
     );
 
-  if (disabled)
+  if (disabled || (props.type !== "reset" && !methods?.formState?.isValid))
     return (
       <button
         aria-disabled={disabled}
@@ -53,6 +65,7 @@ const Button = (props: DefaultButtonProps) => {
   if (outlined)
     return (
       <button
+        onClick={props.type === "reset" ? methods.reset : onClick}
         className={cn(
           "group/button flex h-12 flex-row items-center justify-center gap-2 rounded-xl border-2 border-primary bg-white px-7 py-0.5 text-primary outline-none outline-offset-4 transition-all hover:border-underline hover:text-underline hover:drop-shadow-lg focus-visible:outline-underline active:scale-90 dark:bg-gray-300",
           bold && "font-semibold",
@@ -68,6 +81,7 @@ const Button = (props: DefaultButtonProps) => {
 
   return (
     <button
+      onClick={props.type === "reset" ? methods.reset : onClick}
       className={cn(
         "group/button flex h-12 flex-row items-center justify-center gap-2 rounded-xl border-2 border-transparent bg-primary px-7 py-0.5 text-white outline-none outline-offset-4 transition-all hover:bg-underline hover:drop-shadow-lg focus-visible:outline-underline active:scale-90 group-focus/button:bg-secondary",
         bold && "font-semibold",

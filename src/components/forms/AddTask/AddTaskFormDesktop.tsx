@@ -15,15 +15,11 @@ import { taskSchema } from "../../../schemas";
 import { createSubtask, createTask } from "../../../utils/serverActions";
 import Icon from "../../Basics/Icon";
 import Checkbox from "../../Basics/Checkbox";
+import Form from "../../Basics/Form";
+import Select from "../../Basics/Select";
 
 const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
   const { push } = useRouter();
-  const {
-    reset,
-    formState: { isSubmitting, errors, isValid },
-    register,
-    handleSubmit,
-  } = useForm({ resolver: zodResolver(taskSchema) });
   const [subTasks, setSubTasks] = useState<TSubtask[]>([]);
   const [prio, setPrio] = useState<PrioType | undefined>();
   const [serverError, setServerError] = useState<string>();
@@ -55,63 +51,23 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="hidden flex-row gap-8 lg:flex">
+    <Form onSubmit={onSubmit} schema={taskSchema} className="hidden flex-row gap-8 lg:flex">
       <div className="flex w-full max-w-screen-md flex-col gap-4">
         {serverError && <p className="text-red">{serverError}</p>}
-        <DefaultInput
-          type="text"
-          name="title"
-          register={register}
-          placeholder="Enter a title"
-          block
-          label="Title"
-          isError={!!errors.title}
-          errorText={errors.title?.message as string}
+        <DefaultInput type="text" name="title" placeholder="Enter a title" block label="Title" />
+        <Textarea name="description" placeholder="Enter a description" block label="Description" className="h-20" />
+        <Select
+          label="Assignee"
+          name="assignee"
+          options={[
+            ["", "Select Assignee"] as [key: string, value: string],
+            ...contacts.map((contact) => [contact.id.toString(), contact.username] as [key: string, value: string]),
+          ]}
         />
-        <Textarea
-          name="description"
-          placeholder="Enter a description"
-          block
-          register={register}
-          label="Description"
-          isError={!!errors.description}
-          errorText={errors.description?.message as string}
-          className="h-20"
-        />
-        <div className="flex flex-col gap-1">
-          <p>Assignee</p>
-          <select
-            {...register("assignee")}
-            className={clsx(
-              `w-full rounded-lg border-2 border-outline px-3 py-1.5 outline-none focus:border-underline dark:bg-bgDark`,
-              {
-                "border-red": !!errors.assignee,
-              },
-            )}
-          >
-            <option value="">Select Assignee</option>
-            {contacts.map((contact) => {
-              return (
-                <option value={contact.id} key={uuidv4()}>
-                  {contact.username}
-                </option>
-              );
-            })}
-          </select>
-          {errors.assignee && <p className="text-xs text-red">{errors.assignee.message as string}</p>}
-        </div>
       </div>
       <div className="h-full border-r-2 border-grey" />
       <div className="relative flex w-full max-w-screen-md flex-col gap-4">
-        <DefaultInput
-          type="date"
-          name="due_date"
-          register={register}
-          isError={!!errors.due_date}
-          errorText={errors.due_date?.message as string}
-          block
-          label="Due Date"
-        />
+        <DefaultInput type="date" name="due_date" block label="Due Date" />
         <div className="flex flex-col gap-1">
           <p>Priority</p>
           <div className="flex flex-row gap-2">
@@ -120,26 +76,18 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
             <Prio prio="low" active={prio === "low"} setPrio={setPrio} />
           </div>
         </div>
-        <div className="flex flex-col gap-1">
-          <p>Category</p>
-          <select
-            {...register("category")}
-            className={clsx(
-              `w-full rounded-lg border-2 border-outline px-3 py-1.5 outline-none focus:border-underline dark:bg-bgDark`,
-              {
-                "border-red": !!errors.category,
-              },
-            )}
-          >
-            <option value="">Select task category</option>
-            <option value="backoffice">Backoffice</option>
-            <option value="design">Design</option>
-            <option value="marketing">Marketing</option>
-            <option value="sales">Sales</option>
-            <option value="media">Media</option>
-          </select>
-          {errors.category && <p className="text-xs text-red">{errors.category.message as string}</p>}
-        </div>
+        <Select
+          label="Category"
+          name="category"
+          options={[
+            ["", "Select task category"],
+            ["backoffice", "Backoffice"],
+            ["design", "Design"],
+            ["marketing", "Marketing"],
+            ["sales", "Sales"],
+            ["media", "Media"],
+          ]}
+        />
         <div className="flex w-full flex-col justify-start gap-1">
           <label>
             Subtasks
@@ -171,15 +119,13 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
           </span>
         ))}
         <div className="absolute -bottom-20 right-0 flex w-full flex-row justify-between gap-4">
-          <Button type="reset" outlined icon="x" onClick={reset}>
+          <Button type="reset" outlined icon="x">
             Clear
           </Button>
-          <Button icon="check" loading={isSubmitting} disabled={!isValid}>
-            Create
-          </Button>
+          <Button icon="check">Create</Button>
         </div>
       </div>
-    </form>
+    </Form>
   );
 };
 
