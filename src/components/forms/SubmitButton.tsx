@@ -4,6 +4,7 @@
 import { useFormStatus } from "react-dom";
 import Button from "../Basics/Button";
 
+// Todo: Remove this Component and replace with default Button
 const SubmitButton = ({
   text,
   icon,

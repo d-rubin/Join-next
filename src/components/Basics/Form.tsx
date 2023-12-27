@@ -9,7 +9,7 @@ const Form = (
   props: {
     defaultValues?: Readonly<DeepPartial<FieldValues> | undefined>;
     onSubmit: (fieldValues: FieldValues) => Promise<void>;
-    schema: z.ZodObject<any>;
+    schema: z.ZodEffects<any> | z.ZodObject<any>;
   } & Omit<FormHTMLAttributes<HTMLFormElement>, "onSubmit">,
 ) => {
   const { onSubmit, defaultValues, schema, children, ...restProps } = props;

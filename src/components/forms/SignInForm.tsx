@@ -12,21 +12,17 @@ import Button from "../Basics/Button";
 import Checkbox from "../Basics/Checkbox";
 import { register as registerFetch } from "../../utils/serverActions";
 import { signInSchema } from "../../schemas";
+import Form from "../Basics/Form";
 
 const SignInForm = () => {
   const { push } = useRouter();
-  const {
-    setError,
-    formState: { errors, isSubmitting },
-    handleSubmit,
-    register,
-  } = useForm({ resolver: zodResolver(signInSchema) });
   const [privacyError, setPrivacyError] = useState<boolean>(false);
   const [isPrivacyChecked, setIsPrivacyChecked] = useState<boolean>(false);
   const [trigger, setTrigger] = useState<boolean>(false);
+  const [nameError, setNameError] = useState<string>();
+  const [genericError, setGenericError] = useState<string>();
 
   const onSubmit = async (fieldValues: FieldValues) => {
-    console.log(fieldValues);
     setPrivacyError(false);
     if (!isPrivacyChecked) setPrivacyError(true);
     else {
@@ -36,19 +32,16 @@ const SignInForm = () => {
         const { error } = isValid;
 
         // todo: Resolve errors
-        if (error.name) setError("name", { message: error.name });
-        // if (error.email) setError("email", { message: error.email });
-        // if (error.password) setError("password", { message: error.password });
-        // if (error.secondPassword) setError("secondPassword", { message: error.secondPassword });
-        else setError("secondPassword", { message: "Something went wrong." });
+        if (error.name) setNameError(error.name);
+        else setGenericError("Something went wrong.");
       } else {
         const response = await registerFetch(fieldValues);
 
         if (response.status === 201) {
           setTrigger(!trigger);
-          setTimeout(() => push("/summary"));
+          setTimeout(() => push("/summary"), 1500);
         } else if ("name" in response) {
-          setError(response.name!, { message: response.message });
+          setGenericError(response.message);
         }
       }
     }
@@ -56,44 +49,20 @@ const SignInForm = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center justify-start gap-4">
+      <Form onSubmit={onSubmit} schema={signInSchema} className="flex flex-col items-center justify-start gap-4">
         <DefaultInput
           type="text"
-          {...register("name")}
+          name="name"
           block
-          isError={!!errors.name}
+          isError={!!nameError}
           icon="person"
           placeholder="Name"
-          // errorText="Username already in use"
-          errorText={errors.name?.message as string}
+          errorText={nameError}
         />
-        <DefaultInput
-          type="text"
-          {...register("email")}
-          name="email"
-          block
-          icon="mail"
-          placeholder="Email"
-          isError={!!errors.email}
-          errorText={errors.email?.message as string}
-        />
-        <Password
-          {...register("password")}
-          placeholder="Password"
-          block
-          isError={!!errors.password}
-          errorText={errors.password?.message as string}
-          // errorText="Passwords don't match"
-        />
-        <DefaultInput
-          type="password"
-          {...register("secondPassword")}
-          placeholder="Confirm password"
-          block
-          icon="lock"
-          isError={!!errors.secondPassword}
-          errorText={errors.secondPassword?.message as string}
-        />
+        <DefaultInput type="text" name="email" block icon="mail" placeholder="Email" />
+        <Password name="password" placeholder="Password" block />
+        <DefaultInput type="password" name="secondPassword" placeholder="Confirm password" block icon="lock" />
+        {genericError && <p className="w-full justify-start text-xs text-red">{genericError}</p>}
         <div className="w-full text-left">
           <Checkbox
             name="privacy"
@@ -103,10 +72,8 @@ const SignInForm = () => {
             errorText="Pls accept the Privacy Policy"
           />
         </div>
-        <Button loading={isSubmitting} disabled={!isPrivacyChecked}>
-          Sign up
-        </Button>
-      </form>
+        <Button disabled={!isPrivacyChecked}>Sign up</Button>
+      </Form>
       {trigger && <Notification text="You Signed Up successfully" trigger={trigger} />}
     </>
   );

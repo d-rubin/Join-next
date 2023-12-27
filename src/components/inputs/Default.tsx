@@ -29,7 +29,7 @@ const DefaultInput = (props: DefaultInputProps) => {
     name,
     ...restProps
   } = props;
-  const { register } = useFormContext();
+  const methods = useFormContext();
 
   return (
     <div className={`flex flex-col justify-start gap-1 dark:text-white ${block ? "w-full" : "w-fit"}`}>
@@ -43,7 +43,7 @@ const DefaultInput = (props: DefaultInputProps) => {
         )}
       >
         <input
-          {...(name && register ? register(name) : undefined)}
+          {...(name && methods.register ? methods.register(name) : undefined)}
           aria-disabled={disabled}
           className={cn(`bg-transparent placeholder-grey outline-0 dark:text-white`, { "w-full": block }, className)}
           {...restProps}
@@ -52,7 +52,10 @@ const DefaultInput = (props: DefaultInputProps) => {
           <Icon icon={icon} onClick={disabled ? undefined : onIconClick} className="h-5 w-5 fill-grey stroke-1" />
         )}
       </div>
-      {isError && errorText && <p className="text-xs text-red">{errorText}</p>}
+      {(isError && errorText) ||
+        (name && methods.formState.errors[name] && (
+          <p className="text-xs text-red">{errorText || (methods.formState.errors[name]?.message as string)}</p>
+        ))}
     </div>
   );
 };
