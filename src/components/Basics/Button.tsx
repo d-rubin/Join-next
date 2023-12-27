@@ -27,11 +27,12 @@ const Button = (props: DefaultButtonProps) => {
     icon,
     iconSize,
     bold,
+    type,
     ...restProps
   } = props;
   const methods = useFormContext();
 
-  if ((props.type !== "reset" && methods?.formState?.isSubmitting) || loading)
+  if ((type !== "reset" && methods?.formState?.isSubmitting) || loading)
     return (
       <button
         className={cn(
@@ -46,7 +47,7 @@ const Button = (props: DefaultButtonProps) => {
       </button>
     );
 
-  if (disabled || (props.type !== "reset" && !methods?.formState?.isValid))
+  if (disabled || (type !== "reset" && !methods?.formState?.isValid))
     return (
       <button
         aria-disabled={disabled}
@@ -65,6 +66,7 @@ const Button = (props: DefaultButtonProps) => {
   if (outlined)
     return (
       <button
+        type={type}
         onClick={props.type === "reset" ? methods.reset : onClick}
         className={cn(
           "group/button flex h-12 flex-row items-center justify-center gap-2 rounded-xl border-2 border-primary bg-white px-7 py-0.5 text-primary outline-none outline-offset-4 transition-all hover:border-underline hover:text-underline hover:drop-shadow-lg focus-visible:outline-underline active:scale-90 dark:bg-gray-300",
@@ -75,12 +77,19 @@ const Button = (props: DefaultButtonProps) => {
         {...restProps}
       >
         {children}
-        {icon && <Icon icon={icon} iconSize={iconSize} className="fill-primary group-hover/button:fill-underline" />}
+        {icon && (
+          <Icon
+            icon={icon}
+            iconSize={iconSize}
+            className="fill-primary group-hover/button:fill-underline dark:fill-primary"
+          />
+        )}
       </button>
     );
 
   return (
     <button
+      type={type}
       onClick={props.type === "reset" ? methods.reset : onClick}
       className={cn(
         "group/button flex h-12 flex-row items-center justify-center gap-2 rounded-xl border-2 border-transparent bg-primary px-7 py-0.5 text-white outline-none outline-offset-4 transition-all hover:bg-underline hover:drop-shadow-lg focus-visible:outline-underline active:scale-90 group-focus/button:bg-secondary",
