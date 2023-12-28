@@ -1,6 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
 import DefaultInput from "../components/inputs/Default";
-import PasswordComponent from "../components/inputs/Password";
 
 const meta: Meta = {
   title: "Stories/Input",

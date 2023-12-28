@@ -1,8 +1,6 @@
 "use client";
 
-import { FieldValues, useForm } from "react-hook-form";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { zodResolver } from "@hookform/resolvers/zod";
+import { FieldValues } from "react-hook-form";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import DefaultInput from "../inputs/Default";

@@ -1,7 +1,6 @@
 "use client";
 
-import { useForm, useFormContext } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useFormContext } from "react-hook-form";
 import { DefaultInputProps } from "./Default";
 
 export type TextareaProps = Omit<DefaultInputProps, "type" | "icon" | "onIconClick">;
