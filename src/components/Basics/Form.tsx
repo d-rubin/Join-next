@@ -14,7 +14,6 @@ const Form = (
 ) => {
   const { onSubmit, defaultValues, schema, children, ...restProps } = props;
   const methods = useForm({ defaultValues, resolver: zodResolver(schema) });
-  console.log(methods.formState.errors);
 
   return (
     <FormProvider {...methods}>

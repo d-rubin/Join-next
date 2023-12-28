@@ -30,6 +30,7 @@ const DefaultInput = (props: DefaultInputProps) => {
     ...restProps
   } = props;
   const methods = useFormContext();
+  console.log(isError, errorText);
 
   return (
     <div className={`flex flex-col justify-start gap-1 dark:text-white ${block ? "w-full" : "w-fit"}`}>
@@ -52,10 +53,12 @@ const DefaultInput = (props: DefaultInputProps) => {
           <Icon icon={icon} onClick={disabled ? undefined : onIconClick} className="h-5 w-5 fill-grey stroke-1" />
         )}
       </div>
-      {(isError && errorText) ||
-        (name && methods?.formState?.errors[name] && (
-          <p className="text-xs text-red">{errorText || (methods.formState.errors[name]?.message as string)}</p>
-        ))}
+      {isError && errorText && !(name && methods?.formState?.errors[name]) && (
+        <p className="text-xs text-red">{errorText}</p>
+      )}
+      {name && methods?.formState?.errors[name] && !errorText && (
+        <p className="text-xs text-red">{methods.formState.errors[name]?.message as string}</p>
+      )}
     </div>
   );
 };
