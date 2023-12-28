@@ -23,7 +23,7 @@ export const Dark: Story = {
     <div className="dark">
       <div className="p-8 dark:bg-defaultColorDark">
         <DefaultInput {...args} />
-      </div>{" "}
+      </div>
     </div>
   ),
 };
