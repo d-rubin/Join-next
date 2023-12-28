@@ -1,9 +1,7 @@
 "use client";
 
 import { Fragment, useContext, useState, KeyboardEvent, useRef } from "react";
-import { FieldValues, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import clsx from "clsx";
+import { FieldValues } from "react-hook-form";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 import { Contact, PrioType, TSubtask, Task } from "../types";
@@ -18,15 +16,12 @@ import { taskSchema } from "../schemas";
 import { deleteTask, handleMutateSubtasks, updateTask } from "../utils/serverActions";
 import Button from "./Basics/Button";
 import Checkbox from "./Basics/Checkbox";
+import Form from "./Basics/Form";
+import Select from "./Basics/Select";
 
 const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact[]; subtasks: TSubtask[] }) => {
   const { updateDraggedTask } = useContext(DnDContext);
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting, errors },
-  } = useForm({ resolver: zodResolver(taskSchema) });
-  const [subTasks, setSubTasks] = useState<TSubtask[]>(subtasks.filter((item) => item.task === task.id) || []);
+  const [subTasks, setSubTasks] = useState<TSubtask[]>(subtasks?.filter((item) => item.task === task.id) || []);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<boolean>(false);
   const [prio, setPrio] = useState<PrioType | undefined>(task ? task.priority : undefined);
@@ -110,7 +105,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
   return (
     <Fragment key={uuidv4()}>
       <div
-        className="min-w-40 flex w-52 cursor-pointer flex-col justify-start gap-2 rounded-3xl bg-white p-4 outline-none focus:bg-grey dark:bg-bgDark lg:h-fit lg:w-full"
+        className="min-w-40 flex w-52 cursor-pointer flex-col justify-start gap-2 rounded-3xl bg-white p-4 outline-none transition-all focus-visible:bg-grey dark:bg-bgDark dark:focus-visible:bg-primary lg:h-fit lg:w-full"
         draggable
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
@@ -139,7 +134,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                 className="block h-3 rounded-md bg-underline transition-all"
               />
             </span>
-            <p>
+            <p className="dark:text-textDark">
               {getDoneSubtasks()}/{subTasks.length}
             </p>
           </span>
@@ -148,37 +143,26 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
       </div>
       <dialog className="fixed left-0 top-0 h-full w-screen bg-transparent" open={dialogOpen}>
         <div className="flex h-full w-full items-center justify-center bg-transparent">
-          <div className="z-10 h-fit max-h-[75%] w-fit min-w-[17rem] max-w-[25rem] overflow-y-auto overflow-x-hidden rounded-3xl bg-white p-4 shadow-2xl dark:border-4 dark:border-defaultColorDark dark:bg-bgDark dark:text-textDark lg:max-h-[80%]">
+          <div className="scrollbar z-10 h-fit max-h-[75%] w-fit min-w-[17rem] max-w-[25rem] overflow-y-auto overflow-x-hidden rounded-3xl bg-white p-4 shadow-2xl dark:border-2 dark:border-textDark dark:bg-bgDark dark:text-textDark lg:max-h-[80%]">
             {editTask ? (
               <div className="flex max-h-full flex-col">
                 <span className="flex w-full items-center justify-end">
-                  <Icon
-                    icon="x"
-                    className="outline-none hover:fill-underline hover:stroke-underline focus:fill-underline focus:stroke-underline dark:fill-textDark dark:stroke-textDark"
-                    onClick={handleCloseDialog}
-                  />
+                  <Icon className="outline-offset-2" icon="x" onClick={handleCloseDialog} />
                 </span>
-                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-                  <input type="number" {...register("id", { value: task.id })} hidden />
+                <Form onSubmit={onSubmit} schema={taskSchema} className="flex flex-col gap-4">
                   <input name="id" type="number" required defaultValue={task.id} className="hidden" />
                   <DefaultInput
                     type="text"
                     name="title"
-                    register={register}
                     placeholder="Enter a title"
                     block
                     defaultValue={task ? task.title : undefined}
-                    isError={!!errors.title}
-                    errorText={errors.title?.message as string}
                     label="Title"
                   />
                   <Textarea
                     name="description"
                     placeholder="Enter a description"
                     block
-                    register={register}
-                    isError={!!errors.description}
-                    errorText={errors.description?.message as string}
                     label="Description"
                     className="h-20"
                     defaultValue={task ? task.description : undefined}
@@ -194,78 +178,46 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                   <DefaultInput
                     type="date"
                     name="due_date"
-                    register={register}
                     defaultValue={task ? task.due_date : undefined}
-                    isError={!!errors.due_date}
-                    errorText={errors.due_date?.message as string}
                     block
                     label="Due Date"
                   />
-                  <div className="flex flex-col gap-1">
-                    <p>Category</p>
-                    <select
-                      required
-                      {...register("category", { value: task ? task.category : undefined })}
-                      className={clsx(
-                        `w-full rounded-lg border-2 border-outline px-3 py-1.5 outline-none focus:border-underline dark:bg-bgDark`,
-                        {
-                          "border-red": !!errors.category,
-                        },
-                      )}
-                    >
-                      <option value="">Select task category</option>
-                      <option value="backoffice">Backoffice</option>
-                      <option value="design">Design</option>
-                      <option value="marketing">Marketing</option>
-                      <option value="sales">Sales</option>
-                      <option value="media">Media</option>
-                    </select>
-                    {errors.category && <p className="text-xs text-red">{errors.category.message as string}</p>}
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <p>Assignee</p>
-                    <select
-                      required
-                      {...register("assignee")}
-                      className={clsx(
-                        `w-full rounded-lg border-2 border-outline px-3 py-1.5 outline-none focus:border-underline dark:bg-bgDark`,
-                        {
-                          "border-red": !!errors.assignee,
-                        },
-                      )}
-                    >
-                      <option>Select Assignee</option>
-                      {contacts.map((contact) => {
-                        if (contact.id === task.assignee)
-                          return (
-                            <option value={contact.id} selected key={uuidv4()}>
-                              {contact.username}
-                            </option>
-                          );
-
-                        return (
-                          <option value={contact.id} key={uuidv4()}>
-                            {contact.username}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    {errors.assignee && <p className="text-xs text-red">{errors.assignee.message as string}</p>}
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <p>Status</p>
-                    <select
-                      required
-                      {...register("status", { value: task ? task.status : undefined })}
-                      className="w-full rounded-lg border-2 border-outline px-3 py-1.5  outline-none focus:border-underline dark:bg-bgDark"
-                    >
-                      <option value="">Select task category</option>
-                      <option value="inProgress">in Progress</option>
-                      <option value="toDo">To do</option>
-                      <option value="awaitingFeedback">awaiting Feedback</option>
-                      <option value="done">Done</option>
-                    </select>
-                  </div>
+                  <Select
+                    name="category"
+                    defaultValue={task?.category}
+                    label="Category"
+                    options={[
+                      ["", "Select task category"],
+                      ["backoffice", "Backoffice"],
+                      ["design", "Design"],
+                      ["marketing", "Marketing"],
+                      ["sales", "Sales"],
+                      ["media", "Media"],
+                    ]}
+                  />
+                  <Select
+                    name="assignee"
+                    defaultValue={task?.assignee.toString()}
+                    label="Assignee"
+                    options={[
+                      ["", "Select Assignee"] as [key: string, value: string],
+                      ...contacts.map(
+                        (contact) => [contact.id.toString(), contact.username] as [key: string, value: string],
+                      ),
+                    ]}
+                  />
+                  <Select
+                    name="status"
+                    defaultValue={task?.status.toString()}
+                    label="Status"
+                    options={[
+                      ["", "Select task category"],
+                      ["inProgress", "in Progress"],
+                      ["toDo", "To do"],
+                      ["awaitingFeedback", "awaiting Feedback"],
+                      ["done", "Done"],
+                    ]}
+                  />
                   <div className="flex w-full flex-col justify-start gap-1">
                     <label>
                       Subtasks
@@ -305,14 +257,12 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                     );
                   })}
                   <span className="flex w-full justify-end">
-                    <Button icon="check" loading={isSubmitting}>
-                      Ok
-                    </Button>
+                    <Button icon="check">Ok</Button>
                   </span>
-                </form>
+                </Form>
               </div>
             ) : (
-              <div className="relative flex flex-col gap-4">
+              <div className="relative flex cursor-default flex-col gap-4">
                 <span className="flex w-full items-center justify-between">
                   <p
                     className="w-fit rounded-lg px-4 py-1 text-white"
@@ -320,11 +270,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                   >
                     {generalHelper(task.category)}
                   </p>
-                  <Icon
-                    icon="x"
-                    className="dark:stfill-textDark flex cursor-pointer flex-row  gap-1 outline-none transition-all hover:fill-underline hover:stroke-underline hover:text-underline focus:fill-underline focus:stroke-underline focus:text-underline dark:fill-textDark dark:text-textDark"
-                    onClick={handleCloseDialog}
-                  />
+                  <Icon icon="x" iconSize="h-8 w-8" className="outline-offset-2" onClick={handleCloseDialog} />
                 </span>
                 <div className="flex flex-col gap-2">
                   <p className="text-3xl font-bold">{task.title}</p>
@@ -352,23 +298,23 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                     <p className="w-7/12">{getAssignee(task.assignee, contacts)}</p>
                   </span>
                 </div>
-                <span className="flex w-full flex-row items-center justify-end gap-1">
+                <span className="flex w-full flex-row items-center justify-end gap-2">
                   <button
                     type="button"
                     onClick={() => setEditTask(true)}
-                    className="dark:stfill-textDark flex cursor-pointer flex-row  gap-1 outline-none transition-all hover:fill-underline hover:stroke-underline hover:text-underline focus:fill-underline focus:stroke-underline focus:text-underline dark:fill-textDark dark:text-textDark"
+                    className="group flex gap-1 rounded px-2 py-1 outline-none transition-all focus-visible:outline-underline"
                   >
-                    <Icon icon="pencil" />
-                    <Text text="Edit" />
+                    <Icon icon="pencil" className="group-hover:fill-underline" />
+                    <Text text="Edit" className="group-hover:text-underline" />
                   </button>
                   <span className="h-5 border-l-2 border-grey" />
                   <button
                     type="button"
                     onClick={() => (task.id ? handleDeleteTask(task.id) : undefined)}
-                    className="dark:stfill-textDark flex cursor-pointer flex-row  gap-1 outline-none transition-all hover:fill-underline hover:stroke-underline hover:text-underline focus:fill-underline focus:stroke-underline focus:text-underline dark:fill-textDark dark:text-textDark"
+                    className="group flex gap-1 rounded px-2 py-1 outline-none transition-all focus-visible:outline-underline"
                   >
-                    <Icon icon="trash" />
-                    <Text text="Delete" />
+                    <Icon icon="trash" className="group-hover:fill-underline" />
+                    <Text text="Delete" className="group-hover:text-underline" />
                   </button>
                 </span>
               </div>

@@ -10,11 +10,11 @@ import Textarea from "../../inputs/Textarea";
 import Prio from "../../Prio";
 import { taskSchema } from "../../../schemas";
 import { createSubtask, createTask } from "../../../utils/serverActions";
-import Button from "../../Basics/Button";
 import Checkbox from "../../Basics/Checkbox";
 import Icon from "../../Basics/Icon";
 import Form from "../../Basics/Form";
 import Select from "../../Basics/Select";
+import FormButton from "../FormButton";
 
 const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Task }) => {
   const { push } = useRouter();
@@ -24,7 +24,6 @@ const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Tas
   const subTaskInputRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = async (fieldValues: FieldValues) => {
-    console.log(fieldValues);
     const response = await createTask({ ...fieldValues, ...{ priority: prio || "low" } });
     if ("message" in response) setServerError(response.message);
     else if (subTasks.length) {
@@ -135,9 +134,9 @@ const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Tas
           />
         </span>
       ))}
-      <Button icon="check" className="fixed bottom-24 right-4">
+      <FormButton icon="check" className="fixed bottom-24 right-4">
         Create
-      </Button>
+      </FormButton>
     </Form>
   );
 };

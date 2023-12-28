@@ -32,8 +32,8 @@ const BoardPage = async () => {
                   To do
                 </h2>
                 <Link href="add-task" className="group outline-none">
-                  <span className="block h-fit w-fit rounded-xl border-2 border-primary bg-white fill-primary p-1 group-hover:border-underline group-hover:fill-underline group-hover:stroke-underline group-focus:border-underline group-focus:fill-underline group-focus:stroke-underline dark:border-textDark dark:bg-defaultColorDark dark:fill-textDark dark:stroke-textDark">
-                    <Icon icon="plus" />
+                  <span className="block h-fit w-fit rounded-xl border-2 border-primary bg-white fill-primary p-1 transition-all group-hover:border-underline group-focus-visible:border-underline dark:border-textDark dark:bg-defaultColorDark">
+                    <Icon icon="plus" className="group-hover:fill-underline group-focus-visible:fill-underline" />
                   </span>
                 </Link>
               </div>
@@ -50,9 +50,9 @@ const BoardPage = async () => {
                   In progress
                 </h2>
                 <Link href="add-task" className="group outline-none">
-                  <span className="block h-fit w-fit rounded-xl border-2 border-primary bg-white fill-primary p-1 group-hover:border-underline group-hover:fill-underline group-hover:stroke-underline group-focus:border-underline group-focus:fill-underline group-focus:stroke-underline dark:border-textDark dark:bg-defaultColorDark dark:fill-textDark dark:stroke-textDark">
-                    <Icon icon="plus" />
-                  </span>{" "}
+                  <span className="block h-fit w-fit rounded-xl border-2 border-primary bg-white fill-primary p-1 transition-all group-hover:border-underline group-focus-visible:border-underline dark:border-textDark dark:bg-defaultColorDark">
+                    <Icon icon="plus" className="group-hover:fill-underline group-focus-visible:fill-underline" />
+                  </span>
                 </Link>
               </div>
               <DropArea
@@ -68,9 +68,9 @@ const BoardPage = async () => {
                   Awaiting feedback
                 </h2>
                 <Link href="add-task" className="group outline-none">
-                  <span className="block h-fit w-fit rounded-xl border-2 border-primary bg-white fill-primary p-1 group-hover:border-underline group-hover:fill-underline group-hover:stroke-underline group-focus:border-underline group-focus:fill-underline group-focus:stroke-underline dark:border-textDark dark:bg-defaultColorDark dark:fill-textDark dark:stroke-textDark">
-                    <Icon icon="plus" />
-                  </span>{" "}
+                  <span className="block h-fit w-fit rounded-xl border-2 border-primary bg-white fill-primary p-1 transition-all group-hover:border-underline group-focus-visible:border-underline dark:border-textDark dark:bg-defaultColorDark">
+                    <Icon icon="plus" className="group-hover:fill-underline group-focus-visible:fill-underline" />
+                  </span>
                 </Link>
               </div>
               <DropArea
@@ -86,9 +86,9 @@ const BoardPage = async () => {
                   Done
                 </h2>
                 <Link href="add-task" className="group outline-none">
-                  <span className="block h-fit w-fit rounded-xl border-2 border-primary bg-white fill-primary p-1 group-hover:border-underline group-hover:fill-underline group-hover:stroke-underline group-focus:border-underline group-focus:fill-underline group-focus:stroke-underline dark:border-textDark dark:bg-defaultColorDark dark:fill-textDark dark:stroke-textDark">
-                    <Icon icon="plus" />
-                  </span>{" "}
+                  <span className="block h-fit w-fit rounded-xl border-2 border-primary bg-white fill-primary p-1 transition-all group-hover:border-underline group-focus-visible:border-underline dark:border-textDark dark:bg-defaultColorDark">
+                    <Icon icon="plus" className="group-hover:fill-underline group-focus-visible:fill-underline" />
+                  </span>
                 </Link>
               </div>
               <DropArea

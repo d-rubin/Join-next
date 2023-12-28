@@ -8,11 +8,11 @@ import { useRouter } from "next/navigation";
 import DefaultInput from "../inputs/Default";
 import Password from "../inputs/Password";
 import Notification from "../Notification";
-import Button from "../Basics/Button";
 import Checkbox from "../Basics/Checkbox";
 import { register as registerFetch } from "../../utils/serverActions";
 import { signInSchema } from "../../schemas";
 import Form from "../Basics/Form";
+import FormButton from "./FormButton";
 
 const SignInForm = () => {
   const { push } = useRouter();
@@ -72,7 +72,7 @@ const SignInForm = () => {
             errorText="Pls accept the Privacy Policy"
           />
         </div>
-        <Button disabled={!isPrivacyChecked}>Sign up</Button>
+        <FormButton disabled={!isPrivacyChecked}>Sign up</FormButton>
       </Form>
       {trigger && <Notification text="You Signed Up successfully" trigger={trigger} />}
     </>

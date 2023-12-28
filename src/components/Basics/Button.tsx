@@ -1,7 +1,6 @@
 "use client";
 
 import { ButtonHTMLAttributes } from "react";
-import { useFormContext } from "react-hook-form";
 import Icon from "./Icon";
 import { cn } from "../../utils/generalHelper";
 
@@ -18,7 +17,6 @@ export type DefaultButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 const Button = (props: DefaultButtonProps) => {
   const {
     children,
-    onClick,
     className,
     disabled = false,
     outlined,
@@ -30,9 +28,8 @@ const Button = (props: DefaultButtonProps) => {
     type,
     ...restProps
   } = props;
-  const methods = useFormContext();
 
-  if ((type !== "reset" && methods?.formState?.isSubmitting) || loading)
+  if (loading)
     return (
       <button
         className={cn(
@@ -47,7 +44,7 @@ const Button = (props: DefaultButtonProps) => {
       </button>
     );
 
-  if (disabled || (type !== "reset" && !methods?.formState?.isValid))
+  if (disabled)
     return (
       <button
         aria-disabled={disabled}
@@ -67,7 +64,6 @@ const Button = (props: DefaultButtonProps) => {
     return (
       <button
         type={type}
-        onClick={props.type === "reset" ? methods.reset : onClick}
         className={cn(
           "group/button flex h-12 flex-row items-center justify-center gap-2 rounded-xl border-2 border-primary bg-white px-7 py-0.5 text-primary outline-none outline-offset-4 transition-all hover:border-underline hover:text-underline hover:drop-shadow-lg focus-visible:outline-underline active:scale-90 dark:bg-gray-300",
           bold && "font-semibold",
@@ -90,7 +86,6 @@ const Button = (props: DefaultButtonProps) => {
   return (
     <button
       type={type}
-      onClick={props.type === "reset" ? methods.reset : onClick}
       className={cn(
         "group/button flex h-12 flex-row items-center justify-center gap-2 rounded-xl border-2 border-transparent bg-primary px-7 py-0.5 text-white outline-none outline-offset-4 transition-all hover:bg-underline hover:drop-shadow-lg focus-visible:outline-underline active:scale-90 group-focus/button:bg-secondary",
         bold && "font-semibold",

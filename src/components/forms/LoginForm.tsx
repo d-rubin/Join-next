@@ -7,10 +7,10 @@ import Password from "../inputs/Password";
 import Checkbox from "../Basics/Checkbox";
 
 import { login } from "../../utils/serverActions";
-import Button from "../Basics/Button";
 import { loginSchema } from "../../schemas";
 import { ErrorResponse } from "../../utils/fetchApi";
 import Form from "../Basics/Form";
+import FormButton from "./FormButton";
 
 const LoginForm = () => {
   const [error, setError] = useState<string>();
@@ -32,7 +32,7 @@ const LoginForm = () => {
         <Checkbox name="rememberMe" text="Remember me" ref={rememberMeRef} />
       </div>
       <div className="flex w-full justify-center">
-        <Button>Login</Button>
+        <FormButton>Login</FormButton>
       </div>
     </Form>
   );

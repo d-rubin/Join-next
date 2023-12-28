@@ -13,3 +13,9 @@
 .hoverAnimation {
   transition: background-color 225ms ease-in-out;
 }
+
+.scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

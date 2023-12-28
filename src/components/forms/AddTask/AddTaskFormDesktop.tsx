@@ -1,9 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
-import clsx from "clsx";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { FieldValues } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 import { Contact, PrioType, TSubtask } from "../../../types";
@@ -17,6 +15,7 @@ import Icon from "../../Basics/Icon";
 import Checkbox from "../../Basics/Checkbox";
 import Form from "../../Basics/Form";
 import Select from "../../Basics/Select";
+import FormButton from "../FormButton";
 
 const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
   const { push } = useRouter();
@@ -119,9 +118,9 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
           </span>
         ))}
         <div className="absolute -bottom-20 right-0 flex w-full flex-row justify-between gap-4">
-          <Button type="reset" outlined icon="x" className="">
+          <FormButton type="reset" outlined icon="x" className="">
             Clear
-          </Button>
+          </FormButton>
           <Button icon="check">Create</Button>
         </div>
       </div>
