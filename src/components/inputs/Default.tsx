@@ -30,7 +30,6 @@ const DefaultInput = (props: DefaultInputProps) => {
     ...restProps
   } = props;
   const methods = useFormContext();
-  console.log(isError, errorText);
 
   return (
     <div className={`flex flex-col justify-start gap-1 dark:text-white ${block ? "w-full" : "w-fit"}`}>
