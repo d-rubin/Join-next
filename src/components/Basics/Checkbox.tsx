@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useState } from "react";
+import { forwardRef, useState, KeyboardEvent } from "react";
 import Icon from "./Icon";
 import Text from "./Text";
 
@@ -23,21 +23,30 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
     onChange && onChange(!checked);
   };
 
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === " ") handleClick();
+  };
+
   return (
     <>
-      <span onClick={handleClick} className="flex cursor-pointer flex-row items-center gap-2">
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+      <span
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        className="group/checkbox flex cursor-pointer flex-row items-center gap-2 outline-none"
+      >
         <input
           name={name}
           required={required}
           ref={ref}
           type="checkbox"
-          onChange={handleClick}
           checked={checked}
-          className="peer/checkbox invisible absolute h-0 w-0"
+          className="invisible absolute h-0 w-0"
         />
         <Icon
           icon={checked ? "checkboxChecked" : "checkboxUnchecked"}
-          className="rounded-sm stroke-black peer-focus-visible/checkbox:outline-underline dark:fill-transparent dark:stroke-textDark dark:stroke-2"
+          className="rounded-sm stroke-black group-focus-visible/checkbox:outline-underline dark:fill-transparent dark:stroke-textDark dark:stroke-2"
           iconSize="1rem"
         />
         <Text text={text} />

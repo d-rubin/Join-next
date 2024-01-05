@@ -45,7 +45,11 @@ const DefaultInput = (props: DefaultInputProps) => {
         <input
           {...(name && methods?.register ? methods.register(name) : undefined)}
           aria-disabled={disabled}
-          className={cn(`bg-transparent placeholder-grey outline-0 dark:text-white`, { "w-full": block }, className)}
+          className={cn(
+            `bg-transparent placeholder-grey outline-none outline-0 dark:text-white`,
+            { "w-full": block },
+            className,
+          )}
           {...restProps}
         />
         {icon && (
