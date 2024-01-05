@@ -33,7 +33,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
           type="checkbox"
           onChange={handleClick}
           checked={checked}
-          className="peer/checkbox h-0 w-0"
+          className="peer/checkbox invisible absolute h-0 w-0"
         />
         <Icon
           icon={checked ? "checkboxChecked" : "checkboxUnchecked"}
