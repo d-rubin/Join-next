@@ -97,13 +97,9 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
                 id="subtaskInput"
                 type="text"
                 placeholder="Add new Subtask"
-                className="w-full bg-transparent outline-0"
+                className="w-full bg-transparent outline-none"
               />
-              <Icon
-                icon="plus"
-                className="h-5 w-5 stroke-1 outline-none hover:fill-underline hover:stroke-underline focus:fill-underline focus:stroke-underline"
-                onClick={addSubtask}
-              />
+              <Icon icon="plus" className="h-5 w-5 outline-none" onClick={addSubtask} />
             </div>
           </label>
         </div>

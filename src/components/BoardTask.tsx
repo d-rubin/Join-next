@@ -43,7 +43,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
 
   const onSubmit = async (fieldValues: FieldValues) => {
     const mutatedSubtasks = getMutatedSubtasks(subtasks, subTasks);
-    const response = await updateTask({ ...fieldValues, priority: prio || "low" });
+    const response = await updateTask({ ...fieldValues, priority: prio || "low", id: task.id });
     // eslint-disable-next-line no-console
     if ("message" in response) console.error(response);
     else {
@@ -143,14 +143,13 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
       </div>
       <dialog className="fixed left-0 top-0 h-full w-screen bg-transparent" open={dialogOpen}>
         <div className="flex h-full w-full items-center justify-center bg-transparent">
-          <div className="scrollbar z-10 h-fit max-h-[75%] w-fit min-w-[17rem] max-w-[25rem] overflow-y-auto overflow-x-hidden rounded-3xl bg-white p-4 shadow-2xl dark:border-2 dark:border-textDark dark:bg-bgDark dark:text-textDark lg:max-h-[80%]">
+          <div className="scrollbar z-10 h-fit max-h-[75%] w-fit min-w-[17rem] max-w-[25rem] overflow-y-auto overflow-x-hidden rounded-3xl bg-white p-4 shadow-2xl outline-none dark:border-2 dark:border-textDark dark:bg-bgDark dark:text-textDark lg:max-h-[80%]">
             {editTask ? (
               <div className="flex max-h-full flex-col">
                 <span className="flex w-full items-center justify-end">
                   <Icon className="outline-offset-2" icon="x" onClick={handleCloseDialog} />
                 </span>
                 <Form onSubmit={onSubmit} schema={taskSchema} className="flex flex-col gap-4">
-                  <input name="id" type="number" required defaultValue={task.id} className="hidden" />
                   <DefaultInput
                     type="text"
                     name="title"
@@ -228,13 +227,9 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                           id="subtaskInput"
                           type="text"
                           placeholder="Add new Subtask"
-                          className="w-full bg-transparent placeholder-grey outline-0"
+                          className="w-full bg-transparent placeholder-grey outline-none outline-0"
                         />
-                        <Icon
-                          icon="plus"
-                          className="h-5 w-5 stroke-1 outline-none hover:fill-underline hover:stroke-underline focus:fill-underline focus:stroke-underline"
-                          onClick={addSubtask}
-                        />
+                        <Icon icon="plus" className="h-5 w-5 outline-none" onClick={addSubtask} />
                       </div>
                     </label>
                   </div>

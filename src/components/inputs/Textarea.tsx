@@ -21,7 +21,7 @@ const Textarea = (props: TextareaProps) => {
           {...(name && methods?.register && methods.register(name, { value: defaultValue || undefined }))}
           placeholder={placeholder}
           aria-disabled={disabled}
-          className={`bg-transparent placeholder-grey outline-0 ${block ? "w-full" : ""} ${className}`}
+          className={`bg-transparent placeholder-grey outline-none outline-0 ${block ? "w-full" : ""} ${className}`}
         />
       </div>
       {(isError && errorText) ||

@@ -36,7 +36,6 @@ const isUserLoggedIn = (): boolean => {
 
 const updateTask = async (task: unknown): Promise<ErrorResponse | Task | Response> => {
   let response: Response | Task | ErrorResponse | null = null;
-
   if (task && typeof task === "object" && "id" in task)
     response = await fetchServer<Task | ErrorResponse>(`/tasks/${task.id}/`, {
       method: "PATCH",
