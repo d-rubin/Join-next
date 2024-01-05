@@ -29,10 +29,10 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
 
   return (
     <>
-      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
       <span
         onClick={handleClick}
         onKeyDown={handleKeyDown}
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
         className="group/checkbox flex cursor-pointer flex-row items-center gap-2 outline-none"
       >
