@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Contact, PrioType, TSubtask } from "../../../types";
 import DefaultInput from "../../inputs/Default";
 import Button from "../../Basics/Button";
@@ -19,13 +19,17 @@ import FormButton from "../FormButton";
 
 const AddTaskFormDesktop = ({ contacts }: { contacts: Contact[] }) => {
   const { push } = useRouter();
+  const searchParams = useSearchParams();
   const [subTasks, setSubTasks] = useState<TSubtask[]>([]);
   const [prio, setPrio] = useState<PrioType | undefined>();
   const [serverError, setServerError] = useState<string>();
   const subTaskInputRef = useRef<HTMLInputElement>(null);
 
   const onSubmit = async (fieldValues: FieldValues) => {
-    const response = await createTask({ ...fieldValues, ...{ priority: prio || "low" } });
+    const response = await createTask({
+      ...fieldValues,
+      ...{ priority: prio || "low", status: searchParams.get("status") || "toDo" },
+    });
     if ("message" in response) setServerError(response.message);
     else if (subTasks.length) {
       await Promise.all(

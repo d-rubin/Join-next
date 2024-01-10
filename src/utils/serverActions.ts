@@ -155,7 +155,6 @@ const deleteTask = async (id: number) => {
   fetchServer(`/tasks/${id}/`, { method: "DELETE" }).then(() => {
     revalidateTag("tasks");
     revalidateTag("subtasks");
-    redirect("/board");
   });
 };
 
@@ -164,10 +163,12 @@ const getSubtasks = async () => {
 };
 
 const createSubtask = async (subtask: TSubtask) => {
-  return fetchServer<TSubtask | ErrorResponse>(`/tasks/subtasks/create/`, {
+  const response = await fetchServer<TSubtask | ErrorResponse>(`/tasks/subtasks/create/`, {
     method: "POST",
     body: JSON.stringify(subtask),
   });
+  revalidateTag("subtasks");
+  return response;
 };
 
 const updateSubtask = async (subtask: TSubtask): Promise<TSubtask | ErrorResponse | Response> => {
@@ -175,6 +176,9 @@ const updateSubtask = async (subtask: TSubtask): Promise<TSubtask | ErrorRespons
     return fetchServer<TSubtask | ErrorResponse>(`/tasks/subtasks/edit/${subtask.id}`, {
       method: "PATCH",
       body: JSON.stringify(subtask),
+    }).then((res) => {
+      revalidateTag("subtasks");
+      return res;
     });
   return { message: "Subtask has no id", status: 400 };
 };
@@ -187,6 +191,7 @@ const deleteSubtask = async (subtaskId: number) => {
     },
     true,
   );
+  revalidateTag("subtasks");
 };
 
 const handleMutateSubtasks = async (mutatedSubtasks: TSubtask[], taskId?: number) => {
@@ -204,6 +209,8 @@ const handleMutateSubtasks = async (mutatedSubtasks: TSubtask[], taskId?: number
   revalidateTag("subtasks");
 };
 
+const revalidateTagCSR = (tag: string) => revalidateTag(tag);
+
 export {
   createTask,
   getTasks,
@@ -220,4 +227,5 @@ export {
   isUserLoggedIn,
   logout,
   getCurrentUser,
+  revalidateTagCSR,
 };

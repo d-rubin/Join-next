@@ -4,6 +4,7 @@ import { Fragment, useContext, useState, KeyboardEvent, useRef, useEffect } from
 import { FieldValues } from "react-hook-form";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/navigation";
 import { Contact, PrioType, TSubtask, Task } from "../types";
 import { generalHelper, getAssignee, getBackgroundForCategory } from "../utils/generalHelper";
 import { DnDContext } from "../contexts/DnD.context";
@@ -21,6 +22,7 @@ import Select from "./Basics/Select";
 
 const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact[]; subtasks: TSubtask[] }) => {
   const { updateDraggedTask } = useContext(DnDContext);
+  const { refresh } = useRouter();
   const [subTasks, setSubTasks] = useState<TSubtask[]>(subtasks?.filter((item) => item.task === task.id) || []);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<boolean>(false);
@@ -65,7 +67,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
 
   const handleDeleteTask = (id: number) => {
     setDialogOpen(false);
-    deleteTask(id);
+    deleteTask(id).then(() => refresh());
   };
 
   const getDoneSubtasks = (): number => {
@@ -149,9 +151,11 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                 className="block h-3 rounded-md bg-underline transition-all"
               />
             </span>
-            <p className="dark:text-textDark">
-              {getDoneSubtasks()}/{subTasks.length}
-            </p>
+            {subTasks.length ? (
+              <p className="dark:text-textDark">
+                {getDoneSubtasks()}/{subTasks.length}
+              </p>
+            ) : null}
           </span>
           <span className="flex w-fit justify-end align-bottom">{getIconForPriority(task.priority)}</span>
         </div>
