@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useContext, useState, KeyboardEvent, useRef } from "react";
+import { Fragment, useContext, useState, KeyboardEvent, useRef, useEffect, MouseEvent } from "react";
 import { FieldValues } from "react-hook-form";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
@@ -102,6 +102,21 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
     setSubTasks(newSubtasks);
   };
 
+  useEffect(() => {
+    document.addEventListener("click", (event) => {
+      if ((event.target as HTMLElement)?.classList.contains("Dialog")) {
+        setDialogOpen(false);
+        setEditTask(false);
+      }
+    });
+    return document.removeEventListener("click", (event) => {
+      if ((event.target as HTMLElement)?.classList.contains("Dialog")) {
+        setDialogOpen(false);
+        setEditTask(false);
+      }
+    });
+  }, []);
+
   return (
     <Fragment key={uuidv4()}>
       <div
@@ -141,9 +156,9 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
           <span className="flex w-fit justify-end align-bottom">{getIconForPriority(task.priority)}</span>
         </div>
       </div>
-      <dialog className="fixed left-0 top-0 h-full w-screen bg-transparent" open={dialogOpen}>
-        <div className="flex h-full w-full items-center justify-center bg-transparent">
-          <div className="scrollbar z-10 h-fit max-h-[75%] w-fit min-w-[17rem] max-w-[25rem] overflow-y-auto overflow-x-hidden rounded-3xl bg-white p-4 shadow-2xl outline-none dark:border-2 dark:border-textDark dark:bg-bgDark dark:text-textDark lg:max-h-[80%]">
+      <dialog className="fixed left-0 top-0 h-full w-full bg-transparent" open={dialogOpen}>
+        <div className="Dialog z-10 flex h-full w-full items-center justify-center bg-transparent">
+          <div className="scrollbar z-20 h-fit max-h-[75%] w-fit min-w-[17rem] max-w-[25rem] overflow-y-auto overflow-x-hidden rounded-3xl bg-white p-4 shadow-2xl outline-none dark:border-2 dark:border-textDark dark:bg-bgDark dark:text-textDark lg:max-h-[80%]">
             {editTask ? (
               <div className="flex max-h-full flex-col">
                 <span className="flex w-full items-center justify-end">
