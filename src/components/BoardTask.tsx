@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useContext, useState, KeyboardEvent, useRef, useEffect, MouseEvent } from "react";
+import { Fragment, useContext, useState, KeyboardEvent, useRef, useEffect } from "react";
 import { FieldValues } from "react-hook-form";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
