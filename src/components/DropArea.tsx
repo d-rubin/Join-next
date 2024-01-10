@@ -2,13 +2,11 @@
 
 import { useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/navigation";
-import { revalidateTag } from "next/cache";
 import { useSWRConfig } from "swr";
 import BoardTask from "./BoardTask";
 import { Contact, TSubtask, Task } from "../types";
 import { DnDContext } from "../contexts/DnD.context";
-import { patchTaskStatus, revalidateTagCSR } from "../utils/serverActions";
+import { patchTaskStatus } from "../utils/serverActions";
 
 const DropArea = ({
   status,
