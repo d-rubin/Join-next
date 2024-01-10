@@ -158,7 +158,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
       </div>
       <dialog className="fixed left-0 top-0 h-full w-full bg-transparent" open={dialogOpen}>
         <div className="Dialog z-10 flex h-full w-full items-center justify-center bg-transparent">
-          <div className="scrollbar z-20 h-fit max-h-[75%] w-fit min-w-[17rem] max-w-[25rem] overflow-y-auto overflow-x-hidden rounded-3xl bg-white p-4 shadow-2xl outline-none dark:border-2 dark:border-textDark dark:bg-bgDark dark:text-textDark lg:max-h-[80%]">
+          <div className="scrollbar z-20 h-fit max-h-[75%] w-full min-w-[17rem] overflow-y-auto overflow-x-hidden rounded-3xl bg-white p-4 shadow-2xl outline-none dark:border-2 dark:border-textDark dark:bg-bgDark dark:text-textDark sm:w-[30rem] sm:p-8 lg:max-h-[80%]">
             {editTask ? (
               <div className="flex max-h-full flex-col">
                 <span className="flex w-full items-center justify-end">
