@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Card from "../Basics/Card";
 import Icon from "../Basics/Icon";
-import { Task } from "../../types";
+import { TTask } from "../../types";
 import { getCurrentUser, getTasks } from "../../utils/serverActions";
 
 const SummaryTaskArea = async () => {
   const [tasks, user] = await Promise.all([getTasks(), getCurrentUser()]);
 
-  const getNextDeadline = (items: Array<Task>) => {
+  const getNextDeadline = (items: Array<TTask>) => {
     if (!items.length) return "-";
     let nextDeadline: number = new Date("01-01-3000").getTime();
 
@@ -22,7 +22,7 @@ const SummaryTaskArea = async () => {
 
     return new Intl.DateTimeFormat("en-US", { day: "2-digit", month: "long", year: "numeric" }).format(nextDeadline);
   };
-  const getCounts = (items: Task[]) => {
+  const getCounts = (items: TTask[]) => {
     let toDo = 0;
     let inProgress = 0;
     let awaitingFeedback = 0;

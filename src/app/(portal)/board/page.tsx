@@ -1,6 +1,9 @@
+"use client";
+
 import PagePadding from "../../../components/PagePadding";
 import DropArea from "../../../components/DropArea";
-import { DnDContextProvider } from "../../../contexts/DnD.context";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const BoardPage = () => {
   // todo: Add Loading Elements
@@ -8,9 +11,9 @@ const BoardPage = () => {
   return (
     <PagePadding>
       <div className="flex flex-col gap-4">
-        <DnDContextProvider>
+        <DndProvider backend={HTML5Backend}>
           <DropArea />
-        </DnDContextProvider>
+        </DndProvider>
       </div>
     </PagePadding>
   );

@@ -3,14 +3,14 @@
 import { ForwardedRef, forwardRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
-import { generalHelper, getAssignee, getBackgroundForCategory } from "../utils/generalHelper";
-import { Task, Contact } from "../types";
+import { firstCharToUpperCase, getAssignee, getBackgroundForCategory } from "../utils/generalHelper";
+import { TTask, TContact } from "../types";
 import Icon from "./Basics/Icon";
 import { updateTask } from "../utils/serverActions";
 
 type TaskDialogProps = {
-  task: Task;
-  contacts: Contact[];
+  task: TTask;
+  contacts: TContact[];
   closeDialog: () => void;
 };
 
@@ -26,7 +26,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
   const [prio, setPrio] = useState<"high" | "medium" | "low">(priority);
 
   const submitHandler = (data: FieldValues) => {
-    updateTask({ ...(data as Task), ...{ priority: prio }, ...{ id } }).then(() => {
+    updateTask({ ...(data as TTask), ...{ priority: prio }, ...{ id } }).then(() => {
       closeDialog();
     });
   };
@@ -50,7 +50,7 @@ const TaskDialog = forwardRef((props: TaskDialogProps, ref: ForwardedRef<HTMLDia
               className="w-fit rounded-lg px-4 py-1 text-white"
               style={{ backgroundColor: getBackgroundForCategory(category) }}
             >
-              {generalHelper(category)}
+              {firstCharToUpperCase(category)}
             </p>
 
             <p className="text-lg font-bold">{title}</p>

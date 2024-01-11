@@ -1,25 +1,21 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useSWR from "swr";
 import Link from "next/link";
 import { useDebouncedCallback } from "use-debounce";
 import BoardTask from "./BoardTask";
-import { Task, Tags } from "../types";
-import { DnDContext } from "../contexts/DnD.context";
-import { getContacts, getSubtasks, getTasks, patchTaskStatus } from "../utils/serverActions";
+import { TTask, Tags, TContact, TSubtask } from "../types";
+import { getContacts, getSubtasks, getTasks, updateTask } from "../utils/serverActions";
 import Icon from "./Basics/Icon";
 import Text from "./Basics/Text";
 import DefaultInput from "./inputs/Default";
-import { getText } from "../utils/generalHelper";
+import { getStatusText, isErrorResponse } from "../utils/generalHelper";
+import { useDrop } from "react-dnd";
 
 const DropArea = () => {
-  const { task } = useContext(DnDContext);
-  const { data, isLoading, error, mutate } = useSWR(Tags.Board, () =>
-    Promise.all([getTasks(), getContacts(), getSubtasks()]),
-  );
-
+  const { data, error, mutate } = useSWR(Tags.Board, () => Promise.all([getTasks(), getContacts(), getSubtasks()]));
   const [searchValue, setSearchValue] = useState<string>();
 
   const handleSearch = useDebouncedCallback((value) => {
@@ -27,7 +23,7 @@ const DropArea = () => {
     else setSearchValue("");
   }, 300);
 
-  if ((!Array.isArray(data) || error) && !isLoading) {
+  if (error) {
     return (
       <div className="flex h-full w-full items-center justify-center p-4 text-3xl">
         <Text text="Ups, Something went wrong! Try again." />
@@ -35,50 +31,57 @@ const DropArea = () => {
     );
   }
 
-  const tasks = data && data[0];
-  const contacts = data && Array.isArray(data[1]) && data[1];
-  const subtasks = data && data[2] && !("message" in data[2]) && data[2];
+  const tasks = data && !isErrorResponse(data[0]) && data[0];
+  const contacts = data && !isErrorResponse(data[1]) && data[1];
+  const subtasks = data && !isErrorResponse(data[2]) && data[2];
 
-  const filterTasks = (status: string) => {
-    const searchedTasks =
-      searchValue &&
-      tasks?.filter((item) => item.title.includes(searchValue) || item.description.includes(searchValue));
-
-    return searchedTasks
-      ? searchedTasks.filter((item) => item.status === status)
-      : tasks?.filter((item) => item.status === status);
+  const updateTaskArray = (array: unknown, updatedTask: TTask) => {
+    if (array && Array.isArray(array) && !isErrorResponse(array)) {
+      return array.map((task) => (task.id === updatedTask.id ? updatedTask : task));
+    }
+    return [];
   };
 
-  const handleDrop = async (status: string) => {
-    if (task && tasks && contacts && subtasks) {
-      const updatedTasks: Task[] = tasks.map((item) => (item.id === task.id ? { ...item, status } : { ...item }));
+  const customUseDrop = (status: string) => {
+    const [{ isOver }, dropRef] = useDrop({
+      accept: "boardTask",
+      drop: (item: TTask) =>
+        mutate(Promise.all([updateTask({ ...item, status }), getContacts(), getSubtasks()]), {
+          optimisticData: [updateTaskArray(tasks, { ...item, status }), contacts as TContact[], subtasks as TSubtask[]],
+        }),
+      collect: (monitor) => ({
+        isOver: monitor.isOver(),
+      }),
+    });
+    return dropRef;
+  };
 
-      await mutate(Promise.all([patchTaskStatus(task, status), getContacts(), getSubtasks()]), {
-        optimisticData: [updatedTasks, contacts, subtasks],
-      });
+  const filterTasks = (status: string): TTask[] => {
+    let filteredTasks = tasks;
+    if (tasks && searchValue) {
+      filteredTasks = tasks.filter(
+        (item) => item.title.includes(searchValue) || item.description.includes(searchValue),
+      );
     }
+    return filteredTasks ? filteredTasks?.filter((item) => item.status === status) : [];
   };
 
   const renderTaskArea = (status: string) => {
     const filteredTasks = filterTasks(status);
     if (!filteredTasks?.length)
       return (
-        <div className="h-full w-full" onDrop={() => handleDrop(status)} onDragOver={(e) => e.preventDefault()}>
+        <div className="h-full w-full" ref={customUseDrop(status)}>
           <span className="flex w-full flex-row items-center justify-center rounded-xl border-2 border-dotted border-gray-500 bg-gray-200 p-2 text-gray-500">
-            No tasks {getText(status)}
+            No tasks {getStatusText(status)}
           </span>
         </div>
       );
 
-    if (contacts && filteredTasks?.length)
+    if (contacts)
       return (
-        <div
-          className="h-full w-full overflow-x-auto"
-          onDrop={() => handleDrop(status)}
-          onDragOver={(e) => e.preventDefault()}
-        >
+        <div className="h-full w-full overflow-x-auto" ref={customUseDrop(status)}>
           <div className="flex w-fit flex-row gap-4 lg:w-full lg:flex-col">
-            {filteredTasks.map((item: Task) => (
+            {filteredTasks.map((item: TTask) => (
               <BoardTask key={uuidv4()} task={item} contacts={contacts} subtasks={subtasks || undefined} />
             ))}
           </div>

@@ -3,8 +3,9 @@
 import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect, RedirectType } from "next/navigation";
-import { Contact, ErrorResponse, Tags, Task, TokenResponse, TSubtask } from "../types";
+import { TContact, ErrorResponse, Tags, TTask, TokenResponse, TSubtask } from "../types";
 import { loginSchema, signInSchema, taskSchema } from "../schemas";
+import { isErrorResponse } from "./generalHelper";
 
 const fetchServer = async <T>(url: string, options?: RequestInit): Promise<T | ErrorResponse> => {
   const authToken = cookies().get("authToken")?.value;
@@ -26,117 +27,71 @@ const logout = () => {
   redirect("/logout", RedirectType.replace);
 };
 
-// Todo: is probably not working with "use server"
 const isUserLoggedIn = (): boolean => {
   return !!cookies().get("authToken");
 };
 
-const updateTask = async (task: unknown): Promise<ErrorResponse | Task> => {
-  let response: Task | ErrorResponse | null = null;
-  if (task && typeof task === "object" && "id" in task)
-    response = await fetchServer<Task | ErrorResponse>(`/tasks/${task.id}/`, {
-      method: "PATCH",
-      cache: "no-store",
-      body: JSON.stringify(task),
-    });
-
-  if (!response) {
-    return { status: 404, message: "Couldn't update the Task." } as ErrorResponse;
-  }
-
-  revalidateTag(Tags.Tasks);
-  revalidateTag(Tags.Subtasks);
-  return response;
-};
-
-const getTasks = async () => {
-  const response = await fetchServer("/tasks/", { next: { tags: [Tags.Tasks] }, cache: "no-store" }).then((res) => {
-    return res as Task[];
-  });
-
-  if (response[0]) return response;
-
-  return [];
-};
-
-const patchTaskStatus = async (task: Task, update: string) => {
-  await updateTask({ ...task, ...{ status: update } });
-  revalidateTag(Tags.Tasks);
-  return getTasks();
-};
-
-const register = async (body: unknown) => {
+const register = async (body: unknown): Promise<ErrorResponse | TokenResponse> => {
   const isValid = signInSchema.safeParse(body);
 
   if (!isValid.success) {
     const { error } = isValid;
 
-    // todo: Resolve errors
     if (error.name) return { status: 401, name: "name", message: error.name } as ErrorResponse;
-    // if (error.email) return { status: 401, name: "name", message: error.name };
-    // if (error.password) return { status: 401, name: "name", message: error.name };
-    // if (error.secondPassword) return { status: 401, name: "name", message: error.name };
-    return { status: 404, name: "secondPassword", message: "Something went wrong." } as ErrorResponse;
+    return { status: 404, message: "Something went wrong." } as ErrorResponse;
   }
 
-  const response = await fetchServer<TokenResponse | ErrorResponse>("/auth/register/", {
+  const response = await fetchServer<TokenResponse>("/auth/register/", {
     method: "POST",
     body: JSON.stringify(body),
   });
 
-  if (response.status === 201) {
-    cookies().set("authToken", (response as TokenResponse).token, { expires: new Date(Date.now() + 86400000) });
-    return response as TokenResponse;
-  }
   if ("message" in response) {
     switch (response.message) {
       case "Email already in use":
-        return { status: response.status, name: "email", message: response.message };
+        return { status: response.status, name: "email", message: response.message } as ErrorResponse;
       case "Name already in use":
-        return { status: response.status, name: "name", message: response.message };
+        return { status: response.status, name: "name", message: response.message } as ErrorResponse;
       default:
-        return { status: response.status, name: "secondPassword", message: response.message };
+        return { status: response.status, name: "secondPassword", message: response.message } as ErrorResponse;
     }
   }
 
-  return { detail: "Invalid token." };
+  if (response.status === 201) {
+    cookies().set("authToken", response.token, { expires: new Date(Date.now() + 86400000) });
+    return response;
+  }
+
+  return response;
 };
 
-const login = async (fieldValues: unknown, rememberMe: boolean = false) => {
+const login = async (fieldValues: unknown, rememberMe: boolean = false): Promise<TokenResponse | ErrorResponse> => {
   const isValid = loginSchema.safeParse(fieldValues);
 
   if (isValid.success) {
-    const response = await fetchServer<TokenResponse | ErrorResponse>("/auth/login/", {
+    const response = await fetchServer<TokenResponse>("/auth/login/", {
       method: "POST",
       body: JSON.stringify(isValid.data),
     });
 
     if (response.status === 200) {
       const expires = new Date(rememberMe ? Date.now() + 30 * 86400000 : Date.now() + 86400000);
-      // Todo: Check if Error "can not mutate cookies SSR" is still throwing
       cookies().set("authToken", (response as TokenResponse).token, { expires });
       redirect("/summary", RedirectType.push);
     }
   }
 
-  return { status: 401, message: "Ups! Wrong password. Try again." } as ErrorResponse;
+  return { status: 401, message: "Ups! Wrong password. Try again." };
 };
 
-const createTask = async (body: unknown) => {
+const createTask = async (body: unknown): Promise<TTask | ErrorResponse> => {
   const isValid = taskSchema.safeParse(body);
 
   if (!isValid.success) {
-    // const { error } = isValid;
-
-    // todo: Resolve errors
-    // if (error.title) return { status: 401, name: "name", message: error.name };
-    // if (error.email) return { status: 401, name: "name", message: error.name };
-    // if (error.password) return { status: 401, name: "name", message: error.name };
-    // if (error.secondPassword) return { status: 401, name: "name", message: error.name };
-    return { status: 404, message: "Couldn't create the Task" } as ErrorResponse;
+    return { status: 404, message: "Couldn't create the Task" };
   }
 
-  const response = await fetchServer<Task | ErrorResponse>("/tasks/", {
+  const response = await fetchServer<TTask>("/tasks/", {
     method: "POST",
     body: JSON.stringify(body),
   });
@@ -146,35 +101,63 @@ const createTask = async (body: unknown) => {
     return response;
   }
 
-  return { status: response.status, message: "Couldn't create the Task" } as ErrorResponse;
+  return { status: +response.status, message: "Couldn't create the Task" };
 };
 
-const getContacts = async () => {
-  return fetchServer<Contact[]>("/contacts/", { next: { tags: [Tags.Contacts] } });
+const getTasks = async (): Promise<TTask[] | ErrorResponse> => {
+  return fetchServer("/tasks/", { cache: "no-store", next: { tags: [Tags.Tasks] } });
+};
+
+const updateTask = async (task: TTask): Promise<TTask[]> => {
+  console.log("updatedTask", task);
+  const response =
+    task.id &&
+    (await fetchServer<TTask>(`/tasks/${task.id}/`, {
+      method: "PATCH",
+      body: JSON.stringify(task),
+    }));
+  console.log("Response\n", response);
+
+  revalidateTag(Tags.Tasks);
+  revalidateTag(Tags.Subtasks);
+  const tasks = await getTasks();
+  console.log("Tasks\n", tasks);
+
+  if ((tasks && isErrorResponse(tasks)) || (response && isErrorResponse(response))) return [];
+  console.log(
+    "return \n",
+    !isErrorResponse(tasks) ? tasks.map((elem: TTask) => (elem.id === task.id ? task : elem)) : [],
+  );
+  return !isErrorResponse(tasks) ? tasks.map((elem: TTask) => (elem.id === task.id ? task : elem)) : [];
+};
+
+const deleteTask = async (id: number): Promise<ErrorResponse> => {
+  return fetchServer(`/tasks/${id}/`, { method: "DELETE" }).then(() => {
+    revalidateTag(Tags.Tasks);
+    revalidateTag(Tags.Subtasks);
+    return { status: 200, message: "OK" };
+  });
 };
 
 const getCurrentUser = async () => {
   return fetchServer<{ username: string; email: string }>("/contacts/currentUser", { next: { tags: [Tags.User] } });
 };
 
-const deleteTask = async (id: number) => {
-  fetchServer(`/tasks/${id}/`, { method: "DELETE" }).then(() => {
-    revalidateTag(Tags.Tasks);
-    revalidateTag(Tags.Subtasks);
-  });
+const getContacts = async (): Promise<TContact[] | ErrorResponse> => {
+  return fetchServer<TContact[]>("/contacts/", { next: { tags: [Tags.Contacts] } });
 };
 
-const getSubtasks = async () => {
-  return fetchServer<TSubtask[]>("/tasks/subtasks", { next: { tags: [Tags.Subtasks] }, cache: "no-store" });
-};
-
-const createSubtask = async (subtask: TSubtask) => {
-  const response = await fetchServer<TSubtask | ErrorResponse>(`/tasks/subtasks/create/`, {
+const createSubtask = async (subtask: TSubtask): Promise<TSubtask | ErrorResponse> => {
+  const response = await fetchServer<TSubtask>(`/tasks/subtasks/create/`, {
     method: "POST",
     body: JSON.stringify(subtask),
   });
   revalidateTag(Tags.Subtasks);
   return response;
+};
+
+const getSubtasks = async () => {
+  return fetchServer<TSubtask[]>("/tasks/subtasks", { next: { tags: [Tags.Subtasks] }, cache: "no-store" });
 };
 
 const updateSubtask = async (subtask: TSubtask): Promise<TSubtask | ErrorResponse> => {
@@ -186,20 +169,22 @@ const updateSubtask = async (subtask: TSubtask): Promise<TSubtask | ErrorRespons
       revalidateTag(Tags.Subtasks);
       return res;
     });
-  return { message: "Subtask has no id", status: 400 } as ErrorResponse;
+  return { message: "Subtask has no id", status: 400 };
 };
 
-const deleteSubtask = async (subtaskId: number) => {
-  return fetchServer(`/tasks/subtasks/edit/${subtaskId}`, {
-    method: "DELETE",
-  }).then((res) => {
-    revalidateTag(Tags.Subtasks);
-    return res;
-  });
+const deleteSubtask = async (subtaskId: number): Promise<ErrorResponse> => {
+  if (subtaskId)
+    return fetchServer(`/tasks/subtasks/edit/${subtaskId}`, {
+      method: "DELETE",
+    }).then(() => {
+      revalidateTag(Tags.Subtasks);
+      return { message: "OK", status: 200 };
+    });
+  return { message: "Subtask has no id", status: 400 };
 };
 
-const handleMutateSubtasks = async (mutatedSubtasks: TSubtask[], taskId?: number) => {
-  await Promise.all(
+const handleMutateSubtasks = async (mutatedSubtasks: TSubtask[], taskId?: number): Promise<ErrorResponse> => {
+  return Promise.all(
     mutatedSubtasks.map(async (subtask) => {
       if (subtask.id) {
         if (subtask.toDelete) {
@@ -209,30 +194,29 @@ const handleMutateSubtasks = async (mutatedSubtasks: TSubtask[], taskId?: number
         }
       } else if (taskId) await createSubtask(subtask);
     }),
-  ).then((res) => {
+  ).then(() => {
     revalidateTag(Tags.Subtasks);
-    return res;
+    return { message: "OK", status: 200 };
   });
 };
 
 const revalidateTagCSR = (tag: string) => revalidateTag(tag);
 
 export {
+  logout,
+  isUserLoggedIn,
+  login,
+  register,
   createTask,
   getTasks,
   updateTask,
-  patchTaskStatus,
   deleteTask,
+  getCurrentUser,
   getContacts,
-  getSubtasks,
   createSubtask,
+  getSubtasks,
   updateSubtask,
   deleteSubtask,
   handleMutateSubtasks,
-  login,
-  register,
-  isUserLoggedIn,
-  logout,
-  getCurrentUser,
   revalidateTagCSR,
 };

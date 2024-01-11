@@ -1,8 +1,8 @@
 import { twMerge } from "tw-merge";
 import clsx, { ClassValue } from "clsx";
-import { Contact } from "../types";
+import { ErrorResponse, TContact } from "../types";
 
-const generalHelper = (string: string) => {
+const firstCharToUpperCase = (string: string) => {
   if (!string) return "";
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
@@ -22,7 +22,7 @@ const getBackgroundForCategory = (category: string) => {
   }
 };
 
-const getText = (status: string) => {
+const getStatusText = (status: string) => {
   switch (status) {
     case "toDo":
       return "to do";
@@ -35,11 +35,14 @@ const getText = (status: string) => {
   }
 };
 
-export const getAssignee = (assignee: number, contacts: Contact[]) => {
+const getAssignee = (assignee: number, contacts: TContact[]) => {
   const assignedPerson = contacts?.find((user) => user.id === assignee);
   return assignedPerson?.username || "-";
 };
 
 const cn = (...classNames: ClassValue[]) => twMerge(clsx(classNames));
 
-export { generalHelper, getBackgroundForCategory, cn, getText };
+const isErrorResponse = (response: Object): response is ErrorResponse =>
+  !Array.isArray(response) && "message" in response;
+
+export { firstCharToUpperCase, getBackgroundForCategory, getStatusText, getAssignee, cn, isErrorResponse };

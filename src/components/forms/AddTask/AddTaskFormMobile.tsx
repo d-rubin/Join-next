@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Contact, PrioType, Task, TSubtask } from "../../../types";
+import { TContact, TPriority, TTask, TSubtask } from "../../../types";
 import DefaultInput from "../../inputs/Default";
 import Textarea from "../../inputs/Textarea";
 import Prio from "../../Prio";
@@ -16,10 +16,10 @@ import Form from "../../Basics/Form";
 import Select from "../../Basics/Select";
 import FormButton from "../FormButton";
 
-const AddTaskFormMobile = ({ contacts, task }: { contacts: Contact[]; task?: Task }) => {
+const AddTaskFormMobile = ({ contacts, task }: { contacts: TContact[]; task?: TTask }) => {
   const { push } = useRouter();
   const searchParams = useSearchParams();
-  const [prio, setPrio] = useState<PrioType | undefined>(task ? task.priority : undefined);
+  const [prio, setPrio] = useState<TPriority | undefined>(task ? task.priority : undefined);
   const [subTasks, setSubTasks] = useState<TSubtask[]>([]);
   const [serverError, setServerError] = useState<string>();
   const subTaskInputRef = useRef<HTMLInputElement>(null);

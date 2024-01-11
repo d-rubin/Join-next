@@ -5,9 +5,8 @@ import { FieldValues } from "react-hook-form";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
-import { Contact, PrioType, TSubtask, Task } from "../types";
-import { generalHelper, getAssignee, getBackgroundForCategory } from "../utils/generalHelper";
-import { DnDContext } from "../contexts/DnD.context";
+import { TContact, TPriority, TSubtask, TTask } from "../types";
+import { firstCharToUpperCase, getAssignee, getBackgroundForCategory } from "../utils/generalHelper";
 import Icon from "./Basics/Icon";
 import Text from "./Basics/Text";
 import DefaultInput from "./inputs/Default";
@@ -19,15 +18,23 @@ import Button from "./Basics/Button";
 import Checkbox from "./Basics/Checkbox";
 import Form from "./Basics/Form";
 import Select from "./Basics/Select";
+import { useDrag } from "react-dnd";
 
-const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact[]; subtasks?: TSubtask[] }) => {
-  const { updateDraggedTask } = useContext(DnDContext);
+const BoardTask = ({ task, contacts, subtasks }: { task: TTask; contacts: TContact[]; subtasks?: TSubtask[] }) => {
   const { refresh } = useRouter();
   const [subTasks, setSubTasks] = useState<TSubtask[]>(subtasks?.filter((item) => item.task === task.id) || []);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<boolean>(false);
-  const [prio, setPrio] = useState<PrioType | undefined>(task ? task.priority : undefined);
+  const [prio, setPrio] = useState<TPriority | undefined>(task ? task.priority : undefined);
   const subTaskInputRef = useRef<HTMLInputElement>(null);
+
+  const [{ isDragging }, dragRef] = useDrag({
+    type: "boardTask",
+    item: task,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
 
   const getMutatedSubtasks = (original?: TSubtask[], mutated?: TSubtask[]) => {
     const mutatedSubtasks: Array<TSubtask> = [];
@@ -45,7 +52,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
 
   const onSubmit = async (fieldValues: FieldValues) => {
     const mutatedSubtasks = getMutatedSubtasks(subtasks, subTasks);
-    const response = await updateTask({ ...fieldValues, priority: prio || "low", id: task.id });
+    const response = await updateTask({ ...(fieldValues as TTask), priority: prio || "low", id: task.id });
     // eslint-disable-next-line no-console
     if ("message" in response) console.error(response);
     else {
@@ -55,7 +62,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
     }
   };
 
-  const getIconForPriority = (priority: PrioType) => {
+  const getIconForPriority = (priority: TPriority) => {
     if (priority === "low") return <Icon iconSize="h-4 w-4" icon="low" className="fill-green stroke-green" />;
     if (priority === "medium") return <Icon iconSize="h-4 w-4" icon="medium" className="fill-orange stroke-orange" />;
     return <Icon iconSize="h-4 w-4" icon="urgent" className="fill-red stroke-red" />;
@@ -123,11 +130,10 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
     <Fragment key={uuidv4()}>
       <div
         className="min-w-40 flex w-52 cursor-pointer flex-col justify-start gap-2 rounded-3xl bg-white p-4 outline-none transition-all focus-visible:bg-grey dark:bg-bgDark dark:focus-visible:bg-primary lg:h-fit lg:w-full"
-        draggable
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
-        onDragStart={() => updateDraggedTask(task)}
-        onDragEnd={() => updateDraggedTask(null)}
+        ref={dragRef}
+        draggable
         onClick={() => setDialogOpen(true)}
         onKeyDown={(e) => handleTaskKeyDown(e)}
       >
@@ -135,7 +141,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
           className="w-fit rounded-lg px-4 py-1 text-white"
           style={{ backgroundColor: getBackgroundForCategory(task.category) }}
         >
-          {generalHelper(task.category)}
+          {firstCharToUpperCase(task.category)}
         </p>
         <p className="text-lg font-bold dark:text-textDark">{task.title}</p>
         <p className="text-gray-500 dark:text-gray-400">{task.description}</p>
@@ -282,7 +288,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
                     className="w-fit rounded-lg px-4 py-1 text-white"
                     style={{ backgroundColor: getBackgroundForCategory(task.category) }}
                   >
-                    {generalHelper(task.category)}
+                    {firstCharToUpperCase(task.category)}
                   </p>
                   <Icon icon="x" iconSize="h-8 w-8" className="outline-offset-2" onClick={handleCloseDialog} />
                 </span>
