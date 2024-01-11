@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { getContacts } from "../../../utils/fetchApi";
+import { getContacts } from "../../../utils/serverActions";
 import { Contact } from "../../../types";
 import PagePadding from "../../../components/PagePadding";
 
