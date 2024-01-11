@@ -6,7 +6,9 @@
 // // import { Contact } from "../../../types";
 // import PagePadding from "../../../components/PagePadding";
 //
-// const SummaryPage = () => {
+const SummaryPage = () => {
+  return <div />;
+};
 //   // const [contacts, setContacts] = useState<Contact[]>();
 //   // // const [showDetails, setShowDetails] = useState<boolean>();
 //   // // const [contactDetails, setContactDetails] = useState<User>();
@@ -54,4 +56,4 @@
 //   );
 // };
 //
-// export default SummaryPage;
+export default SummaryPage;
