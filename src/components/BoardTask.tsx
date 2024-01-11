@@ -1,10 +1,11 @@
 "use client";
 
-import { Fragment, useContext, useState, KeyboardEvent, useRef, useEffect } from "react";
+import { Fragment, useState, KeyboardEvent, useRef, useEffect } from "react";
 import { FieldValues } from "react-hook-form";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
+import { useDrag } from "react-dnd";
 import { TContact, TPriority, TSubtask, TTask } from "../types";
 import { firstCharToUpperCase, getAssignee, getBackgroundForCategory } from "../utils/generalHelper";
 import Icon from "./Basics/Icon";
@@ -18,7 +19,6 @@ import Button from "./Basics/Button";
 import Checkbox from "./Basics/Checkbox";
 import Form from "./Basics/Form";
 import Select from "./Basics/Select";
-import { useDrag } from "react-dnd";
 
 const BoardTask = ({ task, contacts, subtasks }: { task: TTask; contacts: TContact[]; subtasks?: TSubtask[] }) => {
   const { refresh } = useRouter();
@@ -27,8 +27,8 @@ const BoardTask = ({ task, contacts, subtasks }: { task: TTask; contacts: TConta
   const [editTask, setEditTask] = useState<boolean>(false);
   const [prio, setPrio] = useState<TPriority | undefined>(task ? task.priority : undefined);
   const subTaskInputRef = useRef<HTMLInputElement>(null);
-
-  const [{ isDragging }, dragRef] = useDrag({
+  // @ts-ignore
+  const [{}, dragRef] = useDrag({
     type: "boardTask",
     item: task,
     collect: (monitor) => ({

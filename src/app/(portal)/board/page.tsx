@@ -1,9 +1,9 @@
 "use client";
 
-import PagePadding from "../../../components/PagePadding";
-import DropArea from "../../../components/DropArea";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import PagePadding from "../../../components/PagePadding";
+import DropArea from "../../../components/DropArea";
 
 const BoardPage = () => {
   // todo: Add Loading Elements

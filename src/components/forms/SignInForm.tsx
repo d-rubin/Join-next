@@ -11,6 +11,7 @@ import { register as registerFetch } from "../../utils/serverActions";
 import { signInSchema } from "../../schemas";
 import Form from "../Basics/Form";
 import FormButton from "./FormButton";
+import { ErrorResponse } from "../../types";
 
 const SignInForm = () => {
   const { push } = useRouter();
@@ -39,7 +40,7 @@ const SignInForm = () => {
           setTrigger(!trigger);
           setTimeout(() => push("/summary"), 1500);
         } else if ("name" in response) {
-          setGenericError(response.message);
+          setGenericError((response as ErrorResponse).message);
         }
       }
     }

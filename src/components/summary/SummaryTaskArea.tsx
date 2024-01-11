@@ -3,15 +3,17 @@ import Card from "../Basics/Card";
 import Icon from "../Basics/Icon";
 import { TTask } from "../../types";
 import { getCurrentUser, getTasks } from "../../utils/serverActions";
+import { isErrorResponse } from "../../utils/generalHelper";
 
 const SummaryTaskArea = async () => {
   const [tasks, user] = await Promise.all([getTasks(), getCurrentUser()]);
+  if (isErrorResponse(tasks)) return null;
 
   const getNextDeadline = (items: Array<TTask>) => {
     if (!items.length) return "-";
     let nextDeadline: number = new Date("01-01-3000").getTime();
 
-    if (Array.isArray(items)) {
+    if (Array.isArray(items) && !isErrorResponse(tasks)) {
       tasks.forEach((task) => {
         const deadline = new Date(task.due_date).getTime();
         if (deadline < nextDeadline) nextDeadline = deadline;

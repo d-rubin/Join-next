@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import useSWR from "swr";
 import Link from "next/link";
 import { useDebouncedCallback } from "use-debounce";
+import { useDrop } from "react-dnd";
 import BoardTask from "./BoardTask";
 import { TTask, Tags, TContact, TSubtask } from "../types";
 import { getContacts, getSubtasks, getTasks, updateTask } from "../utils/serverActions";
@@ -12,7 +13,6 @@ import Icon from "./Basics/Icon";
 import Text from "./Basics/Text";
 import DefaultInput from "./inputs/Default";
 import { getStatusText, isErrorResponse } from "../utils/generalHelper";
-import { useDrop } from "react-dnd";
 
 const DropArea = () => {
   const { data, error, mutate } = useSWR(Tags.Board, () => Promise.all([getTasks(), getContacts(), getSubtasks()]));
@@ -43,7 +43,7 @@ const DropArea = () => {
   };
 
   const customUseDrop = (status: string) => {
-    const [{ isOver }, dropRef] = useDrop({
+    const [{}, dropRef] = useDrop({
       accept: "boardTask",
       drop: (item: TTask) =>
         mutate(Promise.all([updateTask({ ...item, status }), getContacts(), getSubtasks()]), {
