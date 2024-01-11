@@ -1,22 +1,22 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { getContacts } from "../../../utils/serverActions";
-import { Contact } from "../../../types";
+// import { useEffect, useRef, useState } from "react";
+// import { v4 as uuidv4 } from "uuid";
+// import { getContacts } from "../../../utils/serverActions";
+// import { Contact } from "../../../types";
 import PagePadding from "../../../components/PagePadding";
 
 const SummaryPage = () => {
-  const [contacts, setContacts] = useState<Contact[]>();
-  // const [showDetails, setShowDetails] = useState<boolean>();
-  // const [contactDetails, setContactDetails] = useState<User>();
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    getContacts().then((res) => {
-      setContacts(res);
-    });
-  }, []);
+  // const [contacts, setContacts] = useState<Contact[]>();
+  // // const [showDetails, setShowDetails] = useState<boolean>();
+  // // const [contactDetails, setContactDetails] = useState<User>();
+  // const dialogRef = useRef<HTMLDialogElement>(null);
+  //
+  // useEffect(() => {
+  //   getContacts().then((res) => {
+  //     setContacts(res);
+  //   });
+  // }, []);
 
   // const openContactDetails = (contact: User) => {
   //   setShowDetails(true);
