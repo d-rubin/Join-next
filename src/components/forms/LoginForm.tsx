@@ -8,7 +8,7 @@ import Checkbox from "../Basics/Checkbox";
 
 import { login } from "../../utils/serverActions";
 import { loginSchema } from "../../schemas";
-import { ErrorResponse } from "../../utils/fetchApi";
+import { ErrorResponse } from "../../types";
 import Form from "../Basics/Form";
 import FormButton from "./FormButton";
 
