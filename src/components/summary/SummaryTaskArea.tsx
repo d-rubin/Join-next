@@ -5,8 +5,7 @@ import { Task } from "../../types";
 import { getCurrentUser, getTasks } from "../../utils/serverActions";
 
 const SummaryTaskArea = async () => {
-  const tasks = await getTasks();
-  const user = await getCurrentUser();
+  const [tasks, user] = await Promise.all([getTasks(), getCurrentUser()]);
 
   const getNextDeadline = (items: Array<Task>) => {
     if (!items.length) return "-";

@@ -20,7 +20,7 @@ import Checkbox from "./Basics/Checkbox";
 import Form from "./Basics/Form";
 import Select from "./Basics/Select";
 
-const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact[]; subtasks: TSubtask[] }) => {
+const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact[]; subtasks?: TSubtask[] }) => {
   const { updateDraggedTask } = useContext(DnDContext);
   const { refresh } = useRouter();
   const [subTasks, setSubTasks] = useState<TSubtask[]>(subtasks?.filter((item) => item.task === task.id) || []);
@@ -29,7 +29,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: Task; contacts: Contact
   const [prio, setPrio] = useState<PrioType | undefined>(task ? task.priority : undefined);
   const subTaskInputRef = useRef<HTMLInputElement>(null);
 
-  const getMutatedSubtasks = (original: TSubtask[], mutated: TSubtask[]) => {
+  const getMutatedSubtasks = (original?: TSubtask[], mutated?: TSubtask[]) => {
     const mutatedSubtasks: Array<TSubtask> = [];
     if (original && mutated) {
       mutated.forEach((item) => {

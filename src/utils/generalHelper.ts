@@ -22,6 +22,19 @@ const getBackgroundForCategory = (category: string) => {
   }
 };
 
+const getText = (status: string) => {
+  switch (status) {
+    case "toDo":
+      return "to do";
+    case "inProgress":
+      return "in progress";
+    case "awaitingFeedback":
+      return "awaiting feedback";
+    default:
+      return "done";
+  }
+};
+
 export const getAssignee = (assignee: number, contacts: Contact[]) => {
   const assignedPerson = contacts?.find((user) => user.id === assignee);
   return assignedPerson?.username || "-";
@@ -29,4 +42,4 @@ export const getAssignee = (assignee: number, contacts: Contact[]) => {
 
 const cn = (...classNames: ClassValue[]) => twMerge(clsx(classNames));
 
-export { generalHelper, getBackgroundForCategory, cn };
+export { generalHelper, getBackgroundForCategory, cn, getText };

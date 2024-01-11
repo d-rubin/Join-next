@@ -1,5 +1,18 @@
 import { z } from "zod";
-import { taskSchema, loginSchema, signInSchema } from "./schemas";
+import { loginSchema, signInSchema, taskSchema } from "./schemas";
+
+export type CustomResponse = {
+  status: number;
+  data: Object;
+};
+
+export type TokenResponse = Omit<CustomResponse, "data"> & {
+  token: string;
+};
+
+export type ErrorResponse = Omit<CustomResponse, "data"> & {
+  message: string;
+};
 
 type Task = {
   id?: number;
@@ -33,3 +46,11 @@ type TTaskSchema = z.infer<typeof taskSchema>;
 type PrioType = "high" | "medium" | "low";
 
 export type { PrioType, TTaskSchema, TLoginSchema, TSignInSchema, Contact, Task, TSubtask };
+
+export enum Tags {
+  Tasks = "tasks",
+  Subtasks = "subtasks",
+  User = "user",
+  Contacts = "contacts",
+  Board = "board",
+}
