@@ -25,6 +25,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
+    "no-empty-pattern": "off",
     "no-plusplus": "off",
     "radix": ["error", "as-needed"],
     "quotes": "off",
