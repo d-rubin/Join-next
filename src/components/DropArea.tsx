@@ -43,6 +43,7 @@ const DropArea = () => {
   };
 
   const customUseDrop = (status: string) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [{}, dropRef] = useDrop({
       accept: "boardTask",
       drop: (item: TTask) =>
