@@ -13,6 +13,7 @@ import Icon from "./Basics/Icon";
 import Text from "./Basics/Text";
 import DefaultInput from "./inputs/Default";
 import { getStatusText, isErrorResponse } from "../utils/generalHelper";
+import Skeleton from "./Basics/Skeleton";
 
 const DropArea = () => {
   const { data, isLoading, error, mutate } = useSWR(Tags.Board, () =>
