@@ -71,12 +71,13 @@ const DropArea = () => {
   };
 
   const renderTaskArea = (status: string) => {
+    const dropRef = customUseDrop(status);
     const filteredTasks = filterTasks(status);
     if (!contacts || isLoading) return <Skeleton className="h-40 rounded-3xl md:h-96" />;
 
     if (!filteredTasks?.length)
       return (
-        <div className="h-full w-full" ref={customUseDrop(status)}>
+        <div className="h-full w-full" ref={dropRef}>
           <span className="flex w-full flex-row items-center justify-center rounded-xl border-2 border-dotted border-gray-500 bg-gray-200 p-2 text-gray-500">
             No tasks {getStatusText(status)}
           </span>
@@ -85,7 +86,7 @@ const DropArea = () => {
 
     if (contacts)
       return (
-        <div className="h-full w-full overflow-x-auto" ref={customUseDrop(status)}>
+        <div className="h-full w-full overflow-x-auto" ref={dropRef}>
           <div className="flex w-fit flex-row gap-4 lg:w-full lg:flex-col">
             {filteredTasks.map((item: TTask) => (
               <BoardTask key={uuidv4()} task={item} contacts={contacts} subtasks={subtasks || undefined} />

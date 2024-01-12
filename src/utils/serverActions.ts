@@ -109,25 +109,18 @@ const getTasks = async (): Promise<TTask[] | ErrorResponse> => {
 };
 
 const updateTask = async (task: TTask): Promise<TTask[]> => {
-  console.log("updatedTask", task);
   const response =
     task.id &&
     (await fetchServer<TTask>(`/tasks/${task.id}/`, {
       method: "PATCH",
       body: JSON.stringify(task),
     }));
-  console.log("Response\n", response);
 
   revalidateTag(Tags.Tasks);
   revalidateTag(Tags.Subtasks);
   const tasks = await getTasks();
-  console.log("Tasks\n", tasks);
 
   if ((tasks && isErrorResponse(tasks)) || (response && isErrorResponse(response))) return [];
-  console.log(
-    "return \n",
-    !isErrorResponse(tasks) ? tasks.map((elem: TTask) => (elem.id === task.id ? task : elem)) : [],
-  );
   return !isErrorResponse(tasks) ? tasks.map((elem: TTask) => (elem.id === task.id ? task : elem)) : [];
 };
 
