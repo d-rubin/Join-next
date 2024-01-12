@@ -15,7 +15,9 @@ import DefaultInput from "./inputs/Default";
 import { getStatusText, isErrorResponse } from "../utils/generalHelper";
 
 const DropArea = () => {
-  const { data, error, mutate } = useSWR(Tags.Board, () => Promise.all([getTasks(), getContacts(), getSubtasks()]));
+  const { data, isLoading, error, mutate } = useSWR(Tags.Board, () =>
+    Promise.all([getTasks(), getContacts(), getSubtasks()]),
+  );
   const [searchValue, setSearchValue] = useState<string>();
 
   const handleSearch = useDebouncedCallback((value) => {
