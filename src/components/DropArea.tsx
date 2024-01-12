@@ -69,6 +69,8 @@ const DropArea = () => {
 
   const renderTaskArea = (status: string) => {
     const filteredTasks = filterTasks(status);
+    if (!contacts || isLoading) return <Skeleton className="h-40 rounded-3xl md:h-96" />;
+
     if (!filteredTasks?.length)
       return (
         <div className="h-full w-full" ref={customUseDrop(status)}>

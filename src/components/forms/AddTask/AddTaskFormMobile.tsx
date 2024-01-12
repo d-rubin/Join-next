@@ -134,7 +134,7 @@ const AddTaskFormMobile = ({ contacts, task }: { contacts: TContact[]; task?: TT
           />
         </span>
       ))}
-      <FormButton icon="check" className="fixed bottom-24 right-4">
+      <FormButton icon="check" className="fixed bottom-[6.3rem] right-4">
         Create
       </FormButton>
     </Form>

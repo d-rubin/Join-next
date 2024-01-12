@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import PagePadding from "../../../components/PagePadding";
-import SummaryTaskArea from "../../../components/summary/SummaryTaskArea";
-import TaskAreaSkeletons from "../../../components/summary/TaskAreaSkeletons";
+import SummaryTaskArea from "../../../components/SummaryTaskArea";
+import TaskAreaSkeletons from "../../../components/loading/TaskAreaSkeletons";
 
 const SummaryPage = async () => {
   return (

@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Card from "../Basics/Card";
-import Icon from "../Basics/Icon";
-import { TTask } from "../../types";
-import { getCurrentUser, getTasks } from "../../utils/serverActions";
-import { isErrorResponse } from "../../utils/generalHelper";
+import Card from "./Basics/Card";
+import Icon from "./Basics/Icon";
+import { TTask } from "../types";
+import { getCurrentUser, getTasks } from "../utils/serverActions";
+import { isErrorResponse } from "../utils/generalHelper";
 
 const SummaryTaskArea = async () => {
   const [tasks, user] = await Promise.all([getTasks(), getCurrentUser()]);
