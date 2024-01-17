@@ -12,7 +12,7 @@ import { getContacts, getSubtasks, getTasks, updateTask } from "../utils/serverA
 import Icon from "./Basics/Icon";
 import Text from "./Basics/Text";
 import DefaultInput from "./inputs/Default";
-import { getStatusText, isErrorResponse } from "../utils/generalHelper";
+import { getStatusText, isErrorResponse, updateTaskArray } from "../utils/generalHelper";
 import Skeleton from "./Basics/Skeleton";
 
 const DropArea = () => {
@@ -38,13 +38,6 @@ const DropArea = () => {
   const contacts = data && !isErrorResponse(data[1]) && data[1];
   const subtasks = data && !isErrorResponse(data[2]) && data[2];
 
-  const updateTaskArray = (array: unknown, updatedTask: TTask) => {
-    if (array && Array.isArray(array) && !isErrorResponse(array)) {
-      return array.map((task) => (task.id === updatedTask.id ? updatedTask : task));
-    }
-    return [];
-  };
-
   const customUseDrop = (status: string) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [{}, dropRef] = useDrop({
@@ -64,7 +57,9 @@ const DropArea = () => {
     let filteredTasks = tasks;
     if (tasks && searchValue) {
       filteredTasks = tasks.filter(
-        (item) => item.title.includes(searchValue) || item.description.includes(searchValue),
+        (item) =>
+          item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchValue.toLowerCase()),
       );
     }
     return filteredTasks ? filteredTasks?.filter((item) => item.status === status) : [];
@@ -84,12 +79,18 @@ const DropArea = () => {
         </div>
       );
 
-    if (contacts)
+    if (contacts && tasks)
       return (
         <div className="h-full w-full overflow-x-auto" ref={dropRef}>
           <div className="flex w-fit flex-row gap-4 lg:w-full lg:flex-col">
             {filteredTasks.map((item: TTask) => (
-              <BoardTask key={uuidv4()} task={item} contacts={contacts} subtasks={subtasks || undefined} />
+              <BoardTask
+                key={uuidv4()}
+                task={item}
+                contacts={contacts}
+                tasks={tasks}
+                subtasks={subtasks || undefined}
+              />
             ))}
           </div>
         </div>
@@ -168,14 +169,6 @@ const DropArea = () => {
       </div>
     </>
   );
-
-  // return (
-  //   <div className="flex w-fit flex-row gap-4 lg:w-full lg:flex-col">
-  //     <div className="min-w-40 h-40 w-40 animate-pulse rounded-3xl bg-gray-500 lg:h-40 lg:w-full" />
-  //     <div className="min-w-40 h-40 w-40 animate-pulse rounded-3xl bg-gray-500 lg:h-40 lg:w-full" />
-  //     <div className="min-w-40 h-40 w-40 animate-pulse rounded-3xl bg-gray-500 lg:h-40 lg:w-full" />
-  //   </div>
-  // );
 };
 
 export default DropArea;

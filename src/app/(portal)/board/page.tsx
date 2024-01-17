@@ -6,8 +6,6 @@ import PagePadding from "../../../components/PagePadding";
 import DropArea from "../../../components/DropArea";
 
 const BoardPage = () => {
-  // todo: Add Loading Elements
-
   return (
     <PagePadding>
       <div className="flex flex-col gap-4">

@@ -1,6 +1,6 @@
 import { twMerge } from "tw-merge";
 import clsx, { ClassValue } from "clsx";
-import { ErrorResponse, TContact } from "../types";
+import { ErrorResponse, TContact, TTask } from "../types";
 
 const firstCharToUpperCase = (string: string) => {
   if (!string) return "";
@@ -45,4 +45,26 @@ const cn = (...classNames: ClassValue[]) => twMerge(clsx(classNames));
 const isErrorResponse = (response: Object): response is ErrorResponse =>
   !Array.isArray(response) && "message" in response;
 
-export { firstCharToUpperCase, getBackgroundForCategory, getStatusText, getAssignee, cn, isErrorResponse };
+const updateTaskArray = (array: unknown, updatedTask: TTask) => {
+  if (array && Array.isArray(array) && !isErrorResponse(array)) {
+    return array.map((task) => (task.id === updatedTask.id ? updatedTask : task));
+  }
+  return [];
+};
+
+const getCurrentDate = () => {
+  const date = new Date();
+  const month = date.getUTCMonth() < 10 ? `0${date.getUTCMonth() + 1}` : date.getUTCMonth();
+  return `${date.getUTCFullYear()}-${month}-${date.getUTCDate() + 1}`;
+};
+
+export {
+  firstCharToUpperCase,
+  getBackgroundForCategory,
+  getStatusText,
+  getAssignee,
+  cn,
+  isErrorResponse,
+  updateTaskArray,
+  getCurrentDate,
+};

@@ -16,6 +16,7 @@ import Checkbox from "../../Basics/Checkbox";
 import Form from "../../Basics/Form";
 import Select from "../../Basics/Select";
 import FormButton from "../FormButton";
+import { getCurrentDate } from "../../../utils/generalHelper";
 
 const AddTaskFormDesktop = ({ contacts }: { contacts: TContact[] }) => {
   const { push } = useRouter();
@@ -70,7 +71,7 @@ const AddTaskFormDesktop = ({ contacts }: { contacts: TContact[] }) => {
       </div>
       <div className="h-full border-r-2 border-grey" />
       <div className="relative flex w-full max-w-screen-md flex-col gap-4">
-        <DefaultInput type="date" name="due_date" block label="Due Date" />
+        <DefaultInput type="date" name="due_date" block label="Due Date" defaultValue={getCurrentDate()} />
         <div className="flex flex-col gap-1">
           <p>Priority</p>
           <div className="flex flex-row gap-2">

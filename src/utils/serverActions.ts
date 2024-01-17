@@ -124,12 +124,11 @@ const updateTask = async (task: TTask): Promise<TTask[]> => {
   return !isErrorResponse(tasks) ? tasks.map((elem: TTask) => (elem.id === task.id ? task : elem)) : [];
 };
 
-const deleteTask = async (id: number): Promise<ErrorResponse> => {
-  return fetchServer(`/tasks/${id}/`, { method: "DELETE" }).then(() => {
-    revalidateTag(Tags.Tasks);
-    revalidateTag(Tags.Subtasks);
-    return { status: 200, message: "OK" };
-  });
+const deleteTask = async (task: TTask): Promise<TTask[] | ErrorResponse> => {
+  await fetchServer(`/tasks/${task.id}/`, { method: "DELETE" });
+  revalidateTag(Tags.Tasks);
+  revalidateTag(Tags.Subtasks);
+  return getTasks();
 };
 
 const getCurrentUser = async () => {

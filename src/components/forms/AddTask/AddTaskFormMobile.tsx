@@ -15,6 +15,7 @@ import Icon from "../../Basics/Icon";
 import Form from "../../Basics/Form";
 import Select from "../../Basics/Select";
 import FormButton from "../FormButton";
+import { getCurrentDate } from "../../../utils/generalHelper";
 
 const AddTaskFormMobile = ({ contacts, task }: { contacts: TContact[]; task?: TTask }) => {
   const { push } = useRouter();
@@ -82,7 +83,7 @@ const AddTaskFormMobile = ({ contacts, task }: { contacts: TContact[]; task?: TT
       <DefaultInput
         type="date"
         name="due_date"
-        defaultValue={task ? task.due_date : undefined}
+        defaultValue={task ? task.due_date : getCurrentDate()}
         block
         label="Due Date"
       />

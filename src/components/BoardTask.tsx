@@ -4,9 +4,9 @@ import { Fragment, useState, KeyboardEvent, useRef, useEffect } from "react";
 import { FieldValues } from "react-hook-form";
 import _ from "lodash";
 import { v4 as uuidv4 } from "uuid";
-import { useRouter } from "next/navigation";
 import { useDrag } from "react-dnd";
-import { TContact, TPriority, TSubtask, TTask } from "../types";
+import { mutate } from "swr";
+import { Tags, TContact, TPriority, TSubtask, TTask } from "../types";
 import { firstCharToUpperCase, getAssignee, getBackgroundForCategory } from "../utils/generalHelper";
 import Icon from "./Basics/Icon";
 import Text from "./Basics/Text";
@@ -14,14 +14,23 @@ import DefaultInput from "./inputs/Default";
 import Textarea from "./inputs/Textarea";
 import Prio from "./Prio";
 import { taskSchema } from "../schemas";
-import { deleteTask, handleMutateSubtasks, updateTask } from "../utils/serverActions";
+import { deleteTask, getContacts, getSubtasks, handleMutateSubtasks, updateTask } from "../utils/serverActions";
 import Button from "./Basics/Button";
 import Checkbox from "./Basics/Checkbox";
 import Form from "./Basics/Form";
 import Select from "./Basics/Select";
 
-const BoardTask = ({ task, contacts, subtasks }: { task: TTask; contacts: TContact[]; subtasks?: TSubtask[] }) => {
-  const { refresh } = useRouter();
+const BoardTask = ({
+  task,
+  tasks,
+  contacts,
+  subtasks,
+}: {
+  task: TTask;
+  tasks: TTask[];
+  contacts: TContact[];
+  subtasks?: TSubtask[];
+}) => {
   const [subTasks, setSubTasks] = useState<TSubtask[]>(subtasks?.filter((item) => item.task === task.id) || []);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<boolean>(false);
@@ -56,6 +65,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: TTask; contacts: TConta
     if ("message" in response) console.error(response);
     else {
       await handleMutateSubtasks(mutatedSubtasks, task.id);
+      await mutate(Tags.Board);
       setDialogOpen(false);
       setEditTask(false);
     }
@@ -71,9 +81,16 @@ const BoardTask = ({ task, contacts, subtasks }: { task: TTask; contacts: TConta
     if (event.key === "Enter") setDialogOpen(true);
   };
 
-  const handleDeleteTask = (id: number) => {
+  const handleDeleteTask = async (item: TTask) => {
     setDialogOpen(false);
-    deleteTask(id).then(() => refresh());
+    const index = tasks.findIndex((elem) => elem.id === item.id);
+    const newTasks = [...tasks];
+    newTasks.splice(index, 1);
+    await deleteTask(task).then(async () => {
+      await mutate(Tags.Board, Promise.all([deleteTask(item), getContacts(), getSubtasks()]), {
+        optimisticData: [newTasks, contacts as TContact[], subtasks as TSubtask[]],
+      });
+    });
   };
 
   const getDoneSubtasks = (): number => {
@@ -329,7 +346,7 @@ const BoardTask = ({ task, contacts, subtasks }: { task: TTask; contacts: TConta
                   <span className="h-5 border-l-2 border-grey" />
                   <button
                     type="button"
-                    onClick={() => (task.id ? handleDeleteTask(task.id) : undefined)}
+                    onClick={async () => (task.id ? handleDeleteTask(task) : undefined)}
                     className="group flex gap-1 rounded px-2 py-1 outline-none transition-all focus-visible:outline-underline"
                   >
                     <Icon icon="trash" className="group-hover:fill-underline" />
