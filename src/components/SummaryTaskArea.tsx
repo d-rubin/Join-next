@@ -68,7 +68,7 @@ const SummaryTaskArea = async () => {
     <div className="flex w-full items-center justify-center gap-36 xl:justify-start">
       <div className="flex w-full max-w-screen-sm flex-col gap-4 sm:gap-8">
         <div className="flex w-full flex-row gap-4">
-          <Link href="board" className="group w-1/2 outline-none">
+          <Link href="board?filter=toDo" className="group w-1/2 outline-none">
             <Card className="flex h-32 flex-row gap-2 p-4 transition-all group-hover:scale-105 group-hover:bg-primary group-focus:scale-105 group-focus:bg-primary">
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary transition-all group-hover:scale-105 group-hover:bg-white group-focus:scale-105 group-focus:bg-white">
                 <Icon
@@ -87,7 +87,7 @@ const SummaryTaskArea = async () => {
               </div>
             </Card>
           </Link>
-          <Link href="board" className="group w-1/2 outline-none">
+          <Link href="board?filter=done" className="group w-1/2 outline-none">
             <Card className="flex h-32 flex-row gap-2 p-4 transition-all group-hover:scale-105 group-hover:bg-primary group-focus:scale-105 group-focus:bg-primary">
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary transition-all group-hover:scale-105 group-hover:bg-white group-focus:scale-105 group-focus:bg-white">
                 <Icon
@@ -105,7 +105,7 @@ const SummaryTaskArea = async () => {
             </Card>
           </Link>
         </div>
-        <Link href="board" className="group block outline-none">
+        <Link href="board?filter=high" className="group block outline-none">
           <Card className="flex h-32 flex-row justify-around gap-2 p-4 transition-all group-hover:scale-105 group-hover:bg-primary group-focus:scale-105 group-focus:bg-primary">
             <span className="flex w-1/2 flex-row justify-evenly gap-2">
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-red transition-all group-hover:scale-105 group-focus:scale-105">
@@ -144,7 +144,7 @@ const SummaryTaskArea = async () => {
               </div>
             </Card>
           </Link>
-          <Link href="board" className="group w-1/3 outline-none">
+          <Link href="board?filter=inProgress" className="group w-1/3 outline-none">
             <Card className="flex h-32 flex-row gap-2 p-4 transition-all group-hover:scale-105 group-hover:bg-primary group-focus:scale-105 group-focus:bg-primary">
               <div className="flex flex-col items-center">
                 <p className="text-4xl font-semibold transition-all group-hover:text-white group-focus:text-white">
@@ -156,7 +156,7 @@ const SummaryTaskArea = async () => {
               </div>
             </Card>
           </Link>
-          <Link href="board" className="group w-1/3 outline-none">
+          <Link href="board?filter=awaitingFeedback" className="group w-1/3 outline-none">
             <Card className="flex h-32 flex-row gap-2 p-4 transition-all group-hover:scale-105 group-hover:bg-primary group-focus:scale-105 group-focus:bg-primary">
               <div className="flex flex-col items-center">
                 <p className="text-4xl font-semibold transition-all group-hover:text-white group-focus:text-white">

@@ -6,6 +6,7 @@ import useSWR from "swr";
 import Link from "next/link";
 import { useDebouncedCallback } from "use-debounce";
 import { useDrop } from "react-dnd";
+import { useRouter, useSearchParams } from "next/navigation";
 import BoardTask from "./BoardTask";
 import { TTask, Tags, TContact, TSubtask } from "../types";
 import { getContacts, getSubtasks, getTasks, updateTask } from "../utils/serverActions";
@@ -14,8 +15,12 @@ import Text from "./Basics/Text";
 import DefaultInput from "./inputs/Default";
 import { getStatusText, isErrorResponse, updateTaskArray } from "../utils/generalHelper";
 import Skeleton from "./Basics/Skeleton";
+import Card from "./Basics/Card";
 
 const DropArea = () => {
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+  const filter = searchParams.get("filter");
   const { data, isLoading, error, mutate } = useSWR(Tags.Board, () =>
     Promise.all([getTasks(), getContacts(), getSubtasks()]),
   );
@@ -55,12 +60,29 @@ const DropArea = () => {
 
   const filterTasks = (status: string): TTask[] => {
     let filteredTasks = tasks;
-    if (tasks && searchValue) {
-      filteredTasks = tasks.filter(
-        (item) =>
-          item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchValue.toLowerCase()),
-      );
+    if (tasks && (searchValue || filter)) {
+      filteredTasks = tasks.filter((item) => {
+        if (!searchValue && filter && filter !== "high") return item.status === filter;
+        if (!searchValue && filter && filter === "high") return item.priority === filter;
+        if (searchValue && !filter) {
+          return (
+            item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.description.toLowerCase().includes(searchValue.toLowerCase())
+          );
+        }
+        if (searchValue && filter && filter !== "high")
+          return (
+            item.status === filter &&
+            (item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+              item.description.toLowerCase().includes(searchValue.toLowerCase()))
+          );
+        return (
+          searchValue &&
+          item.priority === filter &&
+          (item.title.toLowerCase().includes(searchValue.toLowerCase()) ||
+            item.description.toLowerCase().includes(searchValue.toLowerCase()))
+        );
+      });
     }
     return filteredTasks ? filteredTasks?.filter((item) => item.status === status) : [];
   };
@@ -103,6 +125,15 @@ const DropArea = () => {
     <>
       <div className="flex w-full flex-col items-center justify-between gap-8 md:flex-row">
         <h1 className="whitespace-nowrap text-5xl font-bold dark:text-textDark">Add Task</h1>
+        {filter && (
+          <div className="flex items-center gap-2 font-bold">
+            <Text text="Filter:" className="text-2xl" />
+            <Card className="whitespace-nowrap rounded-lg px-3 py-1.5">
+              {filter && filter !== "high" ? getStatusText(filter) : "Urgent"}
+              <Icon icon="x" onClick={() => replace("board")} />
+            </Card>
+          </div>
+        )}
         <search className="w-full md:max-w-md">
           <DefaultInput
             type="text"
