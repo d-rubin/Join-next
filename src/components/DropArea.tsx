@@ -16,6 +16,8 @@ import DefaultInput from "./inputs/Default";
 import { getStatusText, isErrorResponse, updateTaskArray } from "../utils/generalHelper";
 import Skeleton from "./Basics/Skeleton";
 import Card from "./Basics/Card";
+import BoardDialog from "./BoardDialog";
+import { SubtaskProvider } from "../contexts/subtaskContext";
 
 const DropArea = () => {
   const searchParams = useSearchParams();
@@ -24,7 +26,10 @@ const DropArea = () => {
   const { data, isLoading, error, mutate } = useSWR(Tags.Board, () =>
     Promise.all([getTasks(), getContacts(), getSubtasks()]),
   );
+
   const [searchValue, setSearchValue] = useState<string>();
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [editTask, setEditTask] = useState<boolean>(false);
 
   const handleSearch = useDebouncedCallback((value) => {
     if (value) setSearchValue(value);
@@ -90,7 +95,7 @@ const DropArea = () => {
   const renderTaskArea = (status: string) => {
     const dropRef = customUseDrop(status);
     const filteredTasks = filterTasks(status);
-    if (!contacts || isLoading) return <Skeleton className="h-40 rounded-3xl md:h-96" />;
+    if (!contacts || isLoading) return <Skeleton className="h-40 rounded-3xl lg:h-96" />;
 
     if (!filteredTasks?.length)
       return (
@@ -101,17 +106,17 @@ const DropArea = () => {
         </div>
       );
 
-    if (contacts && tasks)
+    if (contacts && tasks && subtasks)
       return (
         <div className="h-full w-full overflow-x-auto" ref={dropRef}>
           <div className="flex w-fit flex-row gap-4 lg:w-full lg:flex-col">
             {filteredTasks.map((item: TTask) => (
               <BoardTask
                 key={uuidv4()}
+                setOpenDialog={setIsDialogOpen}
+                setEditTask={setEditTask}
                 task={item}
-                contacts={contacts}
-                tasks={tasks}
-                subtasks={subtasks || undefined}
+                subTasks={subtasks.filter((subtask) => subtask.task === item.id)}
               />
             ))}
           </div>
@@ -122,7 +127,7 @@ const DropArea = () => {
   };
 
   return (
-    <>
+    <SubtaskProvider>
       <div className="flex w-full flex-col items-center justify-between gap-8 md:flex-row">
         <h1 className="whitespace-nowrap text-5xl font-bold dark:text-textDark">Add Task</h1>
         {filter && (
@@ -198,7 +203,14 @@ const DropArea = () => {
           {renderTaskArea("done")}
         </div>
       </div>
-    </>
+      <BoardDialog
+        isDialogOpen={isDialogOpen}
+        editTask={editTask}
+        setIsDialogOpen={setIsDialogOpen}
+        setEditTask={setEditTask}
+        contacts={contacts || undefined}
+      />
+    </SubtaskProvider>
   );
 };
 

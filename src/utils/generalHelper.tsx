@@ -1,6 +1,8 @@
 import { twMerge } from "tw-merge";
 import clsx, { ClassValue } from "clsx";
-import { ErrorResponse, TContact, TTask } from "../types";
+import { ErrorResponse, TContact, TPriority, TTask } from "../types";
+// eslint-disable-next-line import/no-cycle
+import Icon from "../components/Basics/Icon";
 
 const firstCharToUpperCase = (string: string) => {
   if (!string) return "";
@@ -42,8 +44,9 @@ const getAssignee = (assignee: number, contacts: TContact[]) => {
 
 const cn = (...classNames: ClassValue[]) => twMerge(clsx(classNames));
 
-const isErrorResponse = (response: Object): response is ErrorResponse =>
-  !Array.isArray(response) && "message" in response;
+const isErrorResponse = (response: Object): response is ErrorResponse => {
+  return !Array.isArray(response) && typeof response === "object" && "message" in response;
+};
 
 const updateTaskArray = (array: unknown, updatedTask: TTask) => {
   if (array && Array.isArray(array) && !isErrorResponse(array)) {
@@ -58,6 +61,12 @@ const getCurrentDate = () => {
   return `${date.getUTCFullYear()}-${month}-${date.getUTCDate() + 1}`;
 };
 
+const getIconForPriority = (priority: TPriority) => {
+  if (priority === "low") return <Icon iconSize="h-4 w-4" icon="low" className="fill-green stroke-green" />;
+  if (priority === "medium") return <Icon iconSize="h-4 w-4" icon="medium" className="fill-orange stroke-orange" />;
+  return <Icon iconSize="h-4 w-4" icon="urgent" className="fill-red stroke-red" />;
+};
+
 export {
   firstCharToUpperCase,
   getBackgroundForCategory,
@@ -67,4 +76,5 @@ export {
   isErrorResponse,
   updateTaskArray,
   getCurrentDate,
+  getIconForPriority,
 };
