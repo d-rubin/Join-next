@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: { default: "Join", template: "%s | Join" },
-  description: "The task management apps",
+  description: "The task management app",
   icons: {
     icon: "/favicon.ico",
   },
