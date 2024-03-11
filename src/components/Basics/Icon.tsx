@@ -3,6 +3,7 @@
 import { KeyboardEvent } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { iconLib } from "../../iconlib/iconLib";
+// eslint-disable-next-line import/no-cycle
 import { cn } from "../../utils/generalHelper";
 
 export type IconProps = {
