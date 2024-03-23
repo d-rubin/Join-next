@@ -21,7 +21,14 @@ import {
   getIconForPriority,
 } from "../utils/generalHelper";
 import Text from "./Basics/Text";
-import { deleteTask, getContacts, getSubtasks, handleMutateSubtasks, updateTask } from "../utils/serverActions";
+import {
+  deleteTask,
+  getContacts,
+  getSubtasks,
+  handleMutateSubtasks,
+  revalidateTagCSR,
+  updateTask,
+} from "../utils/serverActions";
 import { Tags, TContact, TPriority, TSubtask, TTask } from "../types";
 import { useSubTasks } from "../contexts/subtaskContext";
 
@@ -46,6 +53,10 @@ export default function BoardDialog({
   const [prio, setPrio] = useState<TPriority | undefined>(task ? task.priority : undefined);
 
   useEffect(() => {
+    setSubTasks(subtasks);
+  }, [subtasks]);
+
+  useEffect(() => {
     task && setPrio(task?.priority);
   }, [task]);
   const addSubtask = () => {
@@ -65,7 +76,7 @@ export default function BoardDialog({
   const handleDeleteSubtask = (s: TSubtask) => {
     const index = subTasks.findIndex((subtask) => subtask.label === s.label);
     const newSubtasks = [...subTasks];
-    newSubtasks[index].toDelete = true;
+    newSubtasks[index].id ? (newSubtasks[index].toDelete = true) : newSubtasks.splice(index, 1);
     setSubTasks(newSubtasks);
   };
 
@@ -116,7 +127,14 @@ export default function BoardDialog({
           {editTask ? (
             <div className="flex max-h-full flex-col">
               <span className="flex w-full items-center justify-end">
-                <Icon className="outline-offset-2" icon="x" onClick={() => setIsDialogOpen(false)} />
+                <Icon
+                  className="outline-offset-2"
+                  icon="x"
+                  onClick={() => {
+                    setIsDialogOpen(false);
+                    revalidateTagCSR(Tags.Subtasks);
+                  }}
+                />
               </span>
               <Form onSubmit={onSubmit} schema={taskSchema} className="flex flex-col gap-4">
                 <DefaultInput
@@ -203,6 +221,7 @@ export default function BoardDialog({
                   </label>
                 </div>
                 {subTasks?.map((subtask) => {
+                  console.log(subTasks, subtask);
                   if (subtask.toDelete) return null;
                   return (
                     <span key={uuidv4()} className="flex flex-row gap-2">
