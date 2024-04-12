@@ -51,6 +51,7 @@ export default function BoardDialog({
   const subTaskInputRef = useRef<HTMLInputElement>(null);
   const [subTasks, setSubTasks] = useState<TSubtask[]>(subtasks);
   const [prio, setPrio] = useState<TPriority | undefined>(task ? task.priority : undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setSubTasks(subtasks);
@@ -108,6 +109,7 @@ export default function BoardDialog({
   };
 
   const onSubmit = async (fieldValues: FieldValues) => {
+    setIsLoading(true);
     const mutatedSubtasks = getMutatedSubtasks(subtasks, subTasks);
     const response = await updateTask({ ...(fieldValues as TTask), priority: prio || "low", id: task?.id });
     // eslint-disable-next-line no-console
@@ -118,6 +120,7 @@ export default function BoardDialog({
       setIsDialogOpen(false);
       setEditTask(false);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -240,7 +243,9 @@ export default function BoardDialog({
                   );
                 })}
                 <span className="flex w-full justify-end">
-                  <Button icon="check">Ok</Button>
+                  <Button loading={isLoading} icon="check">
+                    Ok
+                  </Button>
                 </span>
               </Form>
             </div>
