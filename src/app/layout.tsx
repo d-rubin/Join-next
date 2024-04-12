@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const darkMode = cookies().get("darkMode")?.value === "true";
   return (
-    <html lang="de" className={cn("min-h-screen min-w-full", darkMode && "dark")}>
+    <html lang="de-DE" className={cn("min-h-screen min-w-full", darkMode && "dark")}>
       <body className={`${inter.className} min-w-screen min-h-screen bg-defaultColor dark:bg-defaultColorDark`}>
         {children}
         <Analytics />
