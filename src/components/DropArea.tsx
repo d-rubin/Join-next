@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useSWR from "swr";
 import Link from "next/link";
@@ -35,6 +35,15 @@ const DropArea = () => {
     if (value) setSearchValue(value);
     else setSearchValue("");
   }, 300);
+
+  const handleBodyClick = (event: MouseEvent) => {
+    if ((event.target as HTMLElement).id === "dialog") setIsDialogOpen(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleBodyClick);
+    // return document.removeEventListener("click", handleBodyClick);
+  }, []);
 
   if (error) {
     return (

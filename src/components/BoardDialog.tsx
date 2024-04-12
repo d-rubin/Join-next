@@ -122,7 +122,7 @@ export default function BoardDialog({
 
   return (
     <dialog className="fixed left-0 top-0 h-full w-full bg-transparent" open={isDialogOpen}>
-      <div className="Dialog z-10 flex h-full w-full items-center justify-center bg-transparent">
+      <div id="dialog" className="Dialog z-10 flex h-full w-full items-center justify-center bg-transparent">
         <div className="scrollbar z-20 mb-8 h-fit max-h-[80%] w-full min-w-[17rem] overflow-y-auto overflow-x-hidden rounded-3xl bg-white p-4 shadow-2xl outline-none dark:border-2 dark:border-textDark dark:bg-bgDark dark:text-textDark sm:w-[30rem] sm:p-8 lg:mb-0 lg:max-h-[85%]">
           {editTask ? (
             <div className="flex max-h-full flex-col">
