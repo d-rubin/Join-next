@@ -8,7 +8,7 @@ import DropArea from "../../../components/DropArea";
 const BoardPage = () => {
   return (
     <PagePadding>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 lg:h-full">
         <DndProvider backend={HTML5Backend}>
           <DropArea />
         </DndProvider>
