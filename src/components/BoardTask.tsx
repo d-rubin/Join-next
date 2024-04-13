@@ -60,7 +60,7 @@ const BoardTask = ({
   return (
     <Fragment key={uuidv4()}>
       <div
-        className="min-w-40 flex w-52 cursor-pointer flex-col justify-start gap-2 rounded-3xl bg-white p-4 outline-none transition-all focus-visible:bg-grey dark:bg-bgDark dark:focus-visible:bg-primary lg:h-fit lg:w-full"
+        className="flex w-52 min-w-40 cursor-pointer flex-col justify-start gap-2 rounded-3xl bg-white p-4 outline-none transition-all focus-visible:bg-grey dark:bg-bgDark dark:focus-visible:bg-primary lg:h-fit lg:w-full"
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
         ref={dragRef}

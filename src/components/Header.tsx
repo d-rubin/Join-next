@@ -16,13 +16,13 @@ const Header = async () => {
   };
 
   return (
-    <div className="min-h-16 flex h-16 w-full items-center justify-between bg-white px-4 shadow-xl dark:bg-bgDark dark:text-textDark lg:pl-16 2xl:rounded-r-3xl">
+    <div className="flex h-16 min-h-16 w-full items-center justify-between bg-white px-4 shadow-xl dark:bg-bgDark dark:text-textDark lg:pl-16 2xl:rounded-r-3xl">
       <Link className="flex h-16 items-center justify-center px-2 outline-none focus:bg-grey lg:hidden" href="/summary">
         <Image className="h-8 w-fit object-cover" src={LogoDark} alt="Logo" />
       </Link>
       <Text
         text="Kanban Project Management Tool"
-        className="min-h-16 hidden h-16 cursor-default items-center lg:flex"
+        className="hidden h-16 min-h-16 cursor-default items-center lg:flex"
       />
       <div className="flex items-center gap-4">
         <DarkMode />

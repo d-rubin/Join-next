@@ -15,6 +15,7 @@ export type IconProps = {
 
 const Icon = ({ icon, iconSize = "h-6 w-6", onClick = false, className }: IconProps) => {
   const handleKeyDown = (event: KeyboardEvent) => {
+    console.log(event);
     if (event.key === "Enter") {
       onClick && onClick();
     }
